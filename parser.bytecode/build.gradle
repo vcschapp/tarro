@@ -1,0 +1,11 @@
+ext {
+    foo = "bar"
+}
+
+dependencies {
+    compile project(':base')
+}
+
+repositories {
+    mavenCentral()
+}

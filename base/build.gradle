@@ -1,0 +1,11 @@
+ext {
+    moduleName = "io.tarro.base"
+}
+
+dependencies {
+}
+
+repositories {
+    mavenCentral()
+}
+

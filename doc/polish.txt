@@ -1,0 +1,9 @@
+-------------
+BUILD PROCESS
+-------------
+
+1. Fail build if any source file missing license.
+2. FindBugs.
+3. CheckStyle.
+4. Any other linting.
+

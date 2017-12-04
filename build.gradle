@@ -1,0 +1,80 @@
+import java.nio.file.Paths
+
+allprojects {
+    version = '0.0.1-SNAPSHOT'
+    group = 'io.tarro'
+
+    ext {
+        moduleName = "${group}.${project.name}"
+        dependencyVersions = [
+                junit: '5.0.2'
+        ]
+    }
+}
+
+def getGitHash = { ->
+    def sink = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'rev-parse', 'HEAD'
+        standardOutput = sink
+    }
+    return sink.toString().trim()
+}
+
+def mostRecentFileModifyTime = { ->
+    return Files.walk(Paths.get("${projectDir}"))
+            .map { it.toFile().lastModified() }
+            .sorted(Comparator.comparingLong { it }.reversed())
+            .findFirst()
+            .map { Instant.ofEpochMilli(it).toString() }
+            .orElse("<UNKNOWN>")
+}
+
+def javaVersion = { ->
+    return 'Java ' + System.getProperty('java.version') + ' (' +
+            System.getProperty('java.vendor') + ')'
+}
+
+subprojects {
+    apply plugin: 'java'
+
+    sourceCompatibility = 1.9
+    targetCompatibility = 1.9
+
+    dependencies {
+        testCompile "org.junit.jupiter:junit-jupiter-api:${dependencyVersions.junit}"
+    }
+
+    compileJava {
+        // Needed to make the Gradle compile phase work with Java 9/Jigsaw.
+        // https://guides.gradle.org/building-java-9-modules
+        inputs.property("moduleName", moduleName)
+        doFirst {
+            options.compilerArgs = [
+                    '--module-path', classpath.asPath,
+            ]
+            classpath = files()
+        }
+    }
+
+    jar {
+        baseName = 'tarro-' + project.name.replace('.', '-')
+        manifest {
+            attributes(
+                'Implementation-Title': "${project.group}:${project.name}",
+                'Implementation-Version': project.version,
+                'Created-By': javaVersion(),
+                'Built-With': "gradle-${project.getGradle().getGradleVersion()}, groovy-${GroovySystem.getVersion()}",
+                'Built-By': System.getProperty('user.name'),
+                'Build-Commit': getGitHash(),
+                'Last-Modified-Time': mostRecentFileModifyTime()
+            )
+        }
+        from {
+            "${project.rootDir}/LICENSE"
+        }
+    }
+}
+
+import java.nio.file.Files
+import java.time.Instant
