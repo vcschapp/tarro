@@ -3,6 +3,7 @@ ext {
 }
 
 dependencies {
+    testCompile project(':test')
 }
 
 repositories {

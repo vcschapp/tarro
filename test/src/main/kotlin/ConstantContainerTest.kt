@@ -1,0 +1,151 @@
+package io.tarro.test
+
+import org.junit.jupiter.api.Assertions.assertAll
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertThrows
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Disabled
+
+import org.junit.jupiter.api.Test
+import java.lang.Long.bitCount
+import java.lang.reflect.Field
+import java.lang.reflect.Modifier.PRIVATE
+import java.lang.reflect.Modifier.STATIC
+import java.lang.String.format
+import java.lang.reflect.Modifier.FINAL
+
+/**
+ * Generic test for any class whose only purpose is to export constant values.
+ *
+ * @author Victor Schappert
+ * @since 20171204
+ */
+@Disabled
+open class ConstantContainerTest<T: Any>(val clazz: Class<T>) {
+
+    /**
+     * Verifies that the class under test is final.
+     */
+    @Test
+    open fun classIsFinal() {
+        // If you are a huge nerd, you may enjoy the fact that this method
+        // *could* be named 'final' in Kotlin. That would make re-use from Java
+        // rather painful, however, so let's not.
+        assertEquals(FINAL, clazz.modifiers and FINAL, "$must be final");
+    }
+
+    /**
+     * Verifies that the class under test only has a private no-argument
+     * constructor and no other constructors.
+     */
+    @Test
+    open fun privateConstructor() {
+        val message = "$must have only a single, private, no-args, constructor"
+        clazz.declaredConstructors
+                .asList()
+                .onEach {
+                    assertEquals(0, it.parameters.size, message)
+                    assertEquals(PRIVATE, it.modifiers, message)
+                }
+        assertEquals(1, clazz.declaredConstructors.size, message)
+    }
+
+    /**
+     * Verifies that all of the fields on the class under test are static
+     * fields.
+     */
+    @Test
+    open fun onlyStaticFields() {
+        fields.onEach {
+            assertTrue(STATIC == STATIC and it.modifiers, "$must have only static fields");
+        }
+    }
+
+    /**
+     * Verifies that each visible field on the class under test has the same
+     * type.
+     */
+    @Test
+    open fun eachVisibleFieldHasSameType() {
+        assertEquals(1, visibleFields.map { it.type }.distinct().count(),
+                "$must use the same type for all fields")
+    }
+
+    /**
+     * Verifies that each visible field on the class under test has a different
+     * value.
+     */
+    @Test
+    open fun eachVisibleFieldHasDifferentValue() {
+        visibleFields.groupBy { it.get(null) }
+                .onEach {
+                    assertEquals(1, it.value.size,
+                        "$must have distinct values for each field, but the value" +
+                                "${it.key} is shared by ${it.value.map { it.name }}")
+                }
+    }
+
+    //
+    // INTERNALS
+    //
+
+    protected val fields = clazz.getDeclaredFields().asList()
+
+    protected val visibleFields = fields.filter { 0 == PRIVATE and it.modifiers }
+
+    private val must = "As a constant container, ${clazz.name} must"
+}
+
+/**
+ * Generic test code for any class whose only purpose is to single bit integer
+ * constants for use in bitmasks.
+ *
+ * @author Victor Schappert
+ * @since 20171204
+ */
+@Disabled
+open class SingleBitMaskConstantContainerTest<T: Any>(clazz: Class<T>) :
+        ConstantContainerTest<T>(clazz) {
+
+    /**
+     * Verifies that each visible field on the class under test has a primitive
+     * integer type (*ie*, in Java, `int` or `long`).
+     *
+     * The [eachVisibleFieldHasSameType] method complements this one by ensuring
+     * that each visible field also has the same type (thus preventing the
+     * intermixing of `int` and `long` valued fields).
+     */
+    @Test
+    open fun primitiveIntegerTypeFieldsOnly() {
+        assertEquals(0, visibleFields.filter { !INTEGER_TYPES.contains(it.type) }.count(),
+                "$must contain only primitive integer constants")
+    }
+
+    /**
+     * Verifies that each visible field on the class under test, except any
+     * field which contains the value zero, has precisely one bit set.
+     *
+     * The [eachVisibleFieldHasDifferentValue] method complements this one by,
+     * *inter alia*, ensuring that there can be only one zero field.
+     */
+    @Test
+    open fun singleBitValueFieldsOnly() {
+        visibleFields.filter { INTEGER_TYPES.contains(it.type) }
+                .map { it to (it.get(null) as Number).toLong() }
+                .onEach {
+                    val n = bitCount(it.second)
+                    assertTrue(n < 2, "$must have only single-bit (or zero) constants but " +
+                            "${it.first.name}'s value ${format("0x%08x", it.second)} (${it.second} has $n bits")
+                }
+    }
+
+    //
+    // INTERNALS
+    //
+
+    private val must = "As a container of one-bit mask constants, ${clazz.name} must"
+
+    companion object {
+        private val INTEGER_TYPES = setOf(Integer.TYPE, java.lang.Long.TYPE)
+    }
+}

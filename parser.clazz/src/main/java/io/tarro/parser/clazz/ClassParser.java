@@ -447,7 +447,7 @@ public final class ClassParser {
     private void magic() throws IOException {
         final int magic = readS4("magic");
         if (Magic.CLASS_FILE_MAGIC_NUMBER != magic) {
-            throw classFormatException(String.format("Invalid magic number: read 0x%08h but expected 0x%08h",
+            throw classFormatException(String.format("Invalid magic number: read 0x%08x but expected 0x%08x",
                     magic, Magic.CLASS_FILE_MAGIC_NUMBER), "magic", null);
         }
     }

@@ -24,11 +24,56 @@ SOFTWARE.
 
 package io.tarro.base.attribute;
 
+/**
+ * <p>
+ * Contains constant values identifying contexts in which an {@code attribute}
+ * structure may appear in a class file.
+ * </p>
+ *
+ * <p>
+ * Since all attribute context constants are even multiples of two, a standard
+ * Java {@code int} value may be manipulated as a set of attribute contexts. For
+ * example, the value {@link #CLASS_FILE}<code>&nbsp;| </code>
+ * {@link #FIELD_INFO}<code>&nbsp;| </code>{@link #METHOD_INFO} describes an
+ * attribute that may appear in the attributes table of the class file itself or
+ * of a field in the fields table or method in the method table.
+ * </p>
+ *
+ * @author Victor Schappert
+ * @since 20171016
+ * @see Contextualized
+ */
 public final class AttributeContext {
 
+    //
+    // PUBLIC CONSTANTS
+    //
+
+    /**
+     * Special value indicating the absence of an attribute context.
+     */
     public static final int NONE = 0x0;
+    /**
+     * Indicates the attributes table of the class file itself.
+     */
     public static final int CLASS_FILE = 0x1;
+    /**
+     * Indicates the attributes table of a field in the fields table.
+     */
     public static final int FIELD_INFO = 0x2;
+    /**
+     * Indicates the attributes table of a method in the methods table.
+     */
     public static final int METHOD_INFO = 0x4;
+    /**
+     * Indicates the attributes table of a method code block.
+     */
     public static final int CODE = 0x8;
+
+    //
+    // CONSTRUCTORS
+    //
+
+    private AttributeContext() {
+    }
 }

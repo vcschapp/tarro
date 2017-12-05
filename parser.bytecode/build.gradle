@@ -4,6 +4,7 @@ ext {
 
 dependencies {
     compile project(':base')
+    testCompile project(':test')
 }
 
 repositories {
