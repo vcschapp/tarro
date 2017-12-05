@@ -6,4 +6,49 @@ BUILD PROCESS
 2. FindBugs.
 3. CheckStyle.
 4. Any other linting.
+5. NoTabs.
 
+
+-------
+TESTING
+-------
+
+1. 95% <= unit test coverage <= 100%
+
+
+-------------
+DOCUMENTATION
+-------------
+
+1. Every package has a package-info.java.
+
+----
+CODE
+----
+
+1. Zero TODO comments.
+2. Zero FIXME comments.
+3. Appropriate annotations:
+       [ ] @Nonnull
+       [ ] @Nullable
+       [ ] @ThreadSafe?
+       [ ] @NotThreadSafe?
+       [ ] @Immutable?
+   BUT ONLY IF YOU FOLLOW these guidelines:
+       - Use the lightest-weight dependency possible.
+       - Prefer compile-time or "class" retention annotations to runtime retention.
+       - Try to find one that's compatible with any JSR which hasn't been
+         killed. At the moment I think that's JSR-308 since JSR-305 is at least
+         dormant if not dead.
+4. Method ordering (methods are arranged in sensible and consistent order)
+   especially in ClassParser.
+5. Parameter ordering:
+        [ ] Methods have consistent parameter ordering.
+        [ ] Overloaded methods consistently add the extra methods on the right.
+6. Code size reduction challenge: reduce the aggregate bytecode size by at least
+   5% (only do this after you have a working unit-tested version so you're doing
+   it at a reasonable time).
+7. Every method parameter is `final`.
+8. Double check every class and method to determine whether it:
+       - Should be `final`
+       - Should have its protection level reduced
