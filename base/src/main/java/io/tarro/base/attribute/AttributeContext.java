@@ -54,6 +54,10 @@ public final class AttributeContext {
      */
     public static final int NONE = 0x0;
     /**
+     * Special value indicating the presence of all attribute contexts.
+     */
+    public static final int ALL = 0xf;
+    /**
      * Indicates the attributes table of the class file itself.
      */
     public static final int CLASS_FILE = 0x1;

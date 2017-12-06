@@ -35,7 +35,7 @@ import org.junit.jupiter.api.Test
  * @since 20171204
  */
 class AttributeContextTest : SingleBitMaskConstantContainerTest<AttributeContext>(
-        AttributeContext::class.java) {
+        AttributeContext::class, AttributeContext::ALL) {
     @Test
     fun noneIsZero() {
         assertEquals(0, AttributeContext.NONE)

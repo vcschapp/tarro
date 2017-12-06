@@ -34,15 +34,19 @@ import java.lang.reflect.Modifier.PRIVATE
 import java.lang.reflect.Modifier.STATIC
 import java.lang.String.format
 import java.lang.reflect.Modifier.FINAL
+import kotlin.reflect.KClass
+import kotlin.reflect.KProperty
+import kotlin.reflect.jvm.javaField;
 
 /**
  * Generic test for any class whose only purpose is to export constant values.
  *
  * @author Victor Schappert
  * @since 20171204
+ * @property clazz Class under test
  */
 @Disabled
-open class ConstantContainerTest<T: Any>(val clazz: Class<T>) {
+open class ConstantContainerTest<T: Any>(val clazz: KClass<T>) {
 
     /**
      * Verifies that the class under test is final.
@@ -52,7 +56,7 @@ open class ConstantContainerTest<T: Any>(val clazz: Class<T>) {
         // If you are a huge nerd, you may enjoy the fact that this method
         // *could* be named 'final' in Kotlin. That would make re-use from Java
         // rather painful, however, so let's not.
-        assertEquals(FINAL, clazz.modifiers and FINAL, "$must be final")
+        assertEquals(FINAL, clazz.java.modifiers and FINAL, "$must be final")
     }
 
     /**
@@ -62,13 +66,13 @@ open class ConstantContainerTest<T: Any>(val clazz: Class<T>) {
     @Test
     open fun privateConstructor() {
         val message = "$must have only a single, private, no-args, constructor"
-        clazz.declaredConstructors
+        clazz.java.declaredConstructors
                 .asList()
                 .onEach {
                     assertEquals(0, it.parameters.size, message)
                     assertEquals(PRIVATE, it.modifiers, message)
                 }
-        assertEquals(1, clazz.declaredConstructors.size, message)
+        assertEquals(1, clazz.java.declaredConstructors.size, message)
     }
 
     /**
@@ -110,11 +114,11 @@ open class ConstantContainerTest<T: Any>(val clazz: Class<T>) {
     // INTERNALS
     //
 
-    protected val fields = clazz.getDeclaredFields().asList()
+    protected val fields = clazz.java.declaredFields.asList()
 
     protected val visibleFields = fields.filter { 0 == PRIVATE and it.modifiers }
 
-    private val must = "As a constant container, ${clazz.name} must"
+    private val must = "As a constant container, ${clazz.java.simpleName} must"
 }
 
 /**
@@ -123,9 +127,12 @@ open class ConstantContainerTest<T: Any>(val clazz: Class<T>) {
  *
  * @author Victor Schappert
  * @since 20171204
+ * @property clazz Class under test
+ * @property allField Property of the class under test representing all of the
+ *                    single-bit constants *or*-ed together
  */
 @Disabled
-open class SingleBitMaskConstantContainerTest<T: Any>(clazz: Class<T>) :
+open class SingleBitMaskConstantContainerTest<T: Any>(clazz: KClass<T>, val allField: KProperty<Number>) :
         ConstantContainerTest<T>(clazz) {
 
     /**
@@ -151,7 +158,8 @@ open class SingleBitMaskConstantContainerTest<T: Any>(clazz: Class<T>) :
      */
     @Test
     open fun singleBitValueFieldsOnly() {
-        visibleFields.filter { INTEGER_TYPES.contains(it.type) }
+        visibleFieldsExcludingAll
+                .filter { INTEGER_TYPES.contains(it.type) }
                 .map { it to (it.get(null) as Number).toLong() }
                 .onEach {
                     val n = bitCount(it.second)
@@ -160,11 +168,28 @@ open class SingleBitMaskConstantContainerTest<T: Any>(clazz: Class<T>) :
                 }
     }
 
+    /**
+     * Verifies that the designated ["all" field][allField] is exactly equal to
+     * the bitwise *or* of all the other fields.
+     */
+    @Test
+    open fun allFieldIsExactlyAllOtherFields() {
+        val maskOfAllOtherFields = visibleFieldsExcludingAll
+                .map { (it.get(null) as Number).toLong() }
+                .reduce { a, b -> a or b }
+        val allFieldValue = (allField.javaField?.get(null) as Number).toLong()
+        assertEquals(maskOfAllOtherFields, allFieldValue,
+                "${must} have all field (${allField.name}) that is " +
+                        "the bitwise OR of the other constants");
+    }
+
     //
     // INTERNALS
     //
 
-    private val must = "As a container of one-bit mask constants, ${clazz.name} must"
+    private val must = "As a container of one-bit mask constants, ${clazz.java.simpleName} must"
+
+    private val visibleFieldsExcludingAll = visibleFields.filter { it != allField.javaField }
 
     companion object {
         private val INTEGER_TYPES = setOf(Integer.TYPE, java.lang.Long.TYPE)
