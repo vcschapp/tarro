@@ -67,6 +67,9 @@ import static io.tarro.base.bytecode.OperandType.ZERO;
  * @author Victor Schappert
  * @since 20171126
  */
+// TODO: Possible refactoring as follows:
+// TODO: interface Opcode implements Valued, Versioned
+// TODO: then make 4 enums implement OpCode: NoOperand, OneOperand, TwoOperand, and Special [wide + switch insts]
 public enum Opcode implements Valued, Versioned {
 
     //
