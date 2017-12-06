@@ -24,15 +24,12 @@
 
 package io.tarro.test
 
-import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Disabled
 
 import org.junit.jupiter.api.Test
 import java.lang.Long.bitCount
-import java.lang.reflect.Field
 import java.lang.reflect.Modifier.PRIVATE
 import java.lang.reflect.Modifier.STATIC
 import java.lang.String.format
@@ -55,7 +52,7 @@ open class ConstantContainerTest<T: Any>(val clazz: Class<T>) {
         // If you are a huge nerd, you may enjoy the fact that this method
         // *could* be named 'final' in Kotlin. That would make re-use from Java
         // rather painful, however, so let's not.
-        assertEquals(FINAL, clazz.modifiers and FINAL, "$must be final");
+        assertEquals(FINAL, clazz.modifiers and FINAL, "$must be final")
     }
 
     /**
@@ -81,7 +78,7 @@ open class ConstantContainerTest<T: Any>(val clazz: Class<T>) {
     @Test
     open fun onlyStaticFields() {
         fields.onEach {
-            assertTrue(STATIC == STATIC and it.modifiers, "$must have only static fields");
+            assertTrue(STATIC == STATIC and it.modifiers, "$must have only static fields")
         }
     }
 
