@@ -52,3 +52,4 @@ CODE
 8. Double check every class and method to determine whether it:
        - Should be `final`
        - Should have its protection level reduced
+9. Every file has license and license text is the same in every file (up to date).
