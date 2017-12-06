@@ -3,7 +3,7 @@ ext {
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib:${dependencyVersion.kotlin}"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${dependencyVersion.kotlin}"
     compile "org.junit.jupiter:junit-jupiter-api:${dependencyVersion.junit}"
 }
 
