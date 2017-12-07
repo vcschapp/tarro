@@ -1550,6 +1550,7 @@ public final class ClassParser {
         case 'J': return elementValueConstant(ElementValueTag.LONG, actualAttributeLength);
         case 'S': return elementValueConstant(SHORT, actualAttributeLength);
         case 'Z': return elementValueConstant(BOOLEAN, actualAttributeLength);
+        case 's': return elementValueConstant(ElementValueTag.STRING, actualAttributeLength);
         case 'e': return elementValueEnumConstant(actualAttributeLength);
         case 'c': return elementValueClass(actualAttributeLength);
         case '@': return elementValueAnnotation(actualAttributeLength);
