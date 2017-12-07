@@ -36,7 +36,7 @@ import java.lang.String.format
 import java.lang.reflect.Modifier.FINAL
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
-import kotlin.reflect.jvm.javaField;
+import kotlin.reflect.jvm.javaField
 
 /**
  * Generic test for any class whose only purpose is to export constant values.
@@ -114,7 +114,7 @@ open class ConstantContainerTest<T: Any>(val clazz: KClass<T>) {
     // INTERNALS
     //
 
-    protected val fields = clazz.java.declaredFields.asList()
+    private val fields = clazz.java.declaredFields.asList()
 
     protected val visibleFields = fields.filter { 0 == PRIVATE and it.modifiers }
 
@@ -132,7 +132,7 @@ open class ConstantContainerTest<T: Any>(val clazz: KClass<T>) {
  *                    single-bit constants *or*-ed together
  */
 @Disabled
-open class SingleBitMaskConstantContainerTest<T: Any>(clazz: KClass<T>, val allField: KProperty<Number>) :
+open class SingleBitMaskConstantContainerTest<T: Any>(clazz: KClass<T>, private val allField: KProperty<Number>) :
         ConstantContainerTest<T>(clazz) {
 
     /**
@@ -179,8 +179,8 @@ open class SingleBitMaskConstantContainerTest<T: Any>(clazz: KClass<T>, val allF
                 .reduce { a, b -> a or b }
         val allFieldValue = (allField.javaField?.get(null) as Number).toLong()
         assertEquals(maskOfAllOtherFields, allFieldValue,
-                "${must} have all field (${allField.name}) that is " +
-                        "the bitwise OR of the other constants");
+                "$must have all field (${allField.name}) that is " +
+                        "the bitwise OR of the other constants")
     }
 
     //
