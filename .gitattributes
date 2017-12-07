@@ -2,7 +2,6 @@
 # auth: Victor Schappert
 # date: 20171127
 # desc: Repository default Git attributes file
-
 ################################################################################
 # Force Git repository to normalize all line endings to LF.
 #    See: http://git-scm.com/docs/gitattributes#_end_of_line_conversion
@@ -12,15 +11,16 @@
 # Users who want to see LF in the working directory should run
 #     $ git config core.eol=lf
 ################################################################################
-
 * text=auto
-
 ################################################################################
 # Explicit listing of file name patterns that are text or binary
 ################################################################################
-
 README*      text
 *.java       text
-
 *.xml        text
 *.properties text
+################################################################################
+# Large binary files tracked using Git LFS.
+################################################################################
+*.pdf        filter=lfs diff=lfs merge=lfs -text
+*.jar        filter=lfs diff=lfs merge=lfs -text
