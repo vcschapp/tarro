@@ -24,55 +24,37 @@
 
 package io.tarro.base.attribute
 
-import io.tarro.base.assertVersionRangeValid
 import io.tarro.test.assertUniqueValuesByEnumerator
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EnumSource
 import org.junit.jupiter.params.provider.EnumSource.Mode.EXCLUDE
 
+
 /**
- * Unit tests for [AttributeType].
+ * Unit tests for [ElementValueTag].
  *
  * @author Victor Schappert
- * @since 20171205
+ * @since 20171207
  */
-class AttributeTypeTest {
+class ElementValueTagTest {
     @Test
-    fun attributeNameUnique() {
-        assertUniqueValuesByEnumerator(AttributeType::class,"attribute name",
-                AttributeType::getAttributeName)
+    fun uniqueTag() {
+        assertUniqueValuesByEnumerator(ElementValueTag::class, "value (tag)",
+                ElementValueTag::getValue)
     }
 
     @ParameterizedTest
-    @EnumSource(AttributeType::class, names = ["UNKNOWN"], mode = EXCLUDE)
-    fun attributeNameCamelCase(attributeType: AttributeType) {
-        assertNotNull(attributeType.attributeName)
-        assertTrue(attributeType.attributeName.matches(Regex("[A-Z][a-zA-Z]+")))
+    @EnumSource(ElementValueTag::class, names = ["ANNOTATION", "ARRAY"], mode = EXCLUDE)
+    fun alphaTag(elementValueTag: ElementValueTag) {
+        assertTrue(elementValueTag.value.toChar().isLetter())
     }
 
     @Test
-    fun attributeNameNullForUnknown() {
-        assertNull(AttributeType.UNKNOWN.attributeName)
-    }
-
-    @ParameterizedTest
-    @EnumSource(AttributeType::class, names = ["UNKNOWN"], mode = EXCLUDE)
-    fun attributeContextValid(attributeType: AttributeType) {
-        assertEquals(0,
-                attributeType.attributeContext and AttributeContext.ALL.inv())
-    }
-
-    @Test
-    fun noAttributeContextForUnknown() {
-        assertEquals(AttributeContext.NONE,
-                AttributeType.UNKNOWN.attributeContext)
-    }
-
-    @ParameterizedTest
-    @EnumSource(AttributeType::class)
-    fun versionRangeValid(attributeType: AttributeType) {
-        assertVersionRangeValid(attributeType)
+    fun nonAlphaTag() {
+        assertEquals('@', ElementValueTag.ANNOTATION.value.toChar())
+        assertEquals('[', ElementValueTag.ARRAY.value.toChar())
     }
 }
