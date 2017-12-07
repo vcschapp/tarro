@@ -106,7 +106,7 @@ public enum FieldAccessFlag implements Flag {
     //
 
     @Override
-    public ClassFileVersion getClassFileVersion() {
+    public ClassFileVersion getFirstVersionSupporting() {
         return classFileVersion;
     }
 

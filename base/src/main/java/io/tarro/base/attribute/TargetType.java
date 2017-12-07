@@ -96,7 +96,7 @@ public enum TargetType implements Valued, Contextualized {
     //
 
     @Override
-    public boolean hasAttributeContext(final int attributeContext) {
-        return attributeContext == (this.attributeContext & attributeContext);
+    public int getAttributeContext() {
+        return attributeContext;
     }
 }

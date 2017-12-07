@@ -107,7 +107,7 @@ public enum ConstantPoolTag implements Valued, Versioned {
     //
 
     @Override
-    public ClassFileVersion getClassFileVersion() {
+    public ClassFileVersion getFirstVersionSupporting() {
         return classFileVersion;
     }
 

@@ -34,13 +34,10 @@ package io.tarro.base.attribute;
  */
 public interface Contextualized {
     /**
-     * Indicates whether this object is valid in the given attribute context(s).
+     * Obtains the {@linkplain AttributeContext attribute context bit set}
+     * representing the attribute contexts in which this object is valid.
      *
-     * @param attributeContext Zero or more {@linkplain AttributeContext
-     *                         attribute context} bit patterns combined with
-     *                         bitwise OR
-     * @return Whether this object is valid in all of the given attribute
-     *         contexts
+     * @return Attribute context bit set
      */
-    boolean hasAttributeContext(int attributeContext);
+    int getAttributeContext();
 }

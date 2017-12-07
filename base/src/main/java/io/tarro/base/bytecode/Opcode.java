@@ -291,24 +291,24 @@ public enum Opcode implements Valued, Versioned {
     //
 
     private final int value;
-    private final ClassFileVersion classFileVersion;
+    private final ClassFileVersion firstVersionSupporting;
     private final List<OperandType> operandTypes;
     private final boolean variableSize;
     private final boolean reserved;
-    private final ClassFileVersion deprecatedAtVersion;
+    private final ClassFileVersion lastVersionSupporting;
 
     //
     // CONSTRUCTORS
     //
 
-    Opcode(final int value, final ClassFileVersion classFileVersion, final List<OperandType> operandTypes, final boolean reserved, final ClassFileVersion deprecatedAtVersion) {
+    Opcode(final int value, final ClassFileVersion firstVersionSupporting, final List<OperandType> operandTypes, final boolean reserved, final ClassFileVersion lastVersionSupporting) {
         this.value = value;
-        this.classFileVersion = classFileVersion;
+        this.firstVersionSupporting = firstVersionSupporting;
         this.operandTypes = operandTypes;
         this.variableSize = operandTypes.stream().anyMatch(OperandType::isVariableSize);
         this.reserved = false;
-        assert null == deprecatedAtVersion || classFileVersion.getMajorVersion() < deprecatedAtVersion.getMajorVersion();
-        this.deprecatedAtVersion = deprecatedAtVersion;
+        assert null == lastVersionSupporting || firstVersionSupporting.getMajorVersion() < lastVersionSupporting.getMajorVersion();
+        this.lastVersionSupporting = lastVersionSupporting;
     }
 
     Opcode(final int value) {
@@ -338,8 +338,13 @@ public enum Opcode implements Valued, Versioned {
     //
 
     @Override
-    public ClassFileVersion getClassFileVersion() {
-        return classFileVersion;
+    public ClassFileVersion getFirstVersionSupporting() {
+        return firstVersionSupporting;
+    }
+
+    @Override
+    public Optional<ClassFileVersion> getLastVersionSupporting() {
+        return Optional.ofNullable(lastVersionSupporting);
     }
 
     //
@@ -360,10 +365,6 @@ public enum Opcode implements Valued, Versioned {
 
     public boolean isReserved() {
         return reserved;
-    }
-
-    public Optional<ClassFileVersion> getDeprecatedAtVersion() {
-        return Optional.ofNullable(deprecatedAtVersion);
     }
 
     //

@@ -24,17 +24,34 @@ SOFTWARE.
 
 package io.tarro.base;
 
+import java.util.Optional;
+
+import static java.util.Optional.empty;
+
 /**
- * Object only available as of a particular Java class file version.
+ * Object only available in particular Java class file versions.
  *
  * @author Victor Schappert
  * @since 20171014
  */
 public interface Versioned {
     /**
-     * Obtains the Java class file version.
+     * Obtains the first Java class file version in which this object is
+     * supported.
      *
      * @return Class file version
      */
-    ClassFileVersion getClassFileVersion();
+    ClassFileVersion getFirstVersionSupporting();
+
+    /**
+     * If this object is deprecated, indicates the last Java class file version
+     * in which this object is supported.
+     *
+     * @return Either the empty value, if this object is not deprecated, or a
+     *         non-empty value representing the final class file version that
+     *         supports this object, if it is deprecated
+     */
+    default Optional<ClassFileVersion> getLastVersionSupporting() {
+        return empty();
+    }
 }

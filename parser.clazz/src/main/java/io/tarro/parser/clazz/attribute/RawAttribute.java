@@ -28,8 +28,6 @@ import io.tarro.base.attribute.AttributeType;
 
 import java.nio.ByteBuffer;
 
-import static java.lang.Math.min;
-import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
 import static io.tarro.base.attribute.AttributeType.SOURCE_DEBUG_EXTENSION;
 import static io.tarro.base.attribute.AttributeType.UNKNOWN;

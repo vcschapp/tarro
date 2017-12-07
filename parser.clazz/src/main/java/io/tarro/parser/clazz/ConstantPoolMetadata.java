@@ -126,7 +126,7 @@ final class ConstantPoolMetadata {
         final int metabits = get(constantPoolIndex);
         if (0 < metabits) {
             final AttributeType attributeType = decodeAttributeNameBits(metabits);
-            if (attributeType.hasAttributeContext(attributeContext)) {
+            if (attributeContext == (attributeType.getAttributeContext() & attributeContext)) {
                 return attributeType;
             } else {
                 return UNKNOWN;
