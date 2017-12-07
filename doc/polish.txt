@@ -3,10 +3,12 @@ BUILD PROCESS
 -------------
 
 1. Fail build if any source file missing license.
-2. FindBugs.
-3. CheckStyle.
-4. Any other linting.
-5. NoTabs.
+2. javac has maximum linting turned on (-Xlint).
+3. javadoc has maximum linting turned on.
+4. FindBugs.
+5. CheckStyle.
+6. Any other linting.
+7. NoTabs.
 
 
 -------
@@ -21,6 +23,10 @@ DOCUMENTATION
 -------------
 
 1. Every package has a package-info.java.
+2. Each link is appropriately @link or @linkplain depending on whether it should
+   have @code or normal style.
+3. Grep the generated Javadoc to make sure there are no broken HTML tags
+   showing up as rendered angle brackets.
 
 ----
 CODE
@@ -53,3 +59,17 @@ CODE
        - Should be `final`
        - Should have its protection level reduced
 9. Every file has license and license text is the same in every file (up to date).
+10. No .* imports
+11. For enums that implement Versioned, in an automated fashion add
+    @since {@linkplain ...} links to the class file version of where the thing
+    was introduced. Need to make a tool for this to avoid error etc.
+
+-----------
+STYLE GUIDE
+-----------
+
+In Javadoc, use the following conventions:
+
+    - class file elements (such as field_info): @code
+    - attribute names (suchs as Signature): @code, no quotes
+    - instruction opcodes: emphasis (<em>)
