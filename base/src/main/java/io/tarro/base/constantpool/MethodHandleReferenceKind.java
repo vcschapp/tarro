@@ -27,9 +27,8 @@ package io.tarro.base.constantpool;
 import io.tarro.base.Valued;
 
 /**
- * Enumerates available kinds of {@plainlink
- * org.victorschappert.jarn.parser.constantpool.MethodHandleReferenceEntry
- * method handle reference}.
+ * Enumerates available {@code reference_kind} values in a
+ * {@code MethodHandle_info} structure.
  *
  * @author Victor Schappert
  * @since 20171014
