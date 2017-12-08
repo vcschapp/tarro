@@ -83,6 +83,10 @@ subprojects {
         }
     }
 
+    junitPlatformTest {
+        jvmArgs '-ea'
+    }
+
     jar {
         baseName = 'tarro-' + project.name.replace('.', '-')
         manifest {
