@@ -24,15 +24,77 @@
 
 package io.tarro.test
 
+import org.hamcrest.MatcherAssert.assertThat
+import org.hamcrest.Matchers.*
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.function.Executable
+import java.util.NoSuchElementException
 
-class FooTest {
+/**
+ * Unit tests for file-scope functions.
+ *
+ * @author Victor Schappert
+ * @since 20171208
+ */
+class JavaRuntimesTest {
     @Test
-    fun bar() {
-        val time = javaRuntimesNanoTimings {
+    fun javaRuntimeVersionsSmokeTest() {
+        assertAll(*javaRuntimeVersions.map { version ->
+            Executable { assertTrue(Regex("""\d+(\.\d+)*""").matches(version)) }
+        }.toTypedArray())
+        assertThat(javaRuntimeVersions, `is`<Collection<String>>(not(empty())))
+    }
 
-        }.map { it.value }
-         .sum()
-//        println("time: ${time / 1_000_000_000}s")
+    @Test
+    fun javaRuntimesSmokeTest() {
+        // Smoke test by verifying there's at least one class file available.
+        javaRuntimes().first().let {
+            it.openClassFileDataStream().use {
+                assertTrue(it.hasNext())
+                val classFileData = it.next()
+                assertThat(0, lessThan(classFileData.identifier.size))
+            }
+        }
+    }
+
+    @Test
+    fun javaRuntimesNanoTimingsSmokeTest() {
+        // Smoke test by timing a single operation.
+        class Halt : RuntimeException("halt!")
+        assertThrows(
+            Halt::class.java, {
+            javaRuntimesNanoTimings { throw Halt() }
+        })
+    }
+
+    @Test @Slow
+    fun javaRuntimesNanoTimingsFullTest() {
+        var totalBytes = 0
+        val nanos = javaRuntimesNanoTimings { totalBytes += it.data.remaining() }
+                .map { it.value }
+                .sum()
+        assertThat(nanos, greaterThanOrEqualTo(1L))
+    }
+}
+
+/**
+ * Unit tests for [ClassFileDataStream].
+ *
+ * @author Victor Schappert
+ * @since 20171208
+ */
+class ClassFileDataStreamTest {
+    @Test
+    fun tooFar() {
+        javaRuntimes().first().openClassFileDataStream().use {
+            // Traverse to the end.
+            while (it.hasNext()) {
+                it.next()
+            }
+            // Now make sure we get an exception if we try to go past the end.
+            assertFalse(it.hasNext()) // Sanity
+            assertThrows(NoSuchElementException::class.java, { it.next() })
+        }
     }
 }

@@ -24,6 +24,7 @@ SOFTWARE.
 
 module io.tarro.test {
     requires kotlin.stdlib;
+    requires kotlin.stdlib.jdk7;
     requires kotlin.reflect;
     requires org.junit.jupiter.api;
     exports io.tarro.test;
