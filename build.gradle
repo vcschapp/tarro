@@ -90,7 +90,10 @@ subprojects {
                 'Built-With': "gradle-${project.getGradle().getGradleVersion()}, groovy-${GroovySystem.getVersion()}",
                 'Built-By': System.getProperty('user.name'),
                 'Build-Commit': getGitHash(),
-                'Last-Modified-Time': mostRecentFileModifyTime()
+                // FIXME: This Last-Modified-Time stamp causes the JAR to rebuild
+                //        every time. Find a way to disable it except for release
+                //        builds.
+                // 'Last-Modified-Time': mostRecentFileModifyTime()
             )
         }
         from {
