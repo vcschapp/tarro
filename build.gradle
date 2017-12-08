@@ -7,14 +7,17 @@ buildscript {
         ]
         pluginVersion = [
                 junit : '1.0.2',
-                kotlin: dependencyVersion.kotlin
+                kotlin: dependencyVersion.kotlin,
+                dokka: '0.9.15'
         ]
     }
     repositories {
         mavenCentral()
+        jcenter()
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${pluginVersion.kotlin}"
+        classpath "org.jetbrains.dokka:dokka-gradle-plugin:${pluginVersion.dokka}"
         classpath "org.junit.platform:junit-platform-gradle-plugin:${pluginVersion.junit}"
     }
 }
@@ -37,7 +40,7 @@ def getGitHash = { ->
     return sink.toString().trim()
 }
 
-def mostRecentFileModifyTime = { ->
+def mostRecentFileModifyTime = { -> // FIXME: Currently unused
     return Files.walk(Paths.get("${projectDir}"))
             .map { it.toFile().lastModified() }
             .sorted(Comparator.comparingLong { it }.reversed())

@@ -2,6 +2,8 @@ ext {
     moduleName = "io.tarro.test"
 }
 
+apply plugin: 'org.jetbrains.dokka'
+
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${dependencyVersion.kotlin}"
     compile "org.jetbrains.kotlin:kotlin-reflect:${dependencyVersion.kotlin}"
