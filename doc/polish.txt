@@ -16,7 +16,11 @@ TESTING
 -------
 
 1. 95% <= unit test coverage <= 100%
-
+2. Long running tests are separated from short-running tests with appropriate
+   JUnit 5 tags (living in test module) and Gradle tasks
+3. Logging is properly set up for all the tests and easily configurable from
+   a central point in the Gradle build file.
+4. No println anywhere. All tests use loggers.
 
 -------------
 DOCUMENTATION
