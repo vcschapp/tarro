@@ -107,7 +107,26 @@ subprojects {
             "${project.rootDir}/LICENSE"
         }
     }
+
+    task unitTest {
+        // Run the tests, excluding tests tagged as slow. This '-T <tag>'
+        // command line argument replicates what the 'junitPlatform { }' closure
+        // does when you say 'filters { tags { excludes ... } }'. Since at the
+        // moment (v1.0.2 of the Gradle plugin) Jupiter doesn't provide a way to
+        // conditionally set the excludes based on the task you're trying to do,
+        // this is the workaround. So use `$ gradle unitTest` to run quick tests
+        // and `$ gradle test` to include the slow-running ones.
+        doLast {
+            junitPlatformTest {
+                jvmArgs '-ea'
+                args '-T slow'
+            }
+        }
+    }
+    unitTest.dependsOn testClasses
+    unitTest.finalizedBy junitPlatformTest
 }
+
 
 import java.nio.file.Files
 import java.nio.file.Paths
