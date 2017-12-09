@@ -209,7 +209,7 @@ final class ConstantPoolMetadata {
         return CONSTANT_POOL_TAG_ORDINAL_MAP[-metabits];
     }
 
-    private static final AttributeType[] ATTRIBUTE_TYPE_ORDINAL_MAP = offsetCopy(AttributeType.class, 0);
+    private static final AttributeType[] ATTRIBUTE_TYPE_ORDINAL_MAP = offsetCopy(AttributeType.class, 1);
 
     private static int encodeAttributeNameBits(final String candidateAttributeName) {
         return ATTRIBUTE_NAME_TO_INDEX_FUNCS[candidateAttributeName.length() &
