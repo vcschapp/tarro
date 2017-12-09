@@ -877,7 +877,7 @@ public final class ClassParser {
         final int[] actualAttributeLength = { 8 + code.length };
         validateByteCode(code, maxLocals);
         final ExceptionTableEntry[] exceptionTable = exceptionTable(actualAttributeLength);
-        final Attribute[] attributes = attributes(AttributeContext.CODE);
+        final Attribute[] attributes = attributes(AttributeContext.CODE); // FIXME: Bug here - Not calculating attribute length. Have to hack all the attribute methods to accept length from above. And maybe use a DUMMY for the cases where it doesn't matter: from within fields, methods, and class level attributes.
         if (expectedAttributeLength == actualAttributeLength[0]) {
             return new CodeAttribute(maxStack, maxLocals, code, exceptionTable,
                     attributes);
