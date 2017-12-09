@@ -185,12 +185,12 @@ final class ConstantPoolMetadata {
     private InvalidConstantPoolIndexException slotDoesNotContainUtf8(final int constantPoolIndex, final int metabits) {
         final ConstantPoolTag tag = decodeTagBits(metabits);
         if (null != tag) {
-            throw new InvalidConstantPoolIndexException(format("expected CONSTANT_Utf8 in constant_pool[%d] " +
+            throw new InvalidConstantPoolIndexException(format("expected CONSTANT_Utf8_info in constant_pool[%d] " +
                     "but found %s", constantPoolIndex, tag.getStructureName()), constantPoolIndex);
         } else {
             final ConstantPoolTag prevTag = decodeTagBits(get(constantPoolIndex - 1));
             if (LONG == prevTag || DOUBLE == prevTag) {
-                throw new InvalidConstantPoolIndexException(format("expected CONSTANT_Utf8 in constant_pool[%d] " +
+                throw new InvalidConstantPoolIndexException(format("expected CONSTANT_Utf8_info in constant_pool[%d] " +
                     "but found second slot belonging to %s", constantPoolIndex, prevTag), constantPoolIndex);
             }
             // Otherwise fall through to the bad state error below.
