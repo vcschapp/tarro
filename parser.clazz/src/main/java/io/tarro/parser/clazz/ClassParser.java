@@ -117,6 +117,7 @@ import java.io.UTFDataFormatException;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.function.BiFunction;
 import java.util.stream.Collector;
 
@@ -1324,25 +1325,22 @@ public final class ClassParser {
     @ArrayContext("entries")
     private StackMapFrame stackMapFrame(final int[] actualAttributeLength) throws IOException {
         final int frameTypeByte = readU1("frame_type");
-        final FrameType frameType = FrameType.forUnsignedByte(frameTypeByte);
-        ++actualAttributeLength[0];
+        final FrameType frameType;
         try {
-            switch (frameType) {
-            case SAME: return stackMapFrameTypeSame(frameTypeByte);
-            case SAME_LOCALS_1_STACK_ITEM: return stackMapFrameTypeSameLocals1StackItem(frameTypeByte, actualAttributeLength);
-            case SAME_LOCALS_1_STACK_ITEM_EXTENDED: return stackMapFrameTypeSameLocals1StackItemExtended(actualAttributeLength);
-            case CHOP: return stackMapFrameTypeChop(frameTypeByte, actualAttributeLength);
-            case SAME_FRAME_EXTENDED: return stackMapFrameTypeSameExtended(actualAttributeLength);
-            case APPEND: return stackMapFrameTypeAppend(frameTypeByte, actualAttributeLength);
-            case FULL_FRAME: return stackMapFrameTypeFullFrame(actualAttributeLength);
-            default: throw unhandledEnumerator(frameType);
-            }
-        } catch (NullPointerException e) {
-            if (null == frameType) {
-                throw classFormatException(format("Invalid frame type byte: %d", frameTypeByte), "frame_type");
-            } else {
-                throw e;
-            }
+            frameType = FrameType.forUnsignedByte(frameTypeByte);
+        } catch (final IllegalArgumentException e) {
+            throw classFormatException(format("Invalid frame type byte: %d", frameTypeByte), "frame_type", e);
+        }
+        ++actualAttributeLength[0];
+        switch (frameType) {
+        case SAME: return stackMapFrameTypeSame(frameTypeByte);
+        case SAME_LOCALS_1_STACK_ITEM: return stackMapFrameTypeSameLocals1StackItem(frameTypeByte, actualAttributeLength);
+        case SAME_LOCALS_1_STACK_ITEM_EXTENDED: return stackMapFrameTypeSameLocals1StackItemExtended(actualAttributeLength);
+        case CHOP: return stackMapFrameTypeChop(frameTypeByte, actualAttributeLength);
+        case SAME_FRAME_EXTENDED: return stackMapFrameTypeSameExtended(actualAttributeLength);
+        case APPEND: return stackMapFrameTypeAppend(frameTypeByte, actualAttributeLength);
+        case FULL_FRAME: return stackMapFrameTypeFullFrame(actualAttributeLength);
+        default: throw unhandledEnumerator(frameType);
         }
     }
 
