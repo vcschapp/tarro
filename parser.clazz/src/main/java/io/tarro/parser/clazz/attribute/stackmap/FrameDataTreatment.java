@@ -36,6 +36,8 @@ import static io.tarro.base.InternalError.unhandledEnumerator;
  * @author Victor Schappert
  * @since 20171130
  */
+// FIXME: I'm not 100% confident this abstraction is capturing the JVM spec.
+// Need to rethink it...
 public enum FrameDataTreatment {
 
     //
@@ -75,17 +77,17 @@ public enum FrameDataTreatment {
     public static FrameDataTreatment stackTreatmentForFrameType(final FrameType frameType) {
         switch (frameType) {
         case SAME:
-            return KEEP;
+            return KEEP; // FIXME: I think this should actually be replace (with zero)
         case SAME_LOCALS_1_STACK_ITEM:
-            return ADD;
+            return ADD; // FIXME: I think this should actually be replace (with zero)
         case SAME_LOCALS_1_STACK_ITEM_EXTENDED:
-            return ADD;
+            return ADD; // FIXME: I think this should actually be replace (with zero)
         case CHOP:
             return REPLACE;
         case SAME_FRAME_EXTENDED:
-            return KEEP;
+            return KEEP;  // FIXME: I think this should actually be replace (with zero)
         case APPEND:
-            return KEEP;
+            return KEEP;  // FIXME: I think this should actually be replace (with zero)
         case FULL_FRAME:
             return REPLACE;
         default:
