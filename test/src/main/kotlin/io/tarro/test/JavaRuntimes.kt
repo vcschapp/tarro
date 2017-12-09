@@ -141,7 +141,7 @@ class ClassFileDataStream internal constructor (
 
     private fun JarEntry.readClassFile(): ClassFileData {
         val uncompressed = ByteArray(size.toInt())
-        jarStream.read(uncompressed)
+        jarStream.readNBytes(uncompressed, 0, uncompressed.size)
         val descriptor = ClassFileIdentifier(name, dataSet.name, uncompressed.size)
         return ClassFileData(descriptor, wrap(uncompressed))
     }
