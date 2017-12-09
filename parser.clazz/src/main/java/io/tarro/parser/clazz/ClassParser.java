@@ -285,7 +285,7 @@ public final class ClassParser {
 
     private DataInputStream inputStream;
     private int inputStreamPos;
-    private int arrayDepth;
+    private int arrayPosition;
     private ConstantPoolMetadata constantPoolMetadata;
     private boolean isInterface;
     private ByteCodeValidator byteCodeValidator;
@@ -380,7 +380,7 @@ public final class ClassParser {
     private void init(final DataInputStream inputStream) {
         this.inputStream = inputStream;
         inputStreamPos = 0;
-        arrayDepth = 0;
+        arrayPosition = -1;
         constantPoolMetadata = null;
     }
 
@@ -397,19 +397,19 @@ public final class ClassParser {
     }
 
     private void pushArrayContext() {
-        ++arrayDepth;
+        ++arrayPosition;
     }
 
     private void popArrayContext() {
-        --arrayDepth;
+        --arrayPosition;
     }
 
     private void setArrayIndex(final int index) {
         try {
-            arrayContext[arrayDepth] = index;
+            arrayContext[arrayPosition] = index;
         } catch (final ArrayIndexOutOfBoundsException e) {
             final int expected = 1 + arrayContext.length;
-            if (arrayDepth == expected) {
+            if (arrayPosition == expected) {
                 arrayContext = copyOf(arrayContext, 2 * expected);
             } else {
                 throw e; // This is a logic error: better to propagate it out.
@@ -2014,7 +2014,7 @@ public final class ClassParser {
     }
 
     private ClassFormatException classFormatException(final String message, final String fieldName, final Throwable cause) {
-        final String positionContext = traceContextPath(ClassParser.class, arrayContext, arrayDepth, fieldName);
+        final String positionContext = traceContextPath(ClassParser.class, arrayContext, arrayPosition + 1, fieldName);
         final int position;
         if (cause instanceof PinpointFormatException) {
             position = ((PinpointFormatException)cause).getPosition();
