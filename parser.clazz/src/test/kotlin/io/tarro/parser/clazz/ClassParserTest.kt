@@ -26,6 +26,7 @@ package io.tarro.parser.clazz
 
 import io.tarro.parser.clazz.ClassParser.builder
 import io.tarro.test.ByteBufferInputStream
+import io.tarro.test.ClassFileIdentifier
 import io.tarro.test.Slow
 import io.tarro.test.javaRuntimesNanoTimings
 import org.junit.jupiter.api.Test
@@ -40,16 +41,43 @@ import java.time.Duration.ofNanos
  * @since 20171208
  */
 class ClassParserAllJREClassesTest {
+
     @Test @Slow
     fun allJREClasses() {
         val start = nanoTime()
         val parser = builder().build()
+        var count = 1;
         val perClassTimings = javaRuntimesNanoTimings {
-            parser.parse(ByteBufferInputStream(it.data))
+            try {
+                parser.parse(ByteBufferInputStream(it.data))
+            } catch (e: ClassFormatException) {
+                throw AssertionError(parserFailure(count, it.identifier, e), e)
+            } catch (e: Exception) {
+                throw RuntimeException(nonParserFailure(count, it.identifier), e)
+            }
+            count++
         }
         val totalTime = ofNanos(nanoTime() - start)
         val parseTime = ofNanos(perClassTimings.map { it.value }.sum())
         println("Elapsed time: parsing - $parseTime - total - $totalTime")
     }
+
+    //
+    // INTERNALS
+    //
+
+    private fun parserFailure(count: Int,
+                              identifier: ClassFileIdentifier,
+                              cause: ClassFormatException): String {
+        return """
+               Non-parser failure on class #$count - $identifier -
+               context: ${cause.positionContext} -
+               position: ${cause.position}
+               """.trimIndent()
+                  .replace('\n' , ' ')
+    }
+
+    private fun nonParserFailure(count: Int, identifier: ClassFileIdentifier) =
+            "Parser failure on class #$count - $identifier"
 }
 

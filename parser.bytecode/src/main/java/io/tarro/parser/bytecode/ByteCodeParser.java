@@ -244,7 +244,7 @@ public final class ByteCodeParser {
     private void instructions() {
         while (bytecode.hasRemaining()) {
             final int position = bytecode.position();
-            final int opcodeByte = bytecode.get() & 0xffffff00;
+            final int opcodeByte = bytecode.get() & 0xff;
             final Opcode opcode = Opcode.forUnsignedByte(opcodeByte);
             if (null != opcode) {
                 instruction(position, opcode);
