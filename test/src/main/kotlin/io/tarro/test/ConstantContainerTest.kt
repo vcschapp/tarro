@@ -132,7 +132,8 @@ open class ConstantContainerTest<T: Any>(val clazz: KClass<T>) {
  *                    single-bit constants *or*-ed together
  */
 @Disabled
-open class SingleBitMaskConstantContainerTest<T: Any>(clazz: KClass<T>, private val allField: KProperty<Number>) :
+open class SingleBitMaskConstantContainerTest<T: Any>(
+        clazz: KClass<T>, val allField: KProperty<Number>) :
         ConstantContainerTest<T>(clazz) {
 
     /**

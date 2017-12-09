@@ -29,8 +29,7 @@ import java.nio.BufferUnderflowException
 import java.nio.ByteBuffer
 
 /**
- * Simple input stream which simply consumes the remaining bytes in a byte
- * buffer.
+ * Simple input stream which consumes the remaining bytes in a byte buffer.
  *
  * @author Victor Schappert
  * @since 20171208
