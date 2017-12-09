@@ -8,12 +8,15 @@ buildscript {
         pluginVersion = [
                 junit : '1.0.2',
                 kotlin: dependencyVersion.kotlin,
-                dokka: '0.9.15'
+                dokka: '0.9.16-eap-1'
         ]
     }
     repositories {
         mavenCentral()
         jcenter()
+        maven { // TODO: Remove this repo once upgraded off eap to 0.9.16
+            url 'https://dl.bintray.com/kotlin/kotlin-eap/'
+        }
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${pluginVersion.kotlin}"
