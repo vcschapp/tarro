@@ -97,10 +97,11 @@ public final class ContextPathTracer {
             final int currentEntryType = entry.getEntryType();
             switch(currentEntryType) {
             case FIELD_ENTRY_TYPE:
-            case TYPE_ENTRY_TYPE:
-                if (FIELD_ENTRY_TYPE == previousEntryType) {
+                if (NOTHING != previousEntryType) {
                     builder.append('.');
                 }
+                // Fall through.
+            case TYPE_ENTRY_TYPE:
             case SUBSCRIPT_ENTRY_TYPE:
                 builder.append(entry);
                 previousEntryType = currentEntryType;
@@ -109,7 +110,7 @@ public final class ContextPathTracer {
                 throw unhandledConstant(currentEntryType);
             }
         }
-        if (FIELD_ENTRY_TYPE == previousEntryType) {
+        if (NOTHING != previousEntryType) {
             builder.append('.');
         }
         builder.append(lastFieldName);
