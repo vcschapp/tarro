@@ -63,11 +63,11 @@ public enum FrameDataTreatment {
             return KEEP;
         case CHOP:
             return DELETE;
-        case SAME_FRAME_EXTENDED:
+        case SAME_EXTENDED:
             return KEEP;
         case APPEND:
             return ADD;
-        case FULL_FRAME:
+        case FULL:
             return REPLACE;
         default:
             throw unhandledEnumerator(frameType);
@@ -84,11 +84,11 @@ public enum FrameDataTreatment {
             return ADD; // FIXME: I think this should actually be replace (with zero)
         case CHOP:
             return REPLACE;
-        case SAME_FRAME_EXTENDED:
+        case SAME_EXTENDED:
             return KEEP;  // FIXME: I think this should actually be replace (with zero)
         case APPEND:
             return KEEP;  // FIXME: I think this should actually be replace (with zero)
-        case FULL_FRAME:
+        case FULL:
             return REPLACE;
         default:
             throw unhandledEnumerator(frameType);

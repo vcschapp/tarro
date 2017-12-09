@@ -117,7 +117,6 @@ import java.io.UTFDataFormatException;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.function.BiFunction;
 import java.util.stream.Collector;
 
@@ -130,9 +129,9 @@ import static io.tarro.base.attribute.AttributeContext.METHOD_INFO;
 import static io.tarro.base.attribute.AttributeType.STACK_MAP_TABLE;
 import static io.tarro.base.attribute.FrameType.APPEND;
 import static io.tarro.base.attribute.FrameType.CHOP;
-import static io.tarro.base.attribute.FrameType.FULL_FRAME;
+import static io.tarro.base.attribute.FrameType.FULL;
 import static io.tarro.base.attribute.FrameType.SAME;
-import static io.tarro.base.attribute.FrameType.SAME_FRAME_EXTENDED;
+import static io.tarro.base.attribute.FrameType.SAME_EXTENDED;
 import static io.tarro.base.attribute.FrameType.SAME_LOCALS_1_STACK_ITEM;
 import static io.tarro.base.attribute.FrameType.SAME_LOCALS_1_STACK_ITEM_EXTENDED;
 import static io.tarro.base.attribute.VerificationTypeInfoTag.NULL;
@@ -1337,9 +1336,9 @@ public final class ClassParser {
         case SAME_LOCALS_1_STACK_ITEM: return stackMapFrameTypeSameLocals1StackItem(frameTypeByte, actualAttributeLength);
         case SAME_LOCALS_1_STACK_ITEM_EXTENDED: return stackMapFrameTypeSameLocals1StackItemExtended(actualAttributeLength);
         case CHOP: return stackMapFrameTypeChop(frameTypeByte, actualAttributeLength);
-        case SAME_FRAME_EXTENDED: return stackMapFrameTypeSameExtended(actualAttributeLength);
+        case SAME_EXTENDED: return stackMapFrameTypeSameExtended(actualAttributeLength);
         case APPEND: return stackMapFrameTypeAppend(frameTypeByte, actualAttributeLength);
-        case FULL_FRAME: return stackMapFrameTypeFullFrame(actualAttributeLength);
+        case FULL: return stackMapFrameTypeFull(actualAttributeLength);
         default: throw unhandledEnumerator(frameType);
         }
     }
@@ -1368,7 +1367,7 @@ public final class ClassParser {
         return new StackMapFrame(offsetDelta, frameTypeByte - CHOP.getMinValue());
     }
 
-    @FrameTypeContext(SAME_FRAME_EXTENDED)
+    @FrameTypeContext(SAME_EXTENDED)
     private StackMapFrame stackMapFrameTypeSameExtended(final int[] actualAttributeLength) throws IOException {
         final int offsetDelta = readOffsetDelta(actualAttributeLength);
         return new StackMapFrame(offsetDelta);
@@ -1382,8 +1381,8 @@ public final class ClassParser {
         return new StackMapFrame(offsetDelta, locals);
     }
 
-    @FrameTypeContext(FULL_FRAME)
-    private StackMapFrame stackMapFrameTypeFullFrame(final int[] actualAttributeLength) throws IOException {
+    @FrameTypeContext(FULL)
+    private StackMapFrame stackMapFrameTypeFull(final int[] actualAttributeLength) throws IOException {
         final int offsetDelta = readOffsetDelta(actualAttributeLength);
         final int numLocals = readU2("number_of_locals");
         actualAttributeLength[0] += 2;

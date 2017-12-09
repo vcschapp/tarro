@@ -83,7 +83,7 @@ public enum FrameType {
      * {@code frame_type} byte.
      * </p>
      *
-     * @see #SAME_FRAME_EXTENDED
+     * @see #SAME_EXTENDED
      * @see #SAME_LOCALS_1_STACK_ITEM
      * @see #SAME_LOCALS_1_STACK_ITEM_EXTENDED
      */
@@ -106,7 +106,7 @@ public enum FrameType {
      *
      * @see #SAME
      * @see #SAME_LOCALS_1_STACK_ITEM_EXTENDED
-     * @see #SAME_FRAME_EXTENDED
+     * @see #SAME_EXTENDED
      */
     SAME_LOCALS_1_STACK_ITEM(64, 127),
     /**
@@ -126,7 +126,7 @@ public enum FrameType {
      *
      * @see #SAME
      * @see #SAME_LOCALS_1_STACK_ITEM
-     * @see #SAME_FRAME_EXTENDED
+     * @see #SAME_EXTENDED
      */
     SAME_LOCALS_1_STACK_ITEM_EXTENDED(247),
     /**
@@ -166,7 +166,7 @@ public enum FrameType {
      * @see #SAME_LOCALS_1_STACK_ITEM
      * @see #SAME_LOCALS_1_STACK_ITEM_EXTENDED
      */
-    SAME_FRAME_EXTENDED(251)/* TODO: Probably rename to SAME_EXTENDED for consistency */,
+    SAME_EXTENDED(251),
     /**
      * <p>
      * Identifies a stack map frame structure of type {@code append_frame}
@@ -200,7 +200,7 @@ public enum FrameType {
      * structure type.
      * </p>
      */
-    FULL_FRAME(255)/* TODO: Probably rename to FULL for consistency. */;
+    FULL(255);
 
     //
     // DATA

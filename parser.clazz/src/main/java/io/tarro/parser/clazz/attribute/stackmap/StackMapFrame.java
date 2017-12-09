@@ -30,7 +30,7 @@ import java.util.List;
 
 import static io.tarro.base.attribute.FrameType.APPEND;
 import static io.tarro.base.attribute.FrameType.CHOP;
-import static io.tarro.base.attribute.FrameType.FULL_FRAME;
+import static io.tarro.base.attribute.FrameType.FULL;
 import static io.tarro.base.attribute.FrameType.SAME;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
@@ -86,7 +86,7 @@ public class StackMapFrame {
 
     public StackMapFrame(final int offsetDelta, final VerificationTypeInfo[] locals,
         final VerificationTypeInfo[] stack) {
-        this(FULL_FRAME, offsetDelta, List.of(locals), List.of(stack), 0);
+        this(FULL, offsetDelta, List.of(locals), List.of(stack), 0);
     }
 
     //
