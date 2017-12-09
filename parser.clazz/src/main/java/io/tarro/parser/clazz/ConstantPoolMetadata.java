@@ -33,13 +33,37 @@ import java.util.function.ToIntFunction;
 
 import static io.tarro.base.InvalidConstantPoolIndexException.lessThanOne;
 import static io.tarro.base.InvalidConstantPoolIndexException.notLessThanCount;
-import static java.lang.String.format;
-import static java.lang.System.arraycopy;
+import static io.tarro.base.attribute.AttributeType.ANNOTATION_DEFAULT;
+import static io.tarro.base.attribute.AttributeType.BOOTSTRAP_METHODS;
 import static io.tarro.base.attribute.AttributeType.CODE;
+import static io.tarro.base.attribute.AttributeType.CONSTANT_VALUE;
+import static io.tarro.base.attribute.AttributeType.DEPRECATED;
+import static io.tarro.base.attribute.AttributeType.ENCLOSING_METHOD;
+import static io.tarro.base.attribute.AttributeType.EXCEPTIONS;
+import static io.tarro.base.attribute.AttributeType.INNER_CLASSES;
+import static io.tarro.base.attribute.AttributeType.LINE_NUMBER_TABLE;
+import static io.tarro.base.attribute.AttributeType.LOCAL_VARIABLE_TABLE;
+import static io.tarro.base.attribute.AttributeType.LOCAL_VARIABLE_TYPE_TABLE;
+import static io.tarro.base.attribute.AttributeType.METHOD_PARAMETERS;
+import static io.tarro.base.attribute.AttributeType.MODULE;
+import static io.tarro.base.attribute.AttributeType.MODULE_MAIN_CLASS;
+import static io.tarro.base.attribute.AttributeType.MODULE_PACKAGES;
+import static io.tarro.base.attribute.AttributeType.RUNTIME_INVISIBLE_ANNOTATIONS;
+import static io.tarro.base.attribute.AttributeType.RUNTIME_INVISIBLE_PARAMETER_ANNOTATIONS;
+import static io.tarro.base.attribute.AttributeType.RUNTIME_INVISIBLE_TYPE_ANNOTATIONS;
+import static io.tarro.base.attribute.AttributeType.RUNTIME_VISIBLE_ANNOTATIONS;
+import static io.tarro.base.attribute.AttributeType.RUNTIME_VISIBLE_TYPE_ANNOTATIONS;
+import static io.tarro.base.attribute.AttributeType.SIGNATURE;
+import static io.tarro.base.attribute.AttributeType.SOURCE_DEBUG_EXTENSION;
+import static io.tarro.base.attribute.AttributeType.SOURCE_FILE;
+import static io.tarro.base.attribute.AttributeType.STACK_MAP_TABLE;
+import static io.tarro.base.attribute.AttributeType.SYNTHETIC;
 import static io.tarro.base.attribute.AttributeType.UNKNOWN;
 import static io.tarro.base.constantpool.ConstantPoolTag.DOUBLE;
 import static io.tarro.base.constantpool.ConstantPoolTag.LONG;
 import static io.tarro.base.constantpool.ConstantPoolTag.UTF8;
+import static java.lang.String.format;
+import static java.lang.System.arraycopy;
 
 /**
  * <p>
@@ -198,27 +222,183 @@ final class ConstantPoolMetadata {
 
     private static final ToIntFunction<String> NOT_A_PREDEFINED_ATTRIBUTE = (s) -> 0;
     private static final int ATTRIBUTE_NAME_TO_INDEX_FUNCS_MASK = 0x3f;
+    @SuppressWarnings("unchecked")
     private static final ToIntFunction<String>[] ATTRIBUTE_NAME_TO_INDEX_FUNCS = new ToIntFunction[] {
-        NOT_A_PREDEFINED_ATTRIBUTE,
-        NOT_A_PREDEFINED_ATTRIBUTE,
-        NOT_A_PREDEFINED_ATTRIBUTE,
-        NOT_A_PREDEFINED_ATTRIBUTE,
-        (ToIntFunction<String>) ConstantPoolMetadata::attributeNameCode
+        NOT_A_PREDEFINED_ATTRIBUTE /* 0 */,
+        NOT_A_PREDEFINED_ATTRIBUTE /* 1 */,
+        NOT_A_PREDEFINED_ATTRIBUTE /* 2 */,
+        NOT_A_PREDEFINED_ATTRIBUTE /* 3 */,
+        (ToIntFunction<String>) ConstantPoolMetadata::attributeName04Code /* 4 = Code */,
+        NOT_A_PREDEFINED_ATTRIBUTE /* 5 */,
+        (ToIntFunction<String>) ConstantPoolMetadata::attributeName06Module /* 6 = Module */,
+        NOT_A_PREDEFINED_ATTRIBUTE /* 7 */,
+        NOT_A_PREDEFINED_ATTRIBUTE /* 8 */,
+        (ToIntFunction<String>) ConstantPoolMetadata::attributeName09SigSyn /* 9 = Signature, Synthetic */,
+        (ToIntFunction<String>) ConstantPoolMetadata::attributeName10DepExcSou /* 10 = Deprecated, Exceptions, SourceFile */,
+        NOT_A_PREDEFINED_ATTRIBUTE /* 11 */,
+        attributeName(INNER_CLASSES), /* 12 */
+        attributeName(CONSTANT_VALUE, STACK_MAP_TABLE) /* 13 = ConstantValue, StackMapTable */,
+        attributeName(MODULE_PACKAGES) /* 14 = ModulePackages */,
+        attributeName(ENCLOSING_METHOD, LINE_NUMBER_TABLE, MODULE_MAIN_CLASS) /* 15 = EnclosingMethod, LineNumberTable, ModuleMainClass */,
+        attributeName(BOOTSTRAP_METHODS, METHOD_PARAMETERS) /* 16 = BootstrapMethods, MethodParameters */,
+        attributeName(ANNOTATION_DEFAULT), /* 17 */
+        attributeName(LOCAL_VARIABLE_TABLE), /* 18 */
+        NOT_A_PREDEFINED_ATTRIBUTE /* 19 */,
+        attributeName(SOURCE_DEBUG_EXTENSION), /* 20 */
+        NOT_A_PREDEFINED_ATTRIBUTE /* 21 */,
+        attributeName(LOCAL_VARIABLE_TYPE_TABLE), /* 22 */
+        NOT_A_PREDEFINED_ATTRIBUTE /* 23 */,
+        NOT_A_PREDEFINED_ATTRIBUTE /* 24 */,
+        attributeName(RUNTIME_VISIBLE_ANNOTATIONS), /* 25 */
+        NOT_A_PREDEFINED_ATTRIBUTE /* 26 */,
+        attributeName(RUNTIME_INVISIBLE_ANNOTATIONS), /* 27 */
+        NOT_A_PREDEFINED_ATTRIBUTE /* 28 */,
+        attributeName(RUNTIME_VISIBLE_TYPE_ANNOTATIONS), /* 29 */
+        NOT_A_PREDEFINED_ATTRIBUTE /* 30 */,
+        attributeName(RUNTIME_INVISIBLE_TYPE_ANNOTATIONS), /* 31 */
+        NOT_A_PREDEFINED_ATTRIBUTE /* 32 */,
+        NOT_A_PREDEFINED_ATTRIBUTE /* 33 */,
+        attributeName(RUNTIME_INVISIBLE_PARAMETER_ANNOTATIONS), /* 34 */
+        NOT_A_PREDEFINED_ATTRIBUTE /* 35 */,
+        attributeName(RUNTIME_INVISIBLE_PARAMETER_ANNOTATIONS), /* 36 */
+        NOT_A_PREDEFINED_ATTRIBUTE /* 37 */,
+        NOT_A_PREDEFINED_ATTRIBUTE /* 38 */,
+        NOT_A_PREDEFINED_ATTRIBUTE /* 39 */,
+        NOT_A_PREDEFINED_ATTRIBUTE /* 40 */,
+        NOT_A_PREDEFINED_ATTRIBUTE /* 41 */,
+        NOT_A_PREDEFINED_ATTRIBUTE /* 42 */,
+        NOT_A_PREDEFINED_ATTRIBUTE /* 43 */,
+        NOT_A_PREDEFINED_ATTRIBUTE /* 44 */,
+        NOT_A_PREDEFINED_ATTRIBUTE /* 45 */,
+        NOT_A_PREDEFINED_ATTRIBUTE /* 46 */,
+        NOT_A_PREDEFINED_ATTRIBUTE /* 47 */,
+        NOT_A_PREDEFINED_ATTRIBUTE /* 48 */,
+        NOT_A_PREDEFINED_ATTRIBUTE /* 49 */,
+        NOT_A_PREDEFINED_ATTRIBUTE /* 50 */,
+        NOT_A_PREDEFINED_ATTRIBUTE /* 51 */,
+        NOT_A_PREDEFINED_ATTRIBUTE /* 52 */,
+        NOT_A_PREDEFINED_ATTRIBUTE /* 53 */,
+        NOT_A_PREDEFINED_ATTRIBUTE /* 54 */,
+        NOT_A_PREDEFINED_ATTRIBUTE /* 55 */,
+        NOT_A_PREDEFINED_ATTRIBUTE /* 56 */,
+        NOT_A_PREDEFINED_ATTRIBUTE /* 57 */,
+        NOT_A_PREDEFINED_ATTRIBUTE /* 58 */,
+        NOT_A_PREDEFINED_ATTRIBUTE /* 59 */,
+        NOT_A_PREDEFINED_ATTRIBUTE /* 60 */,
+        NOT_A_PREDEFINED_ATTRIBUTE /* 61 */,
+        NOT_A_PREDEFINED_ATTRIBUTE /* 62 */,
+        NOT_A_PREDEFINED_ATTRIBUTE /* 63 */
     };
     static {
         assert ATTRIBUTE_NAME_TO_INDEX_FUNCS.length == 1 + ATTRIBUTE_NAME_TO_INDEX_FUNCS_MASK;
     }
 
-    private static int attributeNameCode(final String s) {
-        if ('C' != s.charAt(0) || !"Code".equals(s)) {
+    private static int attributeName04Code(final String s) {
+        if ('C' != s.charAt(0) || 4 != s.length() || 'o' != s.charAt(1) ||
+                'd' != s.charAt(2) || 'e' != s.charAt(3)) {
             return 0;
         } else {
             return CODE.ordinal() + 1;
         }
     }
 
+    private static int attributeName06Module(final String s) {
+        if ('M' != s.charAt(1) || 6 != s.length() || 'o' != s.charAt(1) ||
+            'd' != s.charAt(2) || 'u' != s.charAt(3) || 'l' != s.charAt(4) ||
+            'e' != s.charAt(5)) {
+            return 0;
+        } else {
+            return MODULE.ordinal() + 1;
+        }
+    }
+
+    private static int attributeName09SigSyn(final String s) {
+        if ('S' != s.charAt(0) || 9 != s.length()) {
+            return 0;
+        } else if ("Signature".equals(s)) {
+            return SIGNATURE.ordinal() + 1;
+        } else if ("Synthetic".equals(s)) {
+            return SYNTHETIC.ordinal() + 1;
+        } else {
+            return 0;
+        }
+    }
+
+    private static int attributeName10DepExcSou(final String s) {
+        if (10 == s.length()) {
+            switch (s.charAt(0)) {
+                case 'D': return !"Deprecated".equals(s) ? 0 : DEPRECATED.ordinal() + 1;
+                case 'E': return !"Exceptions".equals(s) ? 0 : EXCEPTIONS.ordinal() + 1;
+                case 'S': return !"SourceFile".equals(s) ? 0 : SOURCE_FILE.ordinal() + 1;
+            }
+        }
+        return 0;
+    }
+
+    private static ToIntFunction<String> attributeName(final AttributeType attributeType) {
+        final String attributeName = attributeType.getAttributeName();
+        final int n = attributeName.length();
+        final char first = attributeName.charAt(0);
+        final int index = attributeType.ordinal() + 1;
+        return s -> {
+            if (n == s.length() && first == s.charAt(0) && attributeName.equals(s)) {
+                return index;
+            } else {
+                return 0;
+            }
+        };
+    }
+
+    private static ToIntFunction<String> attributeName(final AttributeType attributeType1,
+                                                       final AttributeType attributeType2) {
+        final String name1 = attributeType1.getAttributeName();
+        final String name2 = attributeType2.getAttributeName();
+        final char first1 = name1.charAt(0);
+        final char first2 = name2.charAt(0);
+        assert name1.length() == name2.length() && first1 != first2;
+        final int n = name1.length();
+        return s -> {
+            if (n == s.length()) {
+                final char first = s.charAt(0);
+                if (first1 == first && name1.equals(s)) {
+                    return attributeType1.ordinal() + 1;
+                } else if (first2 == first && name2.equals(s)) {
+                    return attributeType2.ordinal() + 2;
+                }
+            }
+            return 0;
+        };
+    }
+
+    private static ToIntFunction<String> attributeName(final AttributeType attributeType1,
+                                                       final AttributeType attributeType2,
+                                                       final AttributeType attributeType3) {
+        final String name1 = attributeType1.getAttributeName();
+        final String name2 = attributeType2.getAttributeName();
+        final String name3 = attributeType3.getAttributeName();
+        final char first1 = name1.charAt(0);
+        final char first2 = name2.charAt(0);
+        final char first3 = name3.charAt(0);
+        assert name1.length() == name2.length() && first1 != first2 && first2 != first3;
+        final int n = name1.length();
+        return s -> {
+            if (n == s.length()) {
+                final char first = s.charAt(0);
+                if (first1 == first && name1.equals(s)) {
+                    return attributeType1.ordinal() + 1;
+                } else if (first2 == first && name2.equals(s)) {
+                    return attributeType2.ordinal() + 2;
+                } else if (first3 == first && name3.equals(s)) {
+                    return attributeType3.ordinal() + 3;
+                }
+            }
+            return 0;
+        };
+    }
+
     private static <E extends Enum<E>> E[] offsetCopy(final Class<E> clazz, final int offset) {
         final E[] src = clazz.getEnumConstants();
+        @SuppressWarnings("unchecked")
         final E[] dest = (E[])Array.newInstance(clazz, src.length + offset);
         arraycopy(src, 0, dest, offset, src.length);
         return dest;
