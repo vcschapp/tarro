@@ -458,7 +458,7 @@ public final class ClassParser {
     }
 
     private void superClass() throws IOException {
-        final int superClassIndex = readConstantPoolIndex("super_class");
+        final int superClassIndex = readConstantPoolIndexOrZero("super_class");
         superClassVisitor.visit(superClassIndex);
     }
 
