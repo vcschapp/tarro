@@ -143,6 +143,7 @@ import static io.tarro.base.flag.MethodAccessFlag.classMethodBaseRules;
 import static io.tarro.base.flag.MethodAccessFlag.interfaceMethodBaseRules;
 import static io.tarro.parser.clazz.internal.context.path.ContextPathTracer.traceContextPath;
 import static java.lang.String.format;
+import static java.util.Arrays.copyOf;
 import static java.util.Arrays.stream;
 import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.joining;
@@ -277,12 +278,11 @@ public final class ClassParser {
     private final AttributeVisitor attributeVisitor;
 
     private final Visitor[] allVisitors;
-
-    private final int[] arrayContext;
-
     // -------------------------------------------------------------------------
     // Fields modified during parse().
     // -------------------------------------------------------------------------
+    private int[] arrayContext;
+
     private DataInputStream inputStream;
     private int inputStreamPos;
     private int arrayDepth;
@@ -331,7 +331,7 @@ public final class ClassParser {
                 fieldsCountVisitor, fieldVisitor,
                 methodsCountVisitor, methodVisitor,
                 attributesCountVisitor, attributeVisitor);
-        this.arrayContext = new int[MAX_DEPTH];
+        this.arrayContext = new int[REASONABLE_DEPTH];
     }
 
     //
@@ -359,7 +359,7 @@ public final class ClassParser {
     // INTERNALS
     //
 
-    private static final int MAX_DEPTH = 0; // TODO: Figure out max context depth
+    private static final int REASONABLE_DEPTH = 8;
 
     private void parse(final DataInputStream inputStream) throws IOException {
         init(inputStream);
@@ -405,7 +405,16 @@ public final class ClassParser {
     }
 
     private void setArrayIndex(final int index) {
-        arrayContext[arrayDepth] = index;
+        try {
+            arrayContext[arrayDepth] = index;
+        } catch (final ArrayIndexOutOfBoundsException e) {
+            final int expected = 1 + arrayContext.length;
+            if (arrayDepth == expected) {
+                arrayContext = copyOf(arrayContext, 2 * expected);
+            } else {
+                throw e; // This is a logic error: better to propagate it out.
+            }
+        }
     }
 
     private void magic() throws IOException {
@@ -521,6 +530,7 @@ public final class ClassParser {
 
     @ArrayContext("constant_pool")
     private int constantPoolEntry(final int entryIndex) throws IOException {
+        setArrayIndex(entryIndex);
         final int tag = readU1("tag");
         // In the table below, keep tags organized by the order in which they
         // appear in Chapter 4 ("The class File Format") of the JVM spec.
