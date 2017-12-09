@@ -249,42 +249,6 @@ import static io.tarro.base.attribute.TypePathKind.ON_TYPE_ARGUMENT_WILDCARD_BOU
  * @author Victor Schappert
  * @since 20171008
  */
-// TODO: Can I do the context naming with Annotations and Reflection?
-//       For example, what if I annotate methods which contribute to the context
-//       with something like @ArrayContext("constant_pool"). Then just the
-//       "terminal" read and validate operations would receive the name of the
-//       current last field as a parameter. On error use Java 9 StackWalker to
-//       walk up the stack examining context annotations to build up a picture
-//       of where we are. So instead of trying to do it dynamically we'd be
-//       doing it statically, and then just dynamically examining the static
-//       annotation data on exception. We might still have to maintain a
-//       separate stack because StackWalker.StackMapFrame doesn't do this.
-//       e.g. Say you're in methods[4].attributes[2](RuntimeVisibleTypeAnnotation).annotations[2].target_info.type_parameter_bound_target.bound_index
-//       Then here's how we get there:
-//           @ArrayContext("methods")
-//           private static void methods(...) {}
-//           // This method not annotated because it doesn't advance use deeper into the structure.
-//           private static Attribute[] methodAttributes() {
-//               final int n = readU2(..., "attribute_count");
-//               final Attribute[] attributes = new Attribute[n];
-//               pushArrayContext();
-//               for (int i = 0; i < n; ++i) {
-//                   setArrayContext(i);
-//                   attributes[i] = attribute(...);
-//               }
-//               popArrayContext();
-//           }
-//           @ArrayContext
-//           private static Attribute attribute(...) { }
-//           @AttributeTypeContext(RuntimeVisibleTypeAnnotation)
-//           private static Attribute runtimeVisibleTypeAnnotation() { }
-//           @ArrayContext("annotations")
-//           private static Annotation[] typeAnnotations() { }
-//           @StructureContext("target_info", "type_parameter_bound_target")
-//           private static Object typeParameterBoundTarget() {
-//               ...
-//               final int boundIndex = readU2(inputStream, "bound_index");s
-//           }
 public final class ClassParser {
 
     //
