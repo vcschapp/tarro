@@ -25,7 +25,7 @@ SOFTWARE.
 package io.tarro.parser.clazz.constantpool;
 
 import io.tarro.base.constantpool.MethodHandleReferenceKind;
-import io.tarro.base.constantpool.Represents;
+import io.tarro.base.constantpool.ConstantPoolTag.Represents;
 
 import static io.tarro.base.constantpool.ConstantPoolTag.METHOD_HANDLE;
 import static java.util.Objects.requireNonNull;

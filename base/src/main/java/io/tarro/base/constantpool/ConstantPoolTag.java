@@ -28,10 +28,16 @@ import io.tarro.base.ClassFileVersion;
 import io.tarro.base.Valued;
 import io.tarro.base.Versioned;
 
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+
 import static io.tarro.base.ClassFileVersion.JAVA1;
 import static io.tarro.base.ClassFileVersion.JAVA5;
 import static io.tarro.base.ClassFileVersion.JAVA7;
 import static io.tarro.base.ClassFileVersion.JAVA9;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Enumerates the tags which indicate the structure of a constant pool entry.
@@ -124,4 +130,19 @@ public enum ConstantPoolTag implements Valued, Versioned {
     }
 
     public int getNumSlots() { return numSlots; }
+
+    //
+    // PUBLIC ANNOTATIONS
+    //
+
+    /**
+     * @author Victor Schappert
+     * @since 20171127
+     */
+    @Documented
+    @Retention(RUNTIME)
+    @Target(ElementType.TYPE)
+    public @interface Represents {
+        ConstantPoolTag[] value();
+    }
 }

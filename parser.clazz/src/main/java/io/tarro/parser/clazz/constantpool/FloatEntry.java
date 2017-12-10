@@ -24,7 +24,7 @@ SOFTWARE.
 
 package io.tarro.parser.clazz.constantpool;
 
-import io.tarro.base.constantpool.Represents;
+import io.tarro.base.constantpool.ConstantPoolTag.Represents;
 
 import static io.tarro.base.constantpool.ConstantPoolTag.FLOAT;
 
