@@ -5,6 +5,7 @@ import io.tarro.base.attribute.AttributeType;
 import static io.tarro.base.attribute.AttributeType.CONSTANT_VALUE;
 import static io.tarro.base.attribute.AttributeType.MODULE_MAIN_CLASS;
 import static io.tarro.base.attribute.AttributeType.SIGNATURE;
+import static io.tarro.base.attribute.AttributeType.SOURCE_FILE;
 
 /**
  * <p>
@@ -49,7 +50,7 @@ public final class ConstantPoolIndexAttribute extends Attribute {
         super(attributeType);
         assert CONSTANT_VALUE == attributeType ||
                 MODULE_MAIN_CLASS == attributeType ||
-                SIGNATURE == attributeType;
+                SIGNATURE == attributeType || SOURCE_FILE == attributeType;
         this.constantPoolIndex = constantPoolIndex;
     }
 
