@@ -227,7 +227,7 @@ final class ByteCodeValidator {
         } else if (0 == constantPoolIndex) {
             throw invalidConstantPoolIndex(position, opcode,  lessThanOne(constantPoolIndex));
         } else {
-            assert false : "constant pool index operand should never be negative";
+            assert 1 <= constantPoolIndex : "constant pool index operand should never be negative";
         }
     }
 
