@@ -33,7 +33,7 @@ import io.tarro.base.Valued;
  *
  * <p>
  * Each enumerator in this enumeration represents one of the possible element
- * value tags described in the Java Virtual Machine specification. The actual
+ * value tags described in the Java Virtual Machine Specification. The actual
  * tag character may be obtained from the {@link #getValue()} method, as an
  * {@code int}. If it is necessary to convert the value into a character for
  * some reason, this may be done by simply casting it to type {@code char}.

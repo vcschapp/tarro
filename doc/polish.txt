@@ -31,6 +31,8 @@ DOCUMENTATION
    have @code or normal style.
 3. Grep the generated Javadoc to make sure there are no broken HTML tags
    showing up as rendered angle brackets.
+4. Terms to use consistently:
+        Java Virtual Machine Specification (each word should be capitalized)
 
 ----
 CODE
