@@ -250,6 +250,9 @@ import static io.tarro.base.attribute.TypePathKind.ON_TYPE_ARGUMENT_WILDCARD_BOU
  * @author Victor Schappert
  * @since 20171008
  */
+// TODO: Determine if all the int[] actualAttributeLength parameter passing can
+//       be eliminated by correctly tracking the stream position and checking
+//       relative changes, as I did in the Code attribute handler.
 public final class ClassParser {
 
     //
@@ -877,8 +880,10 @@ public final class ClassParser {
         final int[] actualAttributeLength = { 8 + code.length };
         validateByteCode(code, maxLocals);
         final ExceptionTableEntry[] exceptionTable = exceptionTable(actualAttributeLength);
-        final Attribute[] attributes = attributes(AttributeContext.CODE); // FIXME: Bug here - Not calculating attribute length. Have to hack all the attribute methods to accept length from above. And maybe use a DUMMY for the cases where it doesn't matter: from within fields, methods, and class level attributes.
-        if (expectedAttributeLength == actualAttributeLength[0]) {
+        final int inputStreamPosBefore = inputStreamPos;
+        final Attribute[] attributes = attributes(AttributeContext.CODE);
+        final int attributesLength = inputStreamPos - inputStreamPosBefore;
+        if (expectedAttributeLength == actualAttributeLength[0] + attributesLength) {
             return new CodeAttribute(maxStack, maxLocals, code, exceptionTable,
                     attributes);
         } else {

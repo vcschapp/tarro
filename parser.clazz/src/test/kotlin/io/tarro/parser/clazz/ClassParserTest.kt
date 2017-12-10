@@ -43,17 +43,34 @@ import java.time.Duration.ofNanos
  */
 class ClassParserSmokeTest {
     @Test
-    fun tinyClassNoCode() {
-        builder().build().parse(tinyClassNoCode.inputStream())
+    fun tinyInterfaceNoCode() {
+        builder().build().parse(tinyInterfaceNoCode.inputStream())
+    }
+    @Test
+    fun tinyClassOneMethod() {
+        builder().build().parse(tinyClassOneMethod.inputStream())
     }
     // This is "interface A {}" compiled with the Java 9.0.1 compiler and debug
     // symbols turned off.
-    private val tinyClassNoCode =
+    private val tinyInterfaceNoCode =
             """
             CA FE BA BE 00 00 00 35 00 05 07 00 03 07 00 04
             01 00 01 41 01 00 10 6A 61 76 61 2F 6C 61 6E 67
             2F 4F 62 6A 65 63 74 06 00 00 01 00 02 00 00 00
             00 00 00 00 00
+            """.parseAsByteArray()
+    // This is "class B { }" compiled with the Java 9.0.1 compiler and debug
+    // symbols turned off. The one method is the default constructor.
+    private val tinyClassOneMethod =
+            """
+            CA FE BA BE 00 00 00 35 00 0A 0A 00 03 00 07 07
+            00 08 07 00 09 01 00 06 3C 69 6E 69 74 3E 01 00
+            03 28 29 56 01 00 04 43 6F 64 65 0C 00 04 00 05
+            01 00 01 42 01 00 10 6A 61 76 61 2F 6C 61 6E 67
+            2F 4F 62 6A 65 63 74 00 20 00 02 00 03 00 00 00
+            00 00 01 00 00 00 04 00 05 00 01 00 06 00 00 00
+            11 00 01 00 01 00 00 00 05 2A B7 00 01 B1 00 00
+            00 00 00 00
             """.parseAsByteArray()
 }
 
