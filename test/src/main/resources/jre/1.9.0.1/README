@@ -1,0 +1,12 @@
+I was able to extract the JRE on Windows 10 running JDK 9.0.1 by running the
+following at the Windows command prompt:
+
+> jimage extract "%JAVA_HOME%\lib\modules"
+
+Took a while but it worked.
+
+All I then did was make a fake "rt.jar" by grabbing all of the classes from the
+java.base module and zipping them up into a JAR. Obviously this is fake, but
+since Java 9/Jigsaw has gotten rid of the concept of `rt.jar`, the steps I've
+taken are a handy way to obtain a large JAR of standard classes for testing
+purposes.
