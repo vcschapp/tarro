@@ -224,7 +224,7 @@ class ClassFileDataStreamProvider internal constructor(val name: String,
  * @see javaRuntimesNanoTimings
  */
 val javaRuntimeVersions = listOf("1.1.8.16" , "1.2.2.17", "1.3.1.29",
-        "1.4.2.30", "1.5.0.22", "1.6.0.45", "1.8.0.152")
+        "1.4.2.30", "1.5.0.22", "1.6.0.45", "1.7.0.80", "1.8.0.152")
 
 /**
  * Obtains a list of class file providers for each
