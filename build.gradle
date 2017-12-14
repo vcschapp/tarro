@@ -1,7 +1,7 @@
 buildscript {
     ext {
         dependencyVersion = [
-                kotlin: '1.2.0',
+                kotlin: '1.2.10',
                 junit : '5.0.2',
                 hamcrest: '1.3'
         ]
