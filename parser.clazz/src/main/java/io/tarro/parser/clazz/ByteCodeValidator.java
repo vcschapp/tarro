@@ -241,9 +241,9 @@ final class ByteCodeValidator {
     private void validateJumps() {
         for (int i = 0; i < jumpPairCount; ++i) {
             final long jumpPair = this.jumpPair[i];
-            final long sourcePosition = jumpPair >> 32;
-            final long offset = jumpPair & 0xffffffffL;
-            final long targetPosition = sourcePosition + offset;
+            final int sourcePosition = (int)(jumpPair >> 32);
+            final int offset = (int)(jumpPair & 0xffffffffL);
+            final int targetPosition = sourcePosition + offset;
             if (0L <= targetPosition && targetPosition < bytecode.length) {
                 validateJumpTarget((int)sourcePosition, (int)targetPosition, offset);
             } else {
@@ -277,7 +277,7 @@ final class ByteCodeValidator {
     }
 
     private static long jumpPair(final long sourceInstructionPosition, final long offset) {
-        return sourceInstructionPosition << 32 | offset;
+        return sourceInstructionPosition << 32 | (offset & 0xffffffffL);
     }
 
     private static int maxJumps(final int bytecodeLength) {
