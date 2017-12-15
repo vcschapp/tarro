@@ -30,7 +30,7 @@ import static java.util.stream.IntStream.rangeClosed;
 /**
  * <p>
  * Enumerates the categories of {@code frame_type} byte which may appear at the
- * front of a structure within the union {@code stack_map_frame} belonging to
+ * front of a structure within the {@code stack_map_frame} union belonging to
  * the {@code entries} table in a {@linkplain AttributeType#STACK_MAP_TABLE
  * StackMapTable} attribute.
  * </p>
@@ -59,6 +59,7 @@ import static java.util.stream.IntStream.rangeClosed;
  *
  * @author Victor Schappert
  * @since 20171130
+ * @see VerificationTypeInfoTag
  */
 public enum FrameType {
 

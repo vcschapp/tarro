@@ -41,6 +41,9 @@ import io.tarro.base.Valued;
  *
  * @author Victor Schappert
  * @since 20171113
+ * @see TargetType
+ * @see AttributeType#RUNTIME_INVISIBLE_TYPE_ANNOTATIONS
+ * @see AttributeType#RUNTIME_VISIBLE_TYPE_ANNOTATIONS
  */
 public enum TypePathKind implements Valued {
 

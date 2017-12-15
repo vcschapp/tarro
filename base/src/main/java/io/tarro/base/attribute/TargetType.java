@@ -72,6 +72,7 @@ import static io.tarro.base.attribute.AttributeContext.METHOD_INFO;
  *
  * @author Victor Schappert
  * @since 20171113
+ * @see TypePathKind
  * @see AttributeType#RUNTIME_INVISIBLE_TYPE_ANNOTATIONS
  * @see AttributeType#RUNTIME_VISIBLE_TYPE_ANNOTATIONS
  */

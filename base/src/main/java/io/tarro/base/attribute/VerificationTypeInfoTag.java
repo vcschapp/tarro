@@ -29,7 +29,9 @@ import io.tarro.base.Valued;
 /**
  * <p>
  * Enumerates valid tag values within the {@code verification_type_info}
- * discriminated union.
+ * discriminated union which may appear within certain members of the
+ * {@code stack_map_frame} union belonging to the {@code entries} table in a
+ * {@linkplain AttributeType#STACK_MAP_TABLE StackMapTable} attribute.
  * </p>
  *
  * <p>
@@ -41,6 +43,7 @@ import io.tarro.base.Valued;
  *
  * @author Victor Schappert
  * @since 20171130
+ * @see FrameType
  */
 public enum VerificationTypeInfoTag implements Valued {
 

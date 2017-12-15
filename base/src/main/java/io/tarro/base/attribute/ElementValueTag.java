@@ -28,7 +28,9 @@ import io.tarro.base.Valued;
 
 /**
  * <p>
- * Enumerates valid tag values for an {@code element_value} structure.
+ * Enumerates valid tag values for an {@code element_value} structure appearing
+ * within any of the {@linkplain AttributeType predefined attributes} which
+ * contain annotations.
  * </p>
  *
  * <p>
