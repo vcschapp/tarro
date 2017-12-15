@@ -27,7 +27,17 @@ package io.tarro.base.attribute;
 import io.tarro.base.Valued;
 
 /**
+ * <p>
  * Enumerates the kinds of type path "steps" in a {@code type_path} structure.
+ * </p>
+ *
+ * <p>
+ * Each member of this enumeration represents one of the {@code type_path_kind}
+ * values documented in the Java Virtual Machine Specification's section on the
+ * {@code type_path} structure. The numeric {@code type_path_kind} value
+ * corresponding to a particular enumerator may be obtained from the
+ * {@link #getValue()} method.
+ * </p>
  *
  * @author Victor Schappert
  * @since 20171113
@@ -38,9 +48,25 @@ public enum TypePathKind implements Valued {
     // ENUMERATORS
     //
 
+    /**
+     * Indicates that reaching the annotation requires stepping deeper into an
+     * array type.
+     */
     DEEPER_IN_ARRAY_TYPE,
+    /**
+     * Indicates that reaching the annotation requires stepping deeper into a
+     * nested type.
+     */
     DEEPER_IN_NESTED_TYPE,
+    /**
+     * Indicates that the annotation is on the bound of a wildcard type argument
+     * of a parameterized type.
+     */
     ON_TYPE_ARGUMENT_WILDCARD_BOUND,
+    /**
+     * Indicates that the annotation is on a type argument of a parameterized
+     * type.
+     */
     ON_TYPE_ARGUMENT;
 
     //
