@@ -28,7 +28,15 @@ import io.tarro.base.Valued;
 
 /**
  * <p>
+ * Enumerates valid tag values within the {@code verification_type_info}
+ * discriminated union.
+ * </p>
  *
+ * <p>
+ * Each enumerator in this enumeration represents one of the possible
+ * verification type info tags described in the Java Virtual Machine
+ * Specification's section on the {@code StackMapTable} attribute. The numeric
+ * tag value may be obtained from the {@link #getValue()} method.
  * </p>
  *
  * @author Victor Schappert
@@ -40,15 +48,52 @@ public enum VerificationTypeInfoTag implements Valued {
     // ENUMERATORS
     //
 
-    // TODO: figure out right order. I did this fast/sloppy I think coopying JVM spec ch 4 order
+    // The order of this list should parallel the order of the union members
+    // documented in the Java Virtual Machine Specification.
+    /**
+     * Indicates that the {@code verification_type_info} union's active member
+     * is a {@code Top_variable_info} structure.
+     */
     TOP(0),
+    /**
+     * Indicates that the {@code verification_type_info} union's active member
+     * is an {@code Integer_variable_info} structure.
+     */
     INTEGER(1),
+    /**
+     * Indicates that the {@code verification_type_info} union's active member
+     * is a {@code Float_variable_info} structure.
+     */
     FLOAT(2),
+    /**
+     * Indicates that the {@code verification_type_info} union's active member
+     * is a {@code Null_variable_info} structure.
+     */
     NULL(5),
+    /**
+     * Indicates that the {@code verification_type_info} union's active member
+     * is an {@code UninitializedThis_variable_info} structure.
+     */
     UNINITIALIZED_THIS(6),
+    /**
+     * Indicates that the {@code verification_type_info} union's active member
+     * is an {@code Object_variable_info} structure.
+     */
     OBJECT(7),
+    /**
+     * Indicates that the {@code verification_type_info} union's active member
+     * is an {@code Uninitialized_variable_info} structure.
+     */
     UNINITIALIZED(8),
+    /**
+     * Indicates that the {@code verification_type_info} union's active member
+     * is a {@code Long_variable_info} structure.
+     */
     LONG(4),
+    /**
+     * Indicates that the {@code verification_type_info} union's active member
+     * is a {@code Double_variable_info} structure.
+     */
     DOUBLE(3);
 
     //
