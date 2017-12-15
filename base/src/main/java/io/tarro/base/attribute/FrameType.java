@@ -24,7 +24,6 @@ SOFTWARE.
 
 package io.tarro.base.attribute;
 
-import static java.lang.String.format;
 import static java.util.Arrays.stream;
 import static java.util.stream.IntStream.rangeClosed;
 
