@@ -311,7 +311,7 @@ final class ByteCodeValidator {
     }
 
     private ByteCodeFormatException badJumpOffset(final int position, final String format, final Object... args) {
-        final int opcodeByte = bytecode[position];
+        final int opcodeByte = bytecode[position] & 0xff;
         return instructionFormatException(position, Opcode.forUnsignedByte(opcodeByte), format, args);
     }
 }
