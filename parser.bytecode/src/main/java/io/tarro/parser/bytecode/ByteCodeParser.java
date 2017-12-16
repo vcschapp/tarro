@@ -494,9 +494,20 @@ public final class ByteCodeParser {
     }
 
     private void padding(final int position, final Opcode opcode) {
-        final int padding = (4 - (position & 3)) & 3;
+        // `position` is the location of the `opcode` byte, not the position of
+        // the subsequent byte. So, taking `n` to be the high-order 30 bits of
+        // `position`, we have:
+        //  +-----------------+------------------+--------------------+
+        //  | opcode position | operand position | 4 - (position & 3) |
+        //  +-----------------+------------------+--------------------+
+        //  |              n0 |           (n+4)0 |                  4 |
+        //  |              n1 |           (n+3)0 |                  3 |
+        //  |              n2 |           (n+2)0 |                  2 |
+        //  |              n3 |           (n+1)0 |                  1 |
+        //  +-----------------+------------------+--------------------+
+        final int padding = 4 - (position & 3);
         try {
-            bytecode.position(position + 1 + padding);
+            bytecode.position(position + padding);
         } catch (final IllegalArgumentException e) {
             throw instructionFormatException(position, opcode, "not enough bytes remain for padding (%d required but %d remain)",
                     padding, bytecode.remaining());
