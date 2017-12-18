@@ -518,7 +518,7 @@ public final class ByteCodeParser {
     private ByteBuffer tableOperand(final int position, final Opcode opcode, final long numEntries, final long entrySize) {
         final long tableSize = numEntries * entrySize;
         final long remaining = bytecode.remaining();
-        if (remaining <= tableSize) {
+        if (tableSize <= remaining) {
             return bytecode.slice().asReadOnlyBuffer();
         } else {
             throw instructionFormatException(position, opcode, "only %d bytes are left for the table (from position %d) but %d are required",
