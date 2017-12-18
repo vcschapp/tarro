@@ -112,7 +112,7 @@ public final class FlagMixRule<F extends Enum<F> & Flag> {
     static <F extends Enum<F> & Flag> FlagMixRule<F> allOf(final String entityName, final F... requiredFlags) {
         final int requiredMask = mask(requiredFlags);
         final String reason = joinGrammatically(requiredFlags, "All of", "and", "must be set on", entityName);
-        return rule(set -> requiredMask == (mask(set) & requiredMask), reason);
+        return rule(set -> requiredMask != (mask(set) & requiredMask), reason);
     }
 
     static <F extends Enum<F> & Flag> FlagMixRule<F> exactlyOneOf(final String entityName, final F firstFlag,
