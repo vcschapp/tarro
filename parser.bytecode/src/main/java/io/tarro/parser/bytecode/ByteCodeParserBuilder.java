@@ -60,7 +60,7 @@ public final class ByteCodeParserBuilder {
         lookupSwitchVisitor = (position, defaultValue, numPairs, matchOffsetPairs) -> { };
         noOperandInstructionVisitor = (position, opcode) -> { };
         oneOperandInstructionVisitor = (position, opcode, operand) -> { };
-        tableSwitchVisitor = (position, lo, hi, jumpOffsets) -> { };
+        tableSwitchVisitor = (position, defaultOffset, lowIndex, highIndex, jumpOffsets) -> { };
         twoOperandInstructionVisitor = (position, opcode, operand1, operand2) -> { };
     }
 

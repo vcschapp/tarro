@@ -202,14 +202,16 @@ final class ByteCodeValidator {
         }
     }
 
-    private void validateTableSwitchInstruction(final int position, final int low, final int high,
-            final ByteBuffer jumpOffsets) {
+    private void validateTableSwitchInstruction(final int position, final int defaultOffset,
+                                                final int lowIndex, final int highIndex,
+                                                final ByteBuffer jumpOffsets) {
         recordJumpTarget(position);
-        int i = low;
+        recordJumpSource(position, defaultOffset);
+        int i = lowIndex;
         do {
             final long offset = jumpOffsets.getInt();
             recordJumpSource(position, offset);
-        } while (i++ <= high);
+        } while (i++ <= highIndex);
     }
 
     private void validateLocalVariableIndex(final int position, final Opcode opcode, final int localVariableIndex) {

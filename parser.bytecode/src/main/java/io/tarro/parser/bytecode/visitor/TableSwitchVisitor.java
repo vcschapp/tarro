@@ -34,5 +34,6 @@ import java.nio.ByteBuffer;
  */
 @FunctionalInterface
 public interface TableSwitchVisitor extends Visitor {
-    void visit(int position, int low, int high, ByteBuffer jumpOffsets);
+    void visit(int position, int defaultOffset, int lowIndex, int highIndex,
+               ByteBuffer jumpOffsets);
 }

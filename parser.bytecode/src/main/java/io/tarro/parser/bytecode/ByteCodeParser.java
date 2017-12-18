@@ -407,22 +407,23 @@ public final class ByteCodeParser {
 
     private void tableswitch(final int position) {
         padding(position, TABLESWITCH);
-        final long low, high;
+        final int defaultOffset = bytecode.getInt();
+        final long lowIndex, highIndex;
         int operandIndex = 0;
         try {
-            low = bytecode.getInt();
+            lowIndex = bytecode.getInt();
             operandIndex = 1;
-            high = bytecode.getInt();
+            highIndex = bytecode.getInt();
         } catch (final BufferUnderflowException e) {
             throw missingOperandData(position, TABLESWITCH, operandIndex, e);
         }
-        final long numJumps = high - low + 1L;
+        final long numJumps = highIndex - lowIndex + 1L;
         if (0L < numJumps) {
             final ByteBuffer jumpOffsets = tableOperand(position, TABLESWITCH, numJumps, 4L);
-            tableSwitchVisitor.visit(position, (int)low, (int)high, jumpOffsets);
+            tableSwitchVisitor.visit(position, defaultOffset, (int)lowIndex, (int)highIndex, jumpOffsets);
         } else {
-            assert high < low;
-            throw instructionFormatException(position, TABLESWITCH, "low must be less than or equal to high, but %d > %d", low, high);
+            assert highIndex < lowIndex;
+            throw instructionFormatException(position, TABLESWITCH, "lowIndex must be less than or equal to highIndex, but %d > %d", lowIndex, highIndex);
         }
     }
 
@@ -539,7 +540,7 @@ public final class ByteCodeParser {
             formatArgs = args;
             cause = null;
         }
-        return new ByteCodeFormatException(format(format, formatArgs), null, position);
+        return new ByteCodeFormatException(format(format, formatArgs), null, position); // FIXME: Fail to use cause
     }
 
     private static ByteCodeFormatException instructionFormatException(final int position, final Object opcode, final String format, final Object...args) {
