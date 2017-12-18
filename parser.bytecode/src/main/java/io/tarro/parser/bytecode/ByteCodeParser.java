@@ -519,6 +519,7 @@ public final class ByteCodeParser {
         final long tableSize = numEntries * entrySize;
         final long remaining = bytecode.remaining();
         if (tableSize <= remaining) {
+            // TODO: I doubt we care about the asReadOnlyBuffer() thing because if we received an R/O buffer then slice() is R/O too. Better would be to limit its size to tableSize.
             return bytecode.slice().asReadOnlyBuffer();
         } else {
             throw instructionFormatException(position, opcode, "only %d bytes are left for the table (from position %d) but %d are required",
