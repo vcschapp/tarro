@@ -430,7 +430,7 @@ public final class ByteCodeParser {
     private void wide(final int position) {
         final int opcodeByte;
         try {
-            opcodeByte = bytecode.get() & 0xffffff00;
+            opcodeByte = bytecode.get() & 0xff;
         } catch (final BufferUnderflowException e) {
             throw missingOperandData(position, WIDE, 0, e);
         }
