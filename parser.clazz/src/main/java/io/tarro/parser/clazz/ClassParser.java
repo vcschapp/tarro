@@ -429,7 +429,7 @@ public final class ClassParser {
     }
 
     private void classAccessFlags() throws IOException {
-        final EnumSet<ClassAccessFlag> set = readFlags(ClassAccessFlag.class, ClassAccessFlag.rules(), "access_flags");
+        final EnumSet<ClassAccessFlag> set = readFlags(ClassAccessFlag.class, ClassAccessFlag.basicRules(), "access_flags");
         classAccessFlagsVisitor.visit(set);
         isInterface = set.contains(ClassAccessFlag.INTERFACE);
     }
@@ -1196,7 +1196,7 @@ public final class ClassParser {
 
     private EnumSet<InnerClassAccessFlag> innerClassAccessFlags() throws IOException {
         return readFlags(InnerClassAccessFlag.class, emptyList(), "inner_class_access_flags");
-        // TODO: should we have validation rules for this? spec doesn't give any
+        // TODO: should we have validation basicRules for this? spec doesn't give any
     }
 
     @ArrayContext("line_number_table")

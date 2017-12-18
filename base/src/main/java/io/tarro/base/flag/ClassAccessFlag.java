@@ -33,9 +33,8 @@ import static io.tarro.base.flag.FlagMixRule.ifFirstThenNoneOfTheRest;
 import static io.tarro.base.flag.FlagMixRule.listify;
 import static io.tarro.base.flag.FlagMixRule.notBothOf;
 import static java.lang.Integer.bitCount;
-import static java.util.Arrays.asList;
-import static java.util.Collections.unmodifiableList;
 import static io.tarro.base.flag.FlagMixRule.rule;
+import static java.util.Collections.singletonList;
 
 /**
  * Enumerates the flags available in the top-level {@code access_flags} field of
@@ -110,11 +109,23 @@ public enum ClassAccessFlag implements Flag {
     //
 
     // TODO: Annotate something about deliberately "optimistic" thread-safe lazy
-    public static final List<FlagMixRule<ClassAccessFlag>> rules() {
-        if (null != RULES) {
-            return RULES;
+    // TODO: Note this is all Java versions.
+    public static final List<FlagMixRule<ClassAccessFlag>> basicRules() {
+        if (null != BASIC_RULES) {
+            return BASIC_RULES;
         } else {
-            return RULES = listify(makeRules());
+            return BASIC_RULES = listify(makeBasicRules());
+        }
+    }
+
+    // TODO: Note for now this is Java 6+. If we have to shard further on
+    //       version then we should accept a version range or something as a
+    //       parameter.
+    public static final List<FlagMixRule<ClassAccessFlag >> additionalRules() {
+        if (null != ADDITIONAL_RULES) {
+            return ADDITIONAL_RULES;
+        } else {
+            return ADDITIONAL_RULES = singletonList(makeAdditionalRule());
         }
     }
 
@@ -122,10 +133,17 @@ public enum ClassAccessFlag implements Flag {
     // INTERNALS
     //
 
-    private static FlagMixRule<ClassAccessFlag>[] makeRules() {
+    private static List<FlagMixRule<ClassAccessFlag>> BASIC_RULES;
+
+    private static FlagMixRule<ClassAccessFlag>[] makeBasicRules() {
+        // Based on the Java virtual machine specification, one would expect the
+        // rule `ifFirstThenAlsoSecond("a class", INTERFACE, ABSTRACT)` to be
+        // part of this rule set. However, while that rule has *technically*
+        // existed since Java 1.0.2, it only started being enforced in Java 6,
+        // so we don't include it in the base rule set.
+        //     See: https://stackoverflow.com/a/47871486/1911388
         return new FlagMixRule[] {
                 notBothOf("a class", FINAL, ABSTRACT),
-                ifFirstThenAlsoSecond("a class", INTERFACE, ABSTRACT),
                 ifFirstThenNoneOfTheRest("a class", INTERFACE, FINAL, SUPER, ENUM),
                 ifFirstThenAlsoSecond("a class", ANNOTATION, INTERFACE),
                 rule(set -> set.contains(MODULE) && 1 < set.size(),
@@ -133,5 +151,10 @@ public enum ClassAccessFlag implements Flag {
         };
     }
 
-    private static List<FlagMixRule<ClassAccessFlag>> RULES;
+    private static List<FlagMixRule<ClassAccessFlag>> ADDITIONAL_RULES;
+
+    private static FlagMixRule<ClassAccessFlag> makeAdditionalRule() {
+        return ifFirstThenAlsoSecond("a class", INTERFACE, ABSTRACT);
+    }
+
 }
