@@ -540,7 +540,7 @@ public final class ByteCodeParser {
             formatArgs = args;
             cause = null;
         }
-        return new ByteCodeFormatException(format(format, formatArgs), null, position); // FIXME: Fail to use cause
+        return new ByteCodeFormatException(format(format, formatArgs), cause, position);
     }
 
     private static ByteCodeFormatException instructionFormatException(final int position, final Object opcode, final String format, final Object...args) {
