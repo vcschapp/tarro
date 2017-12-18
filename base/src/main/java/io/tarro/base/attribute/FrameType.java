@@ -306,10 +306,10 @@ public enum FrameType {
     private static final FrameType[] BY_VALUE = new FrameType[256];
 
     static {
-        stream(values()).forEach(frameType -> {
+        stream(values()).forEach(frameType ->
             rangeClosed(frameType.minValue, frameType.maxValue)
-                .forEach(i -> BY_VALUE[i] = frameType);
-        });
+                .forEach(i -> BY_VALUE[i] = frameType)
+        );
     }
 
     private static IllegalArgumentException noSuchFrameType(final String message) {
