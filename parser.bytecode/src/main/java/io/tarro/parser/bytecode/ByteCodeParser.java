@@ -264,7 +264,7 @@ public final class ByteCodeParser {
     }
 
     private void badOpcode(final int position, final int opcodeByte) {
-        throw bytecodeFormatException(position, "Invalid opcode: 0x%02h", opcodeByte);
+        throw bytecodeFormatException(position, "Invalid opcode: 0x%02x", opcodeByte);
     }
 
     private void noOperand(final int position, final Opcode opcode) {
