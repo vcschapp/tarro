@@ -211,7 +211,7 @@ final class ByteCodeValidator {
         do {
             final long offset = jumpOffsets.getInt();
             recordJumpSource(position, offset);
-        } while (i++ <= highIndex);
+        } while (++i <= highIndex);
     }
 
     private void validateLocalVariableIndex(final int position, final Opcode opcode, final int localVariableIndex) {
