@@ -183,7 +183,9 @@ public final class FlagMixRule<F extends Enum<F> & Flag> {
 
     private static String joinGrammatically(final Flag[] flags,
             final String prefix, final String conjunction, final String... suffixes) {
-        final StringBuilder builder = new StringBuilder(128).append(prefix);
+        final StringBuilder builder = new StringBuilder(128)
+                .append(prefix)
+                .append(' ');
         builder.append(flags[0].getFlagName());
         // ---------------------------------------------------------------------
         // What the if-branch loop does:
@@ -198,22 +200,23 @@ public final class FlagMixRule<F extends Enum<F> & Flag> {
             builder.append(", ");
             for (i = 1; i < flags.length - 1; ++i) {
                 builder.append(flags[i].getFlagName());
-                builder.append(", ");
+                builder.append(',');
             }
         } else {
-            builder.append(' ');
             i = 1;
         }
         // ---------------------------------------------------------------------
         // Add the last item prefixed by the conjunction.
         // ---------------------------------------------------------------------
-        builder.append(conjunction);
-        builder.append(flags[i].getFlagName());
+        builder.append(' ')
+                .append(conjunction)
+                .append(' ')
+                .append(flags[i].getFlagName());
         // ---------------------------------------------------------------------
         // Add the suffixes and return.
         // ---------------------------------------------------------------------
         for (final String suffix : suffixes) {
-            builder.append(suffix);
+            builder.append(' ').append(suffix);
         }
         return builder.toString();
     }
