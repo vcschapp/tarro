@@ -110,6 +110,9 @@ public enum ClassAccessFlag implements Flag {
 
     // TODO: Annotate something about deliberately "optimistic" thread-safe lazy
     // TODO: Note this is all Java versions.
+    // TODO: I think we want to re-write the basicRules()/additionalRules()
+    //       interface to be simpler. Just rulesFor(ClassFileVersion) and have
+    //       it return the complete ruleset that can be enforced at that version.
     public static final List<FlagMixRule<ClassAccessFlag>> basicRules() {
         if (null != BASIC_RULES) {
             return BASIC_RULES;
