@@ -24,7 +24,7 @@ SOFTWARE.
 
 package io.tarro.parser.bytecode.visitor;
 
-import io.tarro.base.bytecode.Opcode;
+import io.tarro.base.bytecode.NoOperandOpcode;
 import io.tarro.base.visitor.Visitor;
 
 /**
@@ -34,5 +34,5 @@ import io.tarro.base.visitor.Visitor;
  */
 @FunctionalInterface
 public interface NoOperandInstructionVisitor extends Visitor {
-    void visit(int position, Opcode opcode);
+    void visit(int position, NoOperandOpcode opcode);
 }

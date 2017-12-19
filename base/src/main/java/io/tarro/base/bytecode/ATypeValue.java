@@ -26,11 +26,11 @@ package io.tarro.base.bytecode;
 
 /**
  * Contains the (primitive) array type codes used by the <em>atype</em> operand
- * of the {@linkplain Opcode#NEWARRAY} instruction.
+ * of the {@linkplain OneOperandOpcode#NEWARRAY} instruction.
  *
  * @author Victor Schappert
  * @since 20171128
- * @see Opcode#NEWARRAY
+ * @see OneOperandOpcode#NEWARRAY
  * @see OperandType#ATYPE_BYTE
  */
 public final class ATypeValue {

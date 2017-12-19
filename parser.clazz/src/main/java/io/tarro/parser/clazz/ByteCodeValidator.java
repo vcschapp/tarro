@@ -26,8 +26,10 @@ package io.tarro.parser.clazz;
 
 import io.tarro.base.InvalidConstantPoolIndexException;
 import io.tarro.base.bytecode.ATypeValue;
+import io.tarro.base.bytecode.OneOperandOpcode;
 import io.tarro.base.bytecode.Opcode;
 import io.tarro.base.bytecode.OperandType;
+import io.tarro.base.bytecode.TwoOperandOpcode;
 import io.tarro.parser.bytecode.ByteCodeFormatException;
 import io.tarro.parser.bytecode.ByteCodeParser;
 
@@ -37,8 +39,8 @@ import java.util.stream.Stream;
 import static io.tarro.base.InvalidConstantPoolIndexException.lessThanOne;
 import static io.tarro.base.InvalidConstantPoolIndexException.notLessThanCount;
 import static io.tarro.base.bytecode.ATypeValue.isValidATypeValue;
-import static io.tarro.base.bytecode.Opcode.LOOKUPSWITCH;
-import static io.tarro.base.bytecode.Opcode.NEWARRAY;
+import static io.tarro.base.bytecode.OneOperandOpcode.NEWARRAY;
+import static io.tarro.base.bytecode.VariableOperandOpcode.LOOKUPSWITCH;
 import static java.lang.String.format;
 import static java.util.Arrays.fill;
 import static java.util.Arrays.stream;
@@ -137,9 +139,9 @@ final class ByteCodeValidator {
         }
     }
 
-    private void validateOneOperandInstruction(final int position, final Opcode opcode,
+    private void validateOneOperandInstruction(final int position, final OneOperandOpcode opcode,
             int operand) {
-        final OperandType operandType = opcode.getOperandTypes().get(0);
+        final OperandType operandType = opcode.getOperandType();
         switch (operandType) {
         case BRANCH_OFFSET_SHORT:
         case BRANCH_OFFSET_INT:
@@ -156,23 +158,25 @@ final class ByteCodeValidator {
         case CONSTANT_POOL_INDEX_CLASS_METHOD_REF_SHORT:
         case CONSTANT_POOL_INDEX_INTERFACE_METHOD_REF_SHORT:
         case CONSTANT_POOL_INDEX_EITHER_METHOD_REF_SHORT:
-        case CONSTANT_POOL_INDEX_INVOKE_DYNAMIC_SHORT:
+        case CONSTANT_POOL_INDEX_INVOKEDYNAMIC_SHORT:
             validateConstantPoolIndex(position, opcode, operand);
             break;
         case ATYPE_BYTE:
             validateAType(position, operand);
         default:
+            // FIXME: Handle all cases explicitly and "default" should throw...
             break;
         }
         recordJumpTarget(position);
     }
 
-    private void validateTwoOperandInstruction(final int position, final Opcode opcode, final int operand1,
-            final int operand2) {
+    private void validateTwoOperandInstruction(final int position, final TwoOperandOpcode opcode, final int operand1,
+                                               final int operand2) {
         switch (opcode) {
         case IINC:
             validateLocalVariableIndex(position, opcode, operand1);
             break;
+        // FIXME: Handle InvokeInterface
         case MULTIANEWARRAY:
             validateConstantPoolIndex(position, opcode, operand1);
             break;

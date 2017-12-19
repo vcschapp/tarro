@@ -25,6 +25,8 @@ SOFTWARE.
 package io.tarro.parser.bytecode;
 
 import io.tarro.base.bytecode.ATypeValue;
+import io.tarro.base.bytecode.NoOperandOpcode;
+import io.tarro.base.bytecode.OneOperandOpcode;
 import io.tarro.base.bytecode.Opcode;
 import io.tarro.base.bytecode.OpcodeValue;
 import io.tarro.base.bytecode.OperandType;
@@ -39,12 +41,13 @@ import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
 import java.util.stream.Stream;
 
-import static io.tarro.base.bytecode.Opcode.IINC;
-import static io.tarro.base.bytecode.Opcode.INVOKEDYNAMIC;
-import static io.tarro.base.bytecode.Opcode.INVOKEINTERFACE;
-import static io.tarro.base.bytecode.Opcode.LOOKUPSWITCH;
-import static io.tarro.base.bytecode.Opcode.TABLESWITCH;
-import static io.tarro.base.bytecode.Opcode.WIDE;
+import static io.tarro.base.bytecode.OneOperandOpcode.INVOKEDYNAMIC;
+import static io.tarro.base.bytecode.TwoOperandOpcode.IINC;
+import static io.tarro.base.bytecode.TwoOperandOpcode.INVOKEINTERFACE;
+import static io.tarro.base.bytecode.TwoOperandOpcode.MULTIANEWARRAY;
+import static io.tarro.base.bytecode.VariableOperandOpcode.LOOKUPSWITCH;
+import static io.tarro.base.bytecode.VariableOperandOpcode.TABLESWITCH;
+import static io.tarro.base.bytecode.VariableOperandOpcode.WIDE;
 import static java.lang.String.format;
 import static java.nio.ByteOrder.BIG_ENDIAN;
 import static java.util.Arrays.copyOfRange;
@@ -245,68 +248,282 @@ public final class ByteCodeParser {
         while (bytecode.hasRemaining()) {
             final int position = bytecode.position();
             final int opcodeByte = bytecode.get() & 0xff;
-            final Opcode opcode = Opcode.forUnsignedByte(opcodeByte);
-            if (null != opcode) {
-                instruction(position, opcode);
-            } else {
+            instruction(position, opcodeByte);
+        }
+    }
+
+    private void instruction(final int position, final int opcodeByte) {
+        switch (opcodeByte) {
+            case OpcodeValue.AALOAD:
+            case OpcodeValue.AASTORE:
+            case OpcodeValue.ACONST_NULL:
+            case OpcodeValue.ALOAD_0:
+            case OpcodeValue.ALOAD_1:
+            case OpcodeValue.ALOAD_2:
+            case OpcodeValue.ALOAD_3:
+            case OpcodeValue.ARETURN:
+            case OpcodeValue.ARRAYLENGTH:
+            case OpcodeValue.ASTORE_0:
+            case OpcodeValue.ASTORE_1:
+            case OpcodeValue.ASTORE_2:
+            case OpcodeValue.ASTORE_3:
+            case OpcodeValue.ATHROW:
+            case OpcodeValue.BALOAD:
+            case OpcodeValue.BASTORE:
+            case OpcodeValue.BREAKPOINT:
+            case OpcodeValue.CALOAD:
+            case OpcodeValue.CASTORE:
+            case OpcodeValue.D2F:
+            case OpcodeValue.D2I:
+            case OpcodeValue.D2L:
+            case OpcodeValue.DADD:
+            case OpcodeValue.DALOAD:
+            case OpcodeValue.DASTORE:
+            case OpcodeValue.DCMPG:
+            case OpcodeValue.DCMPL:
+            case OpcodeValue.DCONST_0:
+            case OpcodeValue.DCONST_1:
+            case OpcodeValue.DDIV:
+            case OpcodeValue.DLOAD_0:
+            case OpcodeValue.DLOAD_1:
+            case OpcodeValue.DLOAD_2:
+            case OpcodeValue.DLOAD_3:
+            case OpcodeValue.DMUL:
+            case OpcodeValue.DNEG:
+            case OpcodeValue.DREM:
+            case OpcodeValue.DRETURN:
+            case OpcodeValue.DSTORE_0:
+            case OpcodeValue.DSTORE_1:
+            case OpcodeValue.DSTORE_2:
+            case OpcodeValue.DSTORE_3:
+            case OpcodeValue.DSUB:
+            case OpcodeValue.DUP:
+            case OpcodeValue.DUP_X1:
+            case OpcodeValue.DUP_X2:
+            case OpcodeValue.DUP2:
+            case OpcodeValue.DUP2_X1:
+            case OpcodeValue.DUP2_X2:
+            case OpcodeValue.F2D:
+            case OpcodeValue.F2I:
+            case OpcodeValue.F2L:
+            case OpcodeValue.FADD:
+            case OpcodeValue.FALOAD:
+            case OpcodeValue.FASTORE:
+            case OpcodeValue.FCMPG:
+            case OpcodeValue.FCMPL:
+            case OpcodeValue.FCONST_0:
+            case OpcodeValue.FCONST_1:
+            case OpcodeValue.FCONST_2:
+            case OpcodeValue.FDIV:
+            case OpcodeValue.FLOAD_0:
+            case OpcodeValue.FLOAD_1:
+            case OpcodeValue.FLOAD_2:
+            case OpcodeValue.FLOAD_3:
+            case OpcodeValue.FMUL:
+            case OpcodeValue.FNEG:
+            case OpcodeValue.FREM:
+            case OpcodeValue.FRETURN:
+            case OpcodeValue.FSTORE_0:
+            case OpcodeValue.FSTORE_1:
+            case OpcodeValue.FSTORE_2:
+            case OpcodeValue.FSTORE_3:
+            case OpcodeValue.FSUB:
+            case OpcodeValue.I2B:
+            case OpcodeValue.I2C:
+            case OpcodeValue.I2D:
+            case OpcodeValue.I2F:
+            case OpcodeValue.I2L:
+            case OpcodeValue.I2S:
+            case OpcodeValue.IADD:
+            case OpcodeValue.IALOAD:
+            case OpcodeValue.IAND:
+            case OpcodeValue.IASTORE:
+            case OpcodeValue.ICONST_M1:
+            case OpcodeValue.ICONST_0:
+            case OpcodeValue.ICONST_1:
+            case OpcodeValue.ICONST_2:
+            case OpcodeValue.ICONST_3:
+            case OpcodeValue.ICONST_4:
+            case OpcodeValue.ICONST_5:
+            case OpcodeValue.IDIV:
+            case OpcodeValue.ILOAD_0:
+            case OpcodeValue.ILOAD_1:
+            case OpcodeValue.ILOAD_2:
+            case OpcodeValue.ILOAD_3:
+            case OpcodeValue.IMPDEP1:
+            case OpcodeValue.IMPDEP2:
+            case OpcodeValue.IMUL:
+            case OpcodeValue.INEG:
+            case OpcodeValue.IOR:
+            case OpcodeValue.IREM:
+            case OpcodeValue.IRETURN:
+            case OpcodeValue.ISHL:
+            case OpcodeValue.ISHR:
+            case OpcodeValue.ISTORE_0:
+            case OpcodeValue.ISTORE_1:
+            case OpcodeValue.ISTORE_2:
+            case OpcodeValue.ISTORE_3:
+            case OpcodeValue.ISUB:
+            case OpcodeValue.IUSHR:
+            case OpcodeValue.IXOR:
+            case OpcodeValue.L2D:
+            case OpcodeValue.L2F:
+            case OpcodeValue.L2I:
+            case OpcodeValue.LADD:
+            case OpcodeValue.LALOAD:
+            case OpcodeValue.LAND:
+            case OpcodeValue.LASTORE:
+            case OpcodeValue.LCMP:
+            case OpcodeValue.LCONST_0:
+            case OpcodeValue.LCONST_1:
+            case OpcodeValue.LDIV:
+            case OpcodeValue.LLOAD_0:
+            case OpcodeValue.LLOAD_1:
+            case OpcodeValue.LLOAD_2:
+            case OpcodeValue.LLOAD_3:
+            case OpcodeValue.LMUL:
+            case OpcodeValue.LNEG:
+            case OpcodeValue.LOR:
+            case OpcodeValue.LREM:
+            case OpcodeValue.LRETURN:
+            case OpcodeValue.LSHL:
+            case OpcodeValue.LSHR:
+            case OpcodeValue.LSTORE_0:
+            case OpcodeValue.LSTORE_1:
+            case OpcodeValue.LSTORE_2:
+            case OpcodeValue.LSTORE_3:
+            case OpcodeValue.LSUB:
+            case OpcodeValue.LUSHR:
+            case OpcodeValue.LXOR:
+            case OpcodeValue.MONITORENTER:
+            case OpcodeValue.MONITOREXIT:
+            case OpcodeValue.NOP:
+            case OpcodeValue.POP:
+            case OpcodeValue.POP2:
+            case OpcodeValue.RETURN:
+            case OpcodeValue.SALOAD:
+            case OpcodeValue.SASTORE:
+            case OpcodeValue.SWAP:
+                noOperand(position, opcodeByte);
+                break;
+            case OpcodeValue.ALOAD:
+            case OpcodeValue.ANEWARRAY:
+            case OpcodeValue.ASTORE:
+            case OpcodeValue.BIPUSH:
+            case OpcodeValue.CHECKCAST:
+            case OpcodeValue.DLOAD:
+            case OpcodeValue.DSTORE:
+            case OpcodeValue.FLOAD:
+            case OpcodeValue.FSTORE:
+            case OpcodeValue.GETFIELD:
+            case OpcodeValue.GETSTATIC:
+            case OpcodeValue.GOTO:
+            case OpcodeValue.GOTO_W:
+            case OpcodeValue.IF_ACMPEQ:
+            case OpcodeValue.IF_ACMPNE:
+            case OpcodeValue.IF_ICMPEQ:
+            case OpcodeValue.IF_ICMPGE:
+            case OpcodeValue.IF_ICMPGT:
+            case OpcodeValue.IF_ICMPLE:
+            case OpcodeValue.IF_ICMPLT:
+            case OpcodeValue.IF_ICMPNE:
+            case OpcodeValue.IFEQ:
+            case OpcodeValue.IFGE:
+            case OpcodeValue.IFGT:
+            case OpcodeValue.IFLE:
+            case OpcodeValue.IFLT:
+            case OpcodeValue.IFNE:
+            case OpcodeValue.IFNONNULL:
+            case OpcodeValue.IFNULL:
+            case OpcodeValue.ILOAD:
+            case OpcodeValue.INSTANCEOF:
+            case OpcodeValue.INVOKESPECIAL:
+            case OpcodeValue.INVOKESTATIC:
+            case OpcodeValue.INVOKEVIRTUAL:
+            case OpcodeValue.ISTORE:
+            case OpcodeValue.JSR:
+            case OpcodeValue.JSR_W:
+            case OpcodeValue.LDC:
+            case OpcodeValue.LDC_W:
+            case OpcodeValue.LDC2_W:
+            case OpcodeValue.LLOAD:
+            case OpcodeValue.LSTORE:
+            case OpcodeValue.NEW:
+            case OpcodeValue.NEWARRAY:
+            case OpcodeValue.PUTFIELD:
+            case OpcodeValue.PUTSTATIC:
+            case OpcodeValue.RET:
+            case OpcodeValue.SIPUSH:
+                oneOperand(position, opcodeByte);
+                break;
+            case OpcodeValue.INVOKEDYNAMIC:
+                invokedynamic(position);
+                break;
+            case OpcodeValue.IINC:
+                iinc(position);
+                break;
+            case OpcodeValue.MULTIANEWARRAY:
+                multianewarray(position);
+                break;
+            case OpcodeValue.INVOKEINTERFACE:
+                invokeinterface(position);
+                break;
+            case OpcodeValue.LOOKUPSWITCH:
+                lookupswitch(position);
+                break;
+            case OpcodeValue.TABLESWITCH:
+                tableswitch(position);
+            case OpcodeValue.WIDE:
+                wide(position);
+            default:
                 badOpcode(position, opcodeByte);
-            }
+                break;
         }
     }
 
-    private void instruction(final int position, final Opcode opcode) {
-        switch (opcode.getNumOperands()) {
-        case 0: noOperand(position, opcode); break;
-        case 1: oneOperand(position, opcode); break;
-        case 2: twoOperands(position, opcode); break;
-        default: complexInstruction(position, opcode); break;
-        }
-    }
-
-    private void badOpcode(final int position, final int opcodeByte) {
-        throw bytecodeFormatException(position, "Invalid opcode: 0x%02x", opcodeByte);
-    }
-
-    private void noOperand(final int position, final Opcode opcode) {
+    private void noOperand(final int position, final int opcodeByte) {
+        final NoOperandOpcode opcode = NoOperandOpcode.forUnsignedByte(opcodeByte);
         noOperandInstructionVisitor.visit(position, opcode);
     }
 
-    private void oneOperand(final int position, final Opcode opcode) {
-        final OperandType operandType = opcode.getOperandTypes().get(0);
+    private void oneOperand(final int position, final int opcodeByte) {
+        final OneOperandOpcode opcode = OneOperandOpcode.forUnsignedByte(opcodeByte);
+        final OperandType operandType = opcode.getOperandType();
         final int operand;
         try {
             switch (operandType) {
-            case SIGNED_VALUE_BYTE:
-                operand = bytecode.get();
-                break;
-            case ATYPE_BYTE:
-            case UNSIGNED_VALUE_BYTE:
-            case LOCAL_VARIABLE_INDEX_BYTE:
-            case CONSTANT_POOL_INDEX_CONSTANT_BYTE:
-                operand = bytecode.get() & 0xff;
-                break;
-            case SIGNED_VALUE_SHORT:
-            case BRANCH_OFFSET_SHORT:
-            case LOCAL_VARIABLE_INDEX_SHORT:
-                operand = bytecode.getShort();
-                break;
-            case CONSTANT_POOL_INDEX_CONSTANT_SHORT:
-            case CONSTANT_POOL_INDEX_CONSTANT2_SHORT:
-            case CONSTANT_POOL_INDEX_CLASS_SHORT:
-            case CONSTANT_POOL_INDEX_FIELD_REF_SHORT:
-            case CONSTANT_POOL_INDEX_CLASS_METHOD_REF_SHORT:
-            case CONSTANT_POOL_INDEX_INTERFACE_METHOD_REF_SHORT:
-            case CONSTANT_POOL_INDEX_EITHER_METHOD_REF_SHORT:
-            case CONSTANT_POOL_INDEX_INVOKE_DYNAMIC_SHORT:
-                operand = bytecode.getShort() & 0xffff;
-                break;
-            case SIGNED_VALUE_INT:
-            case BRANCH_OFFSET_INT:
-                operand = bytecode.getInt();
-                break;
-            default:
-                throw internalError("Opcode %s operand type %s not expected here",
-                        opcode, operandType);
+                case SIGNED_VALUE_BYTE:
+                    operand = bytecode.get();
+                    break;
+                case ATYPE_BYTE:
+                case UNSIGNED_VALUE_BYTE:
+                case LOCAL_VARIABLE_INDEX_BYTE:
+                case CONSTANT_POOL_INDEX_CONSTANT_BYTE:
+                    operand = bytecode.get() & 0xff;
+                    break;
+                case SIGNED_VALUE_SHORT:
+                case BRANCH_OFFSET_SHORT:
+                case LOCAL_VARIABLE_INDEX_SHORT:
+                    operand = bytecode.getShort();
+                    break;
+                case CONSTANT_POOL_INDEX_CONSTANT_SHORT:
+                case CONSTANT_POOL_INDEX_CONSTANT2_SHORT:
+                case CONSTANT_POOL_INDEX_CLASS_SHORT:
+                case CONSTANT_POOL_INDEX_FIELD_REF_SHORT:
+                case CONSTANT_POOL_INDEX_CLASS_METHOD_REF_SHORT:
+                case CONSTANT_POOL_INDEX_INTERFACE_METHOD_REF_SHORT:
+                case CONSTANT_POOL_INDEX_EITHER_METHOD_REF_SHORT:
+                    operand = bytecode.getShort() & 0xffff;
+                    break;
+                case CONSTANT_POOL_INDEX_INVOKEDYNAMIC_SHORT:
+                    assert INVOKEDYNAMIC == opcode;
+                    throw unexpectedOpcode(opcode);
+                case SIGNED_VALUE_INT:
+                case BRANCH_OFFSET_INT:
+                    operand = bytecode.getInt();
+                    break;
+                default:
+                    throw unexpectedOpcode(opcode);
             }
         } catch (final BufferUnderflowException e) {
             throw missingOperandData(position, opcode, 0, e);
@@ -314,50 +531,8 @@ public final class ByteCodeParser {
         oneOperandInstructionVisitor.visit(position, opcode, operand);
     }
 
-    private void twoOperands(final int position, final Opcode opcode) {
-        final int operand1, operand2;
-        int operandIndex = 0;
-        try {
-            switch (opcode) {
-            case IINC:
-                operand1 = bytecode.get() & 0xff;
-                operandIndex = 1;
-                operand2 = bytecode.get();
-                break;
-            case MULTIANEWARRAY:
-                operand1 = bytecode.getShort() & 0xffff;
-                operandIndex = 1;
-                operand2 = bytecode.get() & 0xff;
-                break;
-            default:
-                throw unexpectedOpcode(opcode);
-            }
-        } catch (final BufferUnderflowException e) {
-            throw missingOperandData(position, opcode, operandIndex, e);
-        }
-        twoOperandInstructionVisitor.visit(position, opcode, operand1, operand2);
-    }
-
-    private void complexInstruction(final int position, final Opcode opcode) {
-        switch (opcode) {
-        case INVOKEDYNAMIC:
-            invokedynamic(position);
-            break;
-        case INVOKEINTERFACE:
-            invokeinterface(position);
-            break;
-        case LOOKUPSWITCH:
-            lookupswitch(position);
-            break;
-        case TABLESWITCH:
-            tableswitch(position);
-            break;
-        case WIDE:
-            wide(position);
-            break;
-        default:
-            throw unexpectedOpcode(opcode);
-        }
+    private void badOpcode(final int position, final int opcodeByte) {
+        throw bytecodeFormatException(position, "Invalid opcode: 0x%02x", opcodeByte);
     }
 
     private void invokedynamic(final int position) {
@@ -370,6 +545,32 @@ public final class ByteCodeParser {
         zero(position, INVOKEDYNAMIC, 1);
         zero(position, INVOKEDYNAMIC, 2);
         oneOperandInstructionVisitor.visit(position, INVOKEDYNAMIC, index);
+    }
+
+    private void iinc(final int position) {
+        int operandIndex = 0;
+        final int operand1, operand2;
+        try {
+            operand1 = bytecode.get() & 0xff;
+            operandIndex = 1;
+            operand2 = bytecode.get();
+        } catch (final BufferUnderflowException e) {
+            throw missingOperandData(position, IINC, operandIndex, e);
+        }
+        twoOperandInstructionVisitor.visit(position, IINC, operand1, operand2);
+    }
+
+    private void multianewarray(final int position) {
+        int operandIndex = 0;
+        final int operand1, operand2;
+        try {
+            operand1 = bytecode.getShort() & 0xffff;
+            operandIndex = 1;
+            operand2 = bytecode.get() & 0xff;
+        } catch (final BufferUnderflowException e) {
+            throw missingOperandData(position, MULTIANEWARRAY, operandIndex, e);
+        }
+        twoOperandInstructionVisitor.visit(position, MULTIANEWARRAY, operand1, operand2);
     }
 
     private void invokeinterface(final int position) {
@@ -445,7 +646,7 @@ public final class ByteCodeParser {
         case OpcodeValue.LSTORE:
         case OpcodeValue.DSTORE:
         case OpcodeValue.RET:
-            localVariableInstructionWide(position, Opcode.forUnsignedByte(opcodeByte));
+            localVariableInstructionWide(position, OneOperandOpcode.forUnsignedByte(opcodeByte));
             break;
         case OpcodeValue.IINC:
             iincWide(position);
@@ -456,7 +657,7 @@ public final class ByteCodeParser {
         }
     }
 
-    private void localVariableInstructionWide(final int position, final Opcode opcode) {
+    private void localVariableInstructionWide(final int position, final OneOperandOpcode opcode) {
         final int index;
         try {
             index = bytecode.getShort() & 0xffff;
@@ -486,9 +687,7 @@ public final class ByteCodeParser {
         } catch (final BufferUnderflowException e) {
             throw missingOperandData(position, opcode, operandIndex, e);
         }
-        if (0 == value) {
-            return;
-        } else {
+        if (0 != value) {
             throw instructionFormatException(position, opcode, "operand %d (%s) must be a zero byte",
                     operandIndex, opcode.getOperandTypes().get(operandIndex));
         }
@@ -563,10 +762,6 @@ public final class ByteCodeParser {
     }
 
     private static InternalError unexpectedOpcode(final Opcode opcode) {
-        return internalError("Unexpected opcode %s in switch", opcode);
-    }
-
-    private static InternalError internalError(final String format, final Object... args) {
-        return new InternalError(format(format, args));
+        return new InternalError(format("Unexpected opcode %s in switch", opcode));
     }
 }

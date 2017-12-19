@@ -28,11 +28,20 @@ import static io.tarro.base.InternalError.cantInstantiate;
 
 /**
  * <p>
+ * Container for all opcode values in the Java Virtual Machine instruction set,
+ * across all versions of the JVM.
+ * </p>
  *
+ * <p>
+ * This class is simply a container for integer constants representing each and
+ * every known opcode byte. This simplicity maybe useful for some applications,
+ * while others will benefit from using the {@link Opcode} interface and the
+ * enumerations which implement it.
  * </p>
  *
  * @author Victor Schappert
  * @since 20171130
+ * @see Opcode
  */
 public final class OpcodeValue {
 
