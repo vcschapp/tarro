@@ -26,13 +26,17 @@ TESTING
 DOCUMENTATION
 -------------
 
-1. Every package has a package-info.java.
-2. Each link is appropriately @link or @linkplain depending on whether it should
+1. Every module has a module-info.java.
+2. Every package has a package-info.java.
+3. Each link is appropriately @link or @linkplain depending on whether it should
    have @code or normal style.
-3. Grep the generated Javadoc to make sure there are no broken HTML tags
+4. Grep the generated Javadoc to make sure there are no broken HTML tags
    showing up as rendered angle brackets.
-4. Terms to use consistently:
-        Java Virtual Machine Specification (each word should be capitalized)
+5. Terms to use consistently:
+        - Java Virtual Machine Specification (each word should be capitalized)
+        - invokedynamic/invokeinterface/etc. If consistent with JVM spec, every
+          instance of these opcode "words"", including those embedded in
+          OTHER_CONSTANT_VALUES should omit the underscore.
 
 ----
 CODE
