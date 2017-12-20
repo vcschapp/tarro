@@ -133,7 +133,7 @@ open class ConstantContainerTest<T: Any>(val clazz: KClass<T>) {
  */
 @Disabled
 open class SingleBitMaskConstantContainerTest<T: Any>(
-        clazz: KClass<T>, val allField: KProperty<Number>) :
+        clazz: KClass<T>, private val allField: KProperty<Number>) :
         ConstantContainerTest<T>(clazz) {
 
     /**
