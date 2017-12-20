@@ -24,8 +24,6 @@ SOFTWARE.
 
 package io.tarro.base.bytecode;
 
-import static io.tarro.base.InternalError.cantInstantiate;
-
 /**
  * <p>
  * Container for all opcode values in the Java Virtual Machine instruction set,
@@ -44,14 +42,6 @@ import static io.tarro.base.InternalError.cantInstantiate;
  * @see Opcode
  */
 public final class OpcodeValue {
-
-    //
-    // CONSTRUCTORS
-    //
-
-    private OpcodeValue() {
-        throw cantInstantiate(OpcodeValue.class);
-    }
 
     //
     // PUBLIC CONSTANTS
@@ -262,4 +252,11 @@ public final class OpcodeValue {
     public static final int SWAP = 0x5f;
     public static final int TABLESWITCH = 0xaa;
     public static final int WIDE = 0xc4;
+
+    //
+    // CONSTRUCTORS
+    //
+
+    private OpcodeValue() {
+    }
 }

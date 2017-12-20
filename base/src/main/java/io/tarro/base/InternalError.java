@@ -38,7 +38,7 @@ public final class InternalError extends Error {
     // CONSTRUCTORS
     //
 
-    public InternalError(final String message) {
+    private InternalError(final String message) {
         super(message);
     }
 
@@ -51,11 +51,8 @@ public final class InternalError extends Error {
         return new InternalError(message);
     }
 
-    public static InternalError cantInstantiate(final Class<?> clazz) {
-        return internalError("Class %s is not instantiable", clazz);
-    }
-
     public static <E extends Enum<E>> InternalError unhandledConstant(final Object value) {
+        // TODO: Remove unused generic type parameter E
         return internalError("Unhandled value %s", value);
     }
 
