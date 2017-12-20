@@ -240,7 +240,7 @@ final class ByteCodeValidator {
     private void validateAType(final int position, final int atype) {
         if (! isValidATypeValue(atype)) {
             throw instructionFormatException(position, NEWARRAY, "bad atype operand (%d is not in range %d..%d)",
-                    atype, ATypeValue.MIN, ATypeValue.MAX);
+                    atype, ATypeValue.MIN_VALUE, ATypeValue.MAX_VALUE);
         }
     }
 

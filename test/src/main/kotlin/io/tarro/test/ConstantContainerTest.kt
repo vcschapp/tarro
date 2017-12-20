@@ -101,8 +101,8 @@ open class ConstantContainerTest<T: Any>(val clazz: KClass<T>) {
      * value.
      */
     @Test
-    open fun eachVisibleFieldHasDifferentValue() {
-        visibleFields.groupBy { it.get(null) }
+    open fun eachUniqueFieldHasDifferentValue() {
+        uniqueFields.groupBy { it.get(null) }
                 .onEach {
                     assertEquals(1, it.value.size,
                         "$must have distinct values for each field, but the value" +
@@ -116,9 +116,27 @@ open class ConstantContainerTest<T: Any>(val clazz: KClass<T>) {
 
     private val fields = clazz.java.declaredFields.asList()
 
-    protected val visibleFields = fields.filter { 0 == PRIVATE and it.modifiers }
-
     private val must = "As a constant container, ${clazz.java.simpleName} must"
+
+    //
+    // PROPERTIES
+    //
+
+    /**
+     * Lists all visible (non-private) declared fields on the class under test.
+     *
+     * @see uniqueFields
+     */
+    val visibleFields = fields.filter { 0 == PRIVATE and it.modifiers }
+
+    /**
+     * Lists all fields on the class under test which should have a unique
+     * value. Typically this is the same as [visibleFields], but derived test
+     * classes may override this property to produce different effects.
+     *
+     * @see visibleFields
+     */
+    open val uniqueFields = visibleFields
 }
 
 /**
@@ -154,7 +172,7 @@ open class SingleBitMaskConstantContainerTest<T: Any>(
      * Verifies that each visible field on the class under test, except any
      * field which contains the value zero, has precisely one bit set.
      *
-     * The [eachVisibleFieldHasDifferentValue] method complements this one by,
+     * The [eachUniqueFieldHasDifferentValue] method complements this one by,
      * *inter alia*, ensuring that there can be only one zero field.
      */
     @Test
