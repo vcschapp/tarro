@@ -180,15 +180,6 @@ public enum OneOperandOpcode implements Opcode {
         }
     }
 
-    @Override
-    public int getNumTrailingZeroBytes() {
-        if (INVOKEDYNAMIC != this) {
-            return 0;
-        } else {
-            return 2;
-        }
-    }
-
     //
     // PUBLIC METHODS
     //

@@ -69,24 +69,149 @@ public interface Opcode extends Valued, Versioned {
     // METHODS
     //
 
+    /**
+     * <p>
+     * Obtains the list of operand types for the instruction having this opcode.
+     * </p>
+     *
+     * <p>
+     * The returned list provides the operands in the order they are used by the
+     * instruction. The list may be empty (in the case of a
+     * {@linkplain NoOperandOpcode no-operand instruction opcode}) but will
+     * never be {@code null}.
+     * </p>
+     *
+     * <table>
+     * <caption>
+     * Example opcodes and their operand type list:
+     * </caption>
+     * <tr>
+     * <th>
+     * Opcode
+     * </th>
+     * <th>
+     * Operand type list
+     * </th>
+     * </tr>
+     * <tr>
+     * <td>{@link NoOperandOpcode#ALOAD_0 aload_0}</td>
+     * <td>{@code []}</td>
+     * </tr>
+     * <tr>
+     * <td>{@link OneOperandOpcode#ALOAD aload}</td>
+     * <td>
+     * {@code [}{@linkplain OperandType#LOCAL_VARIABLE_INDEX_BYTE local variable
+     * index}{@code ]}
+     * </td>
+     * </tr>
+     * <tr>
+     * <td>{@link TwoOperandOpcode#MULTIANEWARRAY multianewarray}</td>
+     * <td>
+     * {@code [}{@linkplain OperandType#CONSTANT_POOL_INDEX_CLASS_SHORT constant
+     *  pool index to CONSTANT_Class_Info}{@code , }{@linkplain
+     *  OperandType#UNSIGNED_VALUE_BYTE unsigned byte}{@code ]}
+     *  </td>
+     * </tr>
+     * <tr>
+     * <td>
+     * {@link VariableOperandOpcode#LOOKUPSWITCH lookupswitch}
+     * </td>
+     * <td>
+     * {@code [}{@linkplain OperandType#BRANCH_OFFSET_INT branch offset
+     * (4-byte)}{@code , }{@linkplain OperandType#SIGNED_VALUE_INT signed
+     * int}{@code , }{@linkplain OperandType#MATCH_OFFSET_PAIR_TABLE
+     * match-offset pair table}{@code ]}
+     * </td>
+     * </tr>
+     * </table>
+     *
+     * @return List of operand types
+     * @see #getNumOperands()
+     */
     List<OperandType> getOperandTypes();
 
+    /**
+     * <p>
+     * Obtains the number of operands for instructions having this opcode.
+     * </p>
+     *
+     * <p>
+     * The value returned is the size of the {@linkplain #getOperandTypes()
+     * operand types list}.
+     * </p>
+     *
+     * @return Number of operands
+     * @see #getOperandTypes()
+     */
     int getNumOperands();
 
+    /**
+     * <p>
+     * Indicates whether the instruction for this opcode has variable-size
+     * operands.
+     * </p>
+     *
+     * <p>
+     * In practice, having variable-size operands is identical with being a
+     * member of the {@link VariableOperandOpcode} enumeration.
+     * </p>
+     *
+     * @return Whether this opcode is a variable-operand opcode
+     * @see VariableOperandOpcode
+     * @see #isPadded()
+     */
     default boolean isVariableSize() {
         return false;
     }
 
-    default boolean isReserved() {
-        return false;
-    }
-
+    /**
+     * <p>
+     * Indicates whether the instruction for this opcode has padded operands.
+     * </p>
+     *
+     * <p>
+     * A padded instruction is one for which the first operand must be aligned
+     * (for example on four-byte boundary) and thus there is a variable amount
+     * of padding between the opcode byte and the first operand.
+     * </p>
+     *
+     * <p>
+     * In practice, every padded instruction is a {@linkplain #isVariableSize()
+     * variable-size instruction}, but not every variable-size instruction is a
+     * padded one. There are two padded instructions:
+     * {@link VariableOperandOpcode#LOOKUPSWITCH lookupswitch} and
+     * {@link VariableOperandOpcode#TABLESWITCH tableswitch}.
+     * </p>
+     *
+     * @return Whether this opcode is for a padded instruction
+     * @see #isVariableSize()
+     */
     default boolean isPadded() {
         return false;
     }
 
-    default int getNumTrailingZeroBytes() {
-        return 0;
+    /**
+     * <p>
+     * Indicates whether the Java Virtual Machine Specification declares this
+     * opcode to be <em>reserved</em>, meaning it must not appear in the
+     * bytecode of an actual class file.
+     * </p>
+     *
+     * <p>
+     * In practice, this method returns true if-and-only-if this opcode is one
+     * of:
+     * </p>
+     *
+     * <ul>
+     * <li>{@link NoOperandOpcode#BREAKPOINT breakpoint};</li>
+     * <li>{@link NoOperandOpcode#IMPDEP1 impdep1}; or</li>
+     * <li>{@link NoOperandOpcode#IMPDEP2 impdep2}.</li>
+     * </ul>
+     *
+     * @return Whether this is a reserved opcode
+     */
+    default boolean isReserved() {
+        return false;
     }
 
     //
@@ -102,6 +227,31 @@ public interface Opcode extends Valued, Versioned {
     // STATICS
     //
 
+    /**
+     * <p>
+     * Obtains the {@link Opcode} for the given opcode byte value.
+     * </p>
+     *
+     * <p>
+     * The value returned is an object that is both an instance of this
+     * interface and a member of one of the following enumerations:
+     * </p>
+     *
+     * <ul>
+     * <li>{@link NoOperandOpcode};</li>
+     * <li>{@link OneOperandOpcode};</li>
+     * <li>{@link TwoOperandOpcode}; or</li>
+     * <li>{@link VariableOperandOpcode}.</li>
+     * </ul>
+     *
+     * @param value Opcode byte value
+     * @return Opcode instance
+     * @throws IllegalArgumentException If {@code value} is not in the range
+     *                                  0..255 <em>or</em> the value is in the
+     *                                  correct range but that value does not
+     *                                  correspond to a known opcode value
+     * @see OpcodeValue
+     */
     static Opcode forUnsignedByte(final int value) {
         return allOpcodes().forUnsignedByte(value);
     }

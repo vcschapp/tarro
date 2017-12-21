@@ -90,15 +90,6 @@ public enum TwoOperandOpcode implements Opcode {
         return 0;
     }
 
-    @Override
-    public int getNumTrailingZeroBytes() {
-        if (INVOKEINTERFACE != this) {
-            return 0;
-        } else {
-            return 1;
-        }
-    }
-
     //
     // INTERFACE: Valued
     //
