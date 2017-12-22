@@ -40,6 +40,9 @@ DOCUMENTATION
           OTHER_CONSTANT_VALUES should omit the underscore.
 6. Always use code styling for opcode names. So links should be @link, not
    @linkplain.
+7. Bytecode entity documentation should preferably refer to the runtime constant
+   pool rather than the class file constant_pool; and should use runtime
+   constant pool concepts rather than class file concepts. See Ch.5 and §5.1.
 
 ----
 CODE

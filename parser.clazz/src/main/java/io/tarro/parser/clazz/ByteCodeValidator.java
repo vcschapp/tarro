@@ -151,14 +151,8 @@ final class ByteCodeValidator {
         case LOCAL_VARIABLE_INDEX_SHORT:
             validateLocalVariableIndex(position, opcode, operand);
             break;
-        case CONSTANT_POOL_INDEX_CONSTANT_SHORT:
-        case CONSTANT_POOL_INDEX_CONSTANT2_SHORT:
-        case CONSTANT_POOL_INDEX_CLASS_SHORT:
-        case CONSTANT_POOL_INDEX_FIELD_REF_SHORT:
-        case CONSTANT_POOL_INDEX_CLASS_METHOD_REF_SHORT:
-        case CONSTANT_POOL_INDEX_INTERFACE_METHOD_REF_SHORT:
-        case CONSTANT_POOL_INDEX_EITHER_METHOD_REF_SHORT:
-        case CONSTANT_POOL_INDEX_INVOKEDYNAMIC_SHORT:
+        case CONSTANT_POOL_INDEX_BYTE:
+        case CONSTANT_POOL_INDEX_SHORT:
             validateConstantPoolIndex(position, opcode, operand);
             break;
         case ATYPE_BYTE:

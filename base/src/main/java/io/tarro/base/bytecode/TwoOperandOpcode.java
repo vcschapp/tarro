@@ -28,8 +28,7 @@ import java.util.List;
 
 import static io.tarro.base.bytecode.OpcodeTable.noOpcodeForValue;
 import static io.tarro.base.bytecode.OpcodeTable.notAnUnsignedByte;
-import static io.tarro.base.bytecode.OperandType.CONSTANT_POOL_INDEX_CLASS_SHORT;
-import static io.tarro.base.bytecode.OperandType.CONSTANT_POOL_INDEX_INTERFACE_METHOD_REF_SHORT;
+import static io.tarro.base.bytecode.OperandType.CONSTANT_POOL_INDEX_SHORT;
 import static io.tarro.base.bytecode.OperandType.LOCAL_VARIABLE_INDEX_BYTE;
 import static io.tarro.base.bytecode.OperandType.SIGNED_VALUE_BYTE;
 import static io.tarro.base.bytecode.OperandType.UNSIGNED_VALUE_BYTE;
@@ -53,11 +52,10 @@ public enum TwoOperandOpcode implements Opcode {
 
     // Keep this list in alphabetical order by opcode mnemonic.
     IINC(OpcodeValue.IINC, LOCAL_VARIABLE_INDEX_BYTE, SIGNED_VALUE_BYTE),
-    INVOKEINTERFACE(OpcodeValue.INVOKEINTERFACE,
-            CONSTANT_POOL_INDEX_INTERFACE_METHOD_REF_SHORT,
-            UNSIGNED_VALUE_BYTE),
-    MULTIANEWARRAY(OpcodeValue.MULTIANEWARRAY, CONSTANT_POOL_INDEX_CLASS_SHORT,
-                   UNSIGNED_VALUE_BYTE);
+    INVOKEINTERFACE(OpcodeValue.INVOKEINTERFACE, CONSTANT_POOL_INDEX_SHORT,
+                    UNSIGNED_VALUE_BYTE),
+    MULTIANEWARRAY(OpcodeValue.MULTIANEWARRAY, CONSTANT_POOL_INDEX_SHORT,
+                    UNSIGNED_VALUE_BYTE);
 
     //
     // DATA

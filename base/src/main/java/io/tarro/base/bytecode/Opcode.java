@@ -107,8 +107,8 @@ public interface Opcode extends Valued, Versioned {
      * <tr>
      * <td>{@link TwoOperandOpcode#MULTIANEWARRAY multianewarray}</td>
      * <td>
-     * {@code [}{@linkplain OperandType#CONSTANT_POOL_INDEX_CLASS_SHORT constant
-     *  pool index to CONSTANT_Class_Info}{@code , }{@linkplain
+     * {@code [}{@linkplain OperandType#CONSTANT_POOL_INDEX_SHORT runtime
+     * constant pool index} (symbolic reference to class){@code , }{@linkplain
      *  OperandType#UNSIGNED_VALUE_BYTE unsigned byte}{@code ]}
      *  </td>
      * </tr>

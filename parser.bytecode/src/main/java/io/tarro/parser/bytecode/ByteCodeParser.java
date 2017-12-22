@@ -498,7 +498,7 @@ public final class ByteCodeParser {
                 case ATYPE_BYTE:
                 case UNSIGNED_VALUE_BYTE:
                 case LOCAL_VARIABLE_INDEX_BYTE:
-                case CONSTANT_POOL_INDEX_CONSTANT_BYTE:
+                case CONSTANT_POOL_INDEX_BYTE:
                     operand = bytecode.get() & 0xff;
                     break;
                 case SIGNED_VALUE_SHORT:
@@ -506,18 +506,9 @@ public final class ByteCodeParser {
                 case LOCAL_VARIABLE_INDEX_SHORT:
                     operand = bytecode.getShort();
                     break;
-                case CONSTANT_POOL_INDEX_CONSTANT_SHORT:
-                case CONSTANT_POOL_INDEX_CONSTANT2_SHORT:
-                case CONSTANT_POOL_INDEX_CLASS_SHORT:
-                case CONSTANT_POOL_INDEX_FIELD_REF_SHORT:
-                case CONSTANT_POOL_INDEX_CLASS_METHOD_REF_SHORT:
-                case CONSTANT_POOL_INDEX_INTERFACE_METHOD_REF_SHORT:
-                case CONSTANT_POOL_INDEX_EITHER_METHOD_REF_SHORT:
+                case CONSTANT_POOL_INDEX_SHORT:
                     operand = bytecode.getShort() & 0xffff;
                     break;
-                case CONSTANT_POOL_INDEX_INVOKEDYNAMIC_SHORT:
-                    assert INVOKEDYNAMIC == opcode;
-                    throw unexpectedOpcode(opcode);
                 case SIGNED_VALUE_INT:
                 case BRANCH_OFFSET_INT:
                     operand = bytecode.getInt();

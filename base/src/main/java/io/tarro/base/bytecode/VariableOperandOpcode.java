@@ -33,7 +33,7 @@ import static io.tarro.base.bytecode.OperandType.JUMP_OFFSET_TABLE;
 import static io.tarro.base.bytecode.OperandType.LOCAL_VARIABLE_INDEX_SHORT;
 import static io.tarro.base.bytecode.OperandType.MATCH_OFFSET_PAIR_TABLE;
 import static io.tarro.base.bytecode.OperandType.OPCODE;
-import static io.tarro.base.bytecode.OperandType.OPTIONAL_COUNT;
+import static io.tarro.base.bytecode.OperandType.OPTIONAL_SIGNED_VALUE_SHORT;
 import static io.tarro.base.bytecode.OperandType.SIGNED_VALUE_INT;
 
 /**
@@ -58,7 +58,8 @@ public enum VariableOperandOpcode implements Opcode {
             MATCH_OFFSET_PAIR_TABLE),
     TABLESWITCH(OpcodeValue.TABLESWITCH, BRANCH_OFFSET_INT,
             SIGNED_VALUE_INT, SIGNED_VALUE_INT, JUMP_OFFSET_TABLE),
-    WIDE(OpcodeValue.WIDE, OPCODE, LOCAL_VARIABLE_INDEX_SHORT, OPTIONAL_COUNT);
+    WIDE(OpcodeValue.WIDE, OPCODE, LOCAL_VARIABLE_INDEX_SHORT,
+            OPTIONAL_SIGNED_VALUE_SHORT);
 
     //
     // DATA
