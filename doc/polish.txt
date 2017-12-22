@@ -34,9 +34,12 @@ DOCUMENTATION
    showing up as rendered angle brackets.
 5. Terms to use consistently:
         - Java Virtual Machine Specification (each word should be capitalized)
+        - Java Virtual Machine instruction set (lowercase on instruction set)
         - invokedynamic/invokeinterface/etc. If consistent with JVM spec, every
           instance of these opcode "words"", including those embedded in
           OTHER_CONSTANT_VALUES should omit the underscore.
+6. Always use code styling for opcode names. So links should be @link, not
+   @linkplain.
 
 ----
 CODE
