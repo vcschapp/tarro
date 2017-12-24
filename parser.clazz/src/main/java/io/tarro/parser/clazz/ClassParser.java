@@ -1147,7 +1147,7 @@ public final class ClassParser {
         // as the subroutines parse the variable components of the attribute.
         final int[] actualAttributeLength = { 2 };
         final int n = readU2("num_annotations");
-        final TypeAnnotation[] typeAnnotations = typeAnnotations(n, actualAttributeLength);
+        final TypeAnnotation<?>[] typeAnnotations = typeAnnotations(n, actualAttributeLength);
         if (expectedAttributeLength == actualAttributeLength[0]) {
             return new ListAttribute<>(attributeType, typeAnnotations);
         } else {
@@ -1574,8 +1574,9 @@ public final class ClassParser {
     }
 
     @ArrayContext("annotations")
-    private TypeAnnotation[] typeAnnotations(final int numAnnotations, final int[] actualAttributeLength) throws IOException {
-        final TypeAnnotation[] typeAnnotations = new TypeAnnotation[numAnnotations];
+    private TypeAnnotation<?>[] typeAnnotations(final int numAnnotations, final int[] actualAttributeLength) throws IOException {
+        @SuppressWarnings("rawtypes")
+        final TypeAnnotation<?>[] typeAnnotations = new TypeAnnotation[numAnnotations];
         pushArrayContext();
         for (int i = 0; i < numAnnotations; ++i) {
             setArrayIndex(i);
@@ -1661,7 +1662,7 @@ public final class ClassParser {
         }
         final TypePathStep[] targetPathSteps = targetPath(actualAttributeLength);
         return annotation(actualAttributeLength,
-                (typeIndex, elementValuePairs) -> new TypeAnnotation(typeIndex, elementValuePairs, targetType,
+                (typeIndex, elementValuePairs) -> new TypeAnnotation<>(typeIndex, elementValuePairs, targetType,
                         targetPathSteps, targetInfo));
     }
 

@@ -28,7 +28,14 @@ public class BadAccessFlagsMixException extends IllegalArgumentException {
     //
     // CONSTRUCTORS
     //
+
     BadAccessFlagsMixException(final String message) {
         super(message);
     }
+
+    //
+    // INTERFACE: Serializable
+    //
+
+    private static final long serialVersionUID = 1L;
 }

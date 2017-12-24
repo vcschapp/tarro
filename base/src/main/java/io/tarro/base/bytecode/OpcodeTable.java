@@ -29,6 +29,7 @@ final class OpcodeTable<O extends Opcode> {
     // CONSTRUCTORS
     //
 
+    @SuppressWarnings("unchecked")
     OpcodeTable(final Class<? extends O> clazz, final Stream<? extends O> opcodes) {
         byValue = (O[]) Array.newInstance(clazz, 0b1_0000_0000);
         opcodes.forEach(o -> byValue[o.getValue()] = o);

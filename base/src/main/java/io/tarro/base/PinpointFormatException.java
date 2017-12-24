@@ -55,4 +55,10 @@ public class PinpointFormatException extends IllegalArgumentException {
     public final int getPosition() {
         return position;
     }
+
+    //
+    // INTERFACE: Serializable
+    //
+
+    private static final long serialVersionUID = 1L;
 }

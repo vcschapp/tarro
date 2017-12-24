@@ -24,13 +24,13 @@ SOFTWARE.
 
 package io.tarro.base.flag;
 
+import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import static java.util.Arrays.stream;
-import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.joining;
 
 /**
@@ -78,14 +78,16 @@ public final class FlagMixRule<F extends Enum<F> & Flag> {
         return List.of(array);
     }
 
+    @SafeVarargs
+    @SuppressWarnings({"unchecked", "varargs"})
     static <F extends Enum<F> & Flag> List<FlagMixRule<F>> listify(final FlagMixRule<F>[]... arrays) {
         return List.of(stream(arrays)
-                .flatMap(array -> stream(array))
+                .flatMap(Arrays::stream)
                 .toArray(FlagMixRule[]::new));
     }
 
     static <F extends Enum<F> & Flag> FlagMixRule<F> rule(final Predicate<EnumSet<F>> badnessTest, final String reason) {
-        return new FlagMixRule(badnessTest, reason);
+        return new FlagMixRule<>(badnessTest, reason);
     }
 
     static <F extends Enum<F> & Flag> FlagMixRule<F> visibilityRule(
@@ -109,6 +111,8 @@ public final class FlagMixRule<F extends Enum<F> & Flag> {
         return rule(set -> !set.contains(firstFlag) || !set.contains(secondFlag), reason);
     }
 
+    @SafeVarargs
+    @SuppressWarnings("varargs")
     static <F extends Enum<F> & Flag> FlagMixRule<F> allOf(final String entityName, final F... requiredFlags) {
         final int requiredMask = mask(requiredFlags);
         final String reason = joinGrammatically(requiredFlags, "All of", "and", "must be set on", entityName);
@@ -116,7 +120,7 @@ public final class FlagMixRule<F extends Enum<F> & Flag> {
     }
 
     static <F extends Enum<F> & Flag> FlagMixRule<F> exactlyOneOf(final String entityName, final F firstFlag,
-            final F secondFlag) {
+                                                                  final F secondFlag) {
         final String reason = "Exactly one of " + firstFlag.getFlagName() + " and " + secondFlag.getFlagName() +
                 "must be set on " + entityName;
         return rule(set -> {
@@ -127,6 +131,8 @@ public final class FlagMixRule<F extends Enum<F> & Flag> {
         }, reason);
     }
 
+    @SafeVarargs
+    @SuppressWarnings("varargs")
     static <F extends Enum<F> & Flag> FlagMixRule<F> noneOf(final String entityName, final F... notPermittedFlags) {
         final int notPermittedMask = mask(notPermittedFlags);
         final String reason = joinGrammatically(notPermittedFlags,"None of ",
@@ -141,6 +147,8 @@ public final class FlagMixRule<F extends Enum<F> & Flag> {
         return rule(set -> set.contains(firstFlag) && set.contains(secondFlag), reason);
     }
 
+    @SafeVarargs
+    @SuppressWarnings("varargs")
     static <F extends Enum<F> & Flag> FlagMixRule<F> noOthersThan(final String entityName, final F... permittedFlags) {
         final int notPermittedMask = ~mask(permittedFlags);
         final String reason = joinGrammatically(permittedFlags, "No flag other than ", "and",
@@ -155,6 +163,8 @@ public final class FlagMixRule<F extends Enum<F> & Flag> {
         return rule(set -> set.contains(predicateFlag) && !set.contains(impliedFlag), reason);
     }
 
+    @SafeVarargs
+    @SuppressWarnings("varargs")
     static <F extends Enum<F> & Flag> FlagMixRule<F> ifFirstThenNoneOfTheRest(final String entityName, final F predicateFlag,
             final F... consequentlyNotPermittedFlags) {
         final int consequentlyNotPermittedMask =  mask(consequentlyNotPermittedFlags);
@@ -169,6 +179,8 @@ public final class FlagMixRule<F extends Enum<F> & Flag> {
     // INTERNALS
     //
 
+    @SafeVarargs
+    @SuppressWarnings("varargs")
     private static <F extends Enum<F> & Flag> int mask(final F... flags) {
         return mask(stream(flags));
     }

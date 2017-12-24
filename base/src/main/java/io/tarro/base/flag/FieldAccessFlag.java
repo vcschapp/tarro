@@ -26,6 +26,7 @@ package io.tarro.base.flag;
 
 import io.tarro.base.ClassFileVersion;
 
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -137,7 +138,8 @@ public enum FieldAccessFlag implements Flag {
     // INTERNALS
     //
 
-    private static FlagMixRule[] makeGeneralRules() {
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    private static FlagMixRule<FieldAccessFlag>[] makeGeneralRules() {
         return new FlagMixRule[] {
             visibilityRule("a field", PUBLIC, PRIVATE, PROTECTED),
             notBothOf("a field", FINAL, VOLATILE)
@@ -146,7 +148,8 @@ public enum FieldAccessFlag implements Flag {
 
     private static List<FlagMixRule<FieldAccessFlag>> CLASS_FIELD_RULES;
 
-    private static FlagMixRule[] makeInterfaceSpecificRules() {
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    private static FlagMixRule<FieldAccessFlag>[] makeInterfaceSpecificRules() {
         return new FlagMixRule[] {
             allOf("an interface field", PUBLIC, STATIC, FINAL),
             noneOf("an interface field", VOLATILE, TRANSIENT, ENUM)

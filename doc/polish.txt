@@ -3,12 +3,14 @@ BUILD PROCESS
 -------------
 
 1. Fail build if any source file missing license.
-2. javac has maximum linting turned on (-Xlint).
-3. javadoc has maximum linting turned on.
-4. FindBugs.
-5. CheckStyle.
-6. Any other linting.
-7. NoTabs.
+2. javadoc has maximum linting turned on.
+3. FindBugs.
+4. CheckStyle.
+5. Any other linting.
+    - javac: For test module
+    - kotlinc: For test module
+6. NoTabs.
+7. Eliminate as many TODOs as possible from the build.gradle's.
 
 
 -------

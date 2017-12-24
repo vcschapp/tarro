@@ -98,4 +98,10 @@ public class ClassFormatException extends PinpointFormatException {
     public final String getPositionContext() {
         return positionContext;
     }
+
+    //
+    // INTERFACE: Serializable
+    //
+
+    private static final long serialVersionUID = 1L;
 }

@@ -63,4 +63,10 @@ public final class InternalError extends Error {
     public static InternalError unhandledClassFileVersion(final ClassFileVersion classFileVersion) {
         return internalError("Unhandled class file version: %s", classFileVersion);
     }
+
+    //
+    // INTERFACE: Serializable
+    //
+
+    private static final long serialVersionUID = 1L;
 }

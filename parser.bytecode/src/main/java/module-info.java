@@ -23,7 +23,7 @@ SOFTWARE.
 */
 
 module io.tarro.parser.bytecode {
-    requires io.tarro.base;
+    requires transitive io.tarro.base;
     exports io.tarro.parser.bytecode;
     exports io.tarro.parser.bytecode.visitor;
 }

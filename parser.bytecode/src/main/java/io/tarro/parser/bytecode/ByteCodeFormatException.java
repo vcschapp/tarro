@@ -42,4 +42,10 @@ public class ByteCodeFormatException extends PinpointFormatException {
     public ByteCodeFormatException(final String message, final Throwable cause, final int position) {
         super(message, cause, position);
     }
+
+    //
+    // INTERFACE: Serializable
+    //
+
+    private static final long serialVersionUID = 1L;
 }

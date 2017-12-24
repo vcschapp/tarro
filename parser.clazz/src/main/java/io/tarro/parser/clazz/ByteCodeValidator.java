@@ -157,6 +157,7 @@ final class ByteCodeValidator {
             break;
         case ATYPE_BYTE:
             validateAType(position, operand);
+            break;
         default:
             // FIXME: Handle all cases explicitly and "default" should throw...
             break;
@@ -245,9 +246,9 @@ final class ByteCodeValidator {
             final int offset = (int)(jumpPair & 0xffffffffL);
             final int targetPosition = sourcePosition + offset;
             if (0L <= targetPosition && targetPosition < bytecode.length) {
-                validateJumpTarget((int)sourcePosition, (int)targetPosition, offset);
+                validateJumpTarget(sourcePosition, targetPosition, offset);
             } else {
-                throw badJumpOffset((int)sourcePosition, "offset %d is outside the bytecode block (valid offsets range here is %d..%d)",
+                throw badJumpOffset(sourcePosition, "offset %d is outside the bytecode block (valid offsets range here is %d..%d)",
                         offset, -sourcePosition, lastJumpTargetPosition() - sourcePosition);
             }
         }

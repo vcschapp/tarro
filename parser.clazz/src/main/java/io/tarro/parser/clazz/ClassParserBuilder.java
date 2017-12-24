@@ -26,6 +26,7 @@ package io.tarro.parser.clazz;
 
 import io.tarro.base.flag.FieldAccessFlag;
 import io.tarro.base.flag.MethodAccessFlag;
+import io.tarro.parser.clazz.member.Member;
 import io.tarro.parser.clazz.visitor.AttributeVisitor;
 import io.tarro.parser.clazz.visitor.MemberVisitor;
 import io.tarro.parser.clazz.visitor.ClassAccessFlagsVisitor;
@@ -66,6 +67,7 @@ public class ClassParserBuilder {
     // CONSTRUCTORS
     //
 
+    @SuppressWarnings("unchecked")
     ClassParserBuilder() {
         versionVisitor = (majorVersion, minorVersion) -> { };
         constantPoolCountVisitor = NOOP_U2_VISITOR;
@@ -187,5 +189,6 @@ public class ClassParserBuilder {
     //
 
     private static final U2Visitor NOOP_U2_VISITOR = (u2) -> { };
+    @SuppressWarnings("rawtypes")
     private static final MemberVisitor NOOP_MEMBER_VISITOR = (member) -> { };
 }

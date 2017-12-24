@@ -78,10 +78,9 @@ subprojects {
         // Needed to make the Gradle compile phase work with Java 9/Jigsaw.
         // https://guides.gradle.org/building-java-9-modules
         inputs.property("moduleName", moduleName)
+        options.compilerArgs << '-Xlint:all' << '-Werror'
         doFirst {
-            options.compilerArgs = [
-                    '--module-path', classpath.asPath,
-            ]
+            options.compilerArgs << '--module-path' << classpath.asPath
             classpath = files()
         }
     }
@@ -113,7 +112,7 @@ subprojects {
 
     compileTestKotlin {
         kotlinOptions {
-            jvmTarget = "1.8"
+            jvmTarget = '1.8'
         }
     }
 

@@ -473,8 +473,10 @@ public final class ByteCodeParser {
                 break;
             case OpcodeValue.TABLESWITCH:
                 tableswitch(position);
+                break;
             case OpcodeValue.WIDE:
                 wide(position);
+                break;
             default:
                 badOpcode(position, opcodeByte);
                 break;

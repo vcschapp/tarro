@@ -222,7 +222,7 @@ final class ConstantPoolMetadata {
 
     private static final ToIntFunction<String> NOT_A_PREDEFINED_ATTRIBUTE = (s) -> 0;
     private static final int ATTRIBUTE_NAME_TO_INDEX_FUNCS_MASK = 0x3f;
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"rawtypes", "unchecked"})
     private static final ToIntFunction<String>[] ATTRIBUTE_NAME_TO_INDEX_FUNCS = new ToIntFunction[] {
         NOT_A_PREDEFINED_ATTRIBUTE /* 0 */,
         NOT_A_PREDEFINED_ATTRIBUTE /* 1 */,

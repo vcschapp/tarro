@@ -89,6 +89,7 @@ public final class ContextPathTracer {
     // PUBLIC STATICS
     //
 
+    @SuppressWarnings("fallthrough")
     public static String traceContextPath(final Class<?> clazz, final int[] arrayContext, final int arrayDepth, final String lastFieldName) {
         final List<ContextPathEntry> contextPath = traceContextPath(clazz, copyOfRange(arrayContext, 0, arrayDepth));
         final StringBuilder builder = new StringBuilder(128);

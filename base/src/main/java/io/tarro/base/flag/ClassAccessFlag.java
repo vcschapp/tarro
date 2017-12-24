@@ -138,6 +138,7 @@ public enum ClassAccessFlag implements Flag {
 
     private static List<FlagMixRule<ClassAccessFlag>> BASIC_RULES;
 
+    @SuppressWarnings({"rawtypes", "unchecked"})
     private static FlagMixRule<ClassAccessFlag>[] makeBasicRules() {
         // Based on the Java virtual machine specification, one would expect the
         // rule `ifFirstThenAlsoSecond("a class", INTERFACE, ABSTRACT)` to be

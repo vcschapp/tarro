@@ -102,4 +102,10 @@ public final class InvalidConstantPoolIndexException extends IllegalArgumentExce
         return new InvalidConstantPoolIndexException(format("Index into constant_pool must be less than constant_pool_count" +
                 " but %d is not less than %d", constantPoolIndex, constantPoolCount), constantPoolIndex);
     }
+
+    //
+    // INTERFACE: Serializable
+    //
+
+    private static final long serialVersionUID = 1L;
 }

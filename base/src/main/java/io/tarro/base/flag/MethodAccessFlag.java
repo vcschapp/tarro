@@ -167,13 +167,15 @@ public enum MethodAccessFlag implements Flag {
     // INTERNALS
     //
 
-    private static FlagMixRule[] makeGeneralRules() {
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    private static FlagMixRule<MethodAccessFlag>[] makeGeneralRules() {
         return new FlagMixRule[] {
             ifFirstThenNoneOfTheRest("a method", ABSTRACT, FINAL, NATIVE, PRIVATE, STATIC, STRICT, SYNCHRONIZED)
         };
-    };
+    }
 
-    private static FlagMixRule[] makeClassMethodRules() {
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    private static FlagMixRule<MethodAccessFlag>[] makeClassMethodRules() {
         return new FlagMixRule[] {
             visibilityRule("a class method", PUBLIC, PRIVATE, PROTECTED)
         };
@@ -181,7 +183,8 @@ public enum MethodAccessFlag implements Flag {
 
     private static List<FlagMixRule<MethodAccessFlag>> CLASS_METHOD_BASE_RULES;
 
-    private static FlagMixRule[] makeInstanceInitializerIncrementalRules() {
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    private static FlagMixRule<MethodAccessFlag>[] makeInstanceInitializerIncrementalRules() {
         return new FlagMixRule[] {
             noOthersThan("an instance initializer", PUBLIC, PRIVATE, PROTECTED, VARARGS, STRICT, SYNTHETIC)
         };
@@ -189,7 +192,8 @@ public enum MethodAccessFlag implements Flag {
 
     private static List<FlagMixRule<MethodAccessFlag>> INSTANCE_INITIALIZER_INCREMENTAL_RULES;
 
-    private static FlagMixRule[] makeInterfaceMethodBaseRules() {
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    private static FlagMixRule<MethodAccessFlag>[] makeInterfaceMethodBaseRules() {
         return new FlagMixRule[] {
                 noneOf("an interface method", PROTECTED, FINAL, SYNCHRONIZED, NATIVE)
         };
@@ -205,7 +209,8 @@ public enum MethodAccessFlag implements Flag {
         }
     }
 
-    private static FlagMixRule[] makeInterfaceMethodIncrementalRulesPreJava8() {
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    private static FlagMixRule<MethodAccessFlag>[] makeInterfaceMethodIncrementalRulesPreJava8() {
         return new FlagMixRule[] {
             bothOf("an interface method", PUBLIC, ABSTRACT)
         };
@@ -221,7 +226,8 @@ public enum MethodAccessFlag implements Flag {
         }
     }
 
-    private static FlagMixRule[] makeInterfaceMethodIncrementalRulesJava8Plus() {
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    private static FlagMixRule<MethodAccessFlag>[] makeInterfaceMethodIncrementalRulesJava8Plus() {
         return new FlagMixRule[] {
                 exactlyOneOf("an interface method", PUBLIC, PRIVATE)
         };

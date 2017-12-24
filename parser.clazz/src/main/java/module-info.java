@@ -23,7 +23,7 @@ SOFTWARE.
 */
 
 module io.tarro.parser.clazz {
-    requires io.tarro.base;
+    requires transitive io.tarro.base;
     requires io.tarro.parser.bytecode;
     exports io.tarro.parser.clazz;
     exports io.tarro.parser.clazz.attribute;

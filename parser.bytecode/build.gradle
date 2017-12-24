@@ -1,12 +1,8 @@
-ext {
-    foo = "bar"
+repositories {
+    mavenCentral()
 }
 
 dependencies {
     compile project(':base')
     testCompile project(':test')
-}
-
-repositories {
-    mavenCentral()
 }
