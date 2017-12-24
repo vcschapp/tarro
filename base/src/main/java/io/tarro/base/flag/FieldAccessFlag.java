@@ -26,9 +26,7 @@ package io.tarro.base.flag;
 
 import io.tarro.base.ClassFileVersion;
 
-import java.lang.reflect.Field;
 import java.util.List;
-import java.util.stream.Stream;
 
 import static io.tarro.base.ClassFileVersion.JAVA1;
 import static io.tarro.base.ClassFileVersion.JAVA7;
