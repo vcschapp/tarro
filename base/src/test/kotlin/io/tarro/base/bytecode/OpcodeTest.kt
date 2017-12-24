@@ -60,6 +60,18 @@ class OpcodeTest {
     }
 
     @Test
+    fun forUnsignedByteInRangeButNoOpcode() {
+        val opcodes = OpcodeValueTest().uniqueFields
+                .map { it.getInt(null) }
+                .toSet()
+        // For each unsigned byte value that does NOT correspond to a valid JVM
+        // opcode, verify that trying to obtain it from Opcode.forUnsignedByte()
+        // throws an exception.
+        (0..255).filter{ !opcodes.contains(it) }
+                .forEach {  badUnsignedByte(it).execute() }
+    }
+
+    @Test
     fun isVariableSizeFalseByDefault() {
         assertFalse(TestableOpcode.INSTANCE.isVariableSize)
     }
