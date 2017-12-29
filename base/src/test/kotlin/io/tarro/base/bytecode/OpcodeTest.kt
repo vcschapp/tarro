@@ -38,6 +38,7 @@ import io.tarro.base.bytecode.OperandType.SIGNED_VALUE_INT
 import io.tarro.base.bytecode.VariableOperandOpcode.LOOKUPSWITCH
 import io.tarro.base.bytecode.VariableOperandOpcode.TABLESWITCH
 import io.tarro.base.bytecode.VariableOperandOpcode.WIDE
+import io.tarro.test.assertUniqueValuesByEnumerator
 import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
@@ -173,6 +174,12 @@ class OpcodeTest {
  * @since 20171224
  */
 class NoOperandOpcodeTest {
+    @Test
+    fun uniqueOpcodeValues() {
+        assertUniqueValuesByEnumerator(NoOperandOpcode::class, "getValue()",
+                NoOperandOpcode::getValue)
+    }
+
     @ParameterizedTest
     @EnumSource(NoOperandOpcode::class)
     fun forUnsignedByteAllOpcodes(opcode: NoOperandOpcode) {
@@ -269,6 +276,12 @@ class NoOperandOpcodeTest {
  * @since 20171226
  */
 class OneOperandOpcodeTest {
+    @Test
+    fun uniqueOpcodeValues() {
+        assertUniqueValuesByEnumerator(OneOperandOpcode::class, "getValue()",
+                OneOperandOpcode::getValue)
+    }
+
     @ParameterizedTest
     @EnumSource(OneOperandOpcode::class)
     fun forUnsignedByteAllOpcodes(opcode: OneOperandOpcode) {
@@ -373,6 +386,12 @@ class OneOperandOpcodeTest {
  * @since 20171227
  */
 class TwoOperandOpcodeTest {
+    @Test
+    fun uniqueOpcodeValues() {
+        assertUniqueValuesByEnumerator(TwoOperandOpcode::class, "getValue()",
+                TwoOperandOpcode::getValue)
+    }
+
     @ParameterizedTest
     @EnumSource(TwoOperandOpcode::class)
     fun forUnsignedByteAllOpcodes(opcode: TwoOperandOpcode) {
@@ -463,6 +482,12 @@ class TwoOperandOpcodeTest {
  * @since 20171228
  */
 class VariableOperandOpcodeTest {
+    @Test
+    fun uniqueOpcodeValues() {
+        assertUniqueValuesByEnumerator(VariableOperandOpcode::class,
+                "getValue()", VariableOperandOpcode::getValue)
+    }
+
     @ParameterizedTest
     @EnumSource(VariableOperandOpcode::class)
     fun forUnsignedByteAllOpcodes(opcode: VariableOperandOpcode) {
