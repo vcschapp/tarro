@@ -216,17 +216,85 @@ public enum OperandType {
      */
     CONSTANT_POOL_INDEX_SHORT(2),
     /**
+     * <p>
      * An unsigned 8-bit value that is a valid <em>atype</em> value. This
      * operand type is used by the {@link OneOperandOpcode#NEWARRAY newarray}
      * instruction.
+     * </p>
      *
-     * @see ATypeValue
+     * <p>
+     * The valid <em>atype</em> values are defined as constants in the
+     * {@link ATypeValue} class.
+     * </p>
+     *
      * @see OneOperandOpcode#NEWARRAY
      */
     ATYPE_BYTE(1),
     /**
+     * <p>
      * An unsigned 8-bit value that is a instruction opcode. This operand type
      * is used by the {@link VariableOperandOpcode#WIDE wide} instruction.
+     * </p>
+     *
+     * <p>
+     * This operand type may only take on a limited subset of the opcode values.
+     * In particular, the following are valid values for an operand of this
+     * type:
+     * </p>
+     *
+     * <table>
+     * <caption>
+     * Valid opcodes embeddable within a {@code wide} instruction
+     * </caption>
+     * <tr>
+     * <th>Opcode</th>
+     * <th>Mnemonic</th>
+     * </tr>
+     * <tr>
+     * <td>{@value io.tarro.base.bytecode.OpcodeValue#ILOAD}</td>
+     * <td>{@link OneOperandOpcode#ILOAD iload}</td>
+     * </tr>
+     * <tr>
+     * <td>{@value io.tarro.base.bytecode.OpcodeValue#LLOAD}</td>
+     * <td>{@link OneOperandOpcode#LLOAD lload}</td>
+     * </tr>
+     * <tr>
+     * <td>{@value io.tarro.base.bytecode.OpcodeValue#FLOAD}</td>
+     * <td>{@link OneOperandOpcode#FLOAD fload}</td>
+     * </tr>
+     * <tr>
+     * <td>{@value io.tarro.base.bytecode.OpcodeValue#DLOAD}</td>
+     * <td>{@link OneOperandOpcode#DLOAD dload}</td>
+     * </tr>
+     * <tr>
+     * <td>{@value io.tarro.base.bytecode.OpcodeValue#ALOAD}</td>
+     * <td>{@link OneOperandOpcode#ALOAD aload}</td>
+     * </tr>
+     * <tr>
+     * <td>{@value io.tarro.base.bytecode.OpcodeValue#ISTORE}</td>
+     * <td>{@link OneOperandOpcode#ISTORE istore}</td>
+     * </tr>
+     * <tr>
+     * <td>{@value io.tarro.base.bytecode.OpcodeValue#LSTORE}</td>
+     * <td>{@link OneOperandOpcode#LSTORE lstore}</td>
+     * </tr>
+     * <tr>
+     * <td>{@value io.tarro.base.bytecode.OpcodeValue#FSTORE}</td>
+     * <td>{@link OneOperandOpcode#FSTORE fstore}</td>
+     * </tr>
+     * <tr>
+     * <td>{@value io.tarro.base.bytecode.OpcodeValue#DSTORE}</td>
+     * <td>{@link OneOperandOpcode#DSTORE dstore}</td>
+     * </tr>
+     * <tr>
+     * <td>{@value io.tarro.base.bytecode.OpcodeValue#ASTORE}</td>
+     * <td>{@link OneOperandOpcode#ASTORE astore}</td>
+     * </tr>
+     * <tr>
+     * <td>{@value io.tarro.base.bytecode.OpcodeValue#IINC}</td>
+     * <td>{@link TwoOperandOpcode#IINC iinc}</td>
+     * </tr>
+     * </table>
      *
      * @see VariableOperandOpcode#WIDE
      */

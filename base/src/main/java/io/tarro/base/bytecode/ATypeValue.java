@@ -26,7 +26,7 @@ package io.tarro.base.bytecode;
 
 /**
  * Contains the (primitive) array type codes used by the <em>atype</em> operand
- * of the {@linkplain OneOperandOpcode#NEWARRAY newarray} instruction.
+ * of the {@link OneOperandOpcode#NEWARRAY newarray} instruction.
  *
  * @author Victor Schappert
  * @since 20171128

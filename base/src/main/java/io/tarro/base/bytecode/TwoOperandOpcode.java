@@ -34,8 +34,15 @@ import static io.tarro.base.bytecode.OperandType.SIGNED_VALUE_BYTE;
 import static io.tarro.base.bytecode.OperandType.UNSIGNED_VALUE_BYTE;
 
 /**
- * Enumerates opcodes for Java Virtual Machine instructions which require two
- * operands.
+ * <p>
+ * Enumerates opcodes for Java Virtual Machine instructions which have two
+ * operands embedded in the instruction.
+ * </p>
+ *
+ * <p>
+ * Note that even if the instruction embeds two operands, it may and often
+ * does consume one or more additional operands from the operand stack.
+ * </p>
  *
  * @author Victor Schappert
  * @since 20171218
@@ -51,9 +58,91 @@ public enum TwoOperandOpcode implements Opcode {
     //
 
     // Keep this list in alphabetical order by opcode mnemonic.
+    /**
+     * <p>
+     * {@code iinc} - Increment local variable by constant
+     * </p>
+     *
+     * <dl>
+     * <dt><strong>Opcode</strong></dt>
+     * <dd>{@value OpcodeValue#IINC}</dd>
+     * <dt><strong>Format</strong></dt>
+     * <dd>
+     * {@code iinc}
+     * <em>{@linkplain OperandType#LOCAL_VARIABLE_INDEX_BYTE index}</em>,
+     * <em>{@linkplain OperandType#SIGNED_VALUE_BYTE value}</em>
+     * </dd>
+     * <dt><strong>Operand Stack</strong></dt>
+     * <dd>&hellip; &rarr; &hellip;</dd>
+     * </dl>
+     *
+     * @see OpcodeValue#IINC
+     * @see OperandType#LOCAL_VARIABLE_INDEX_BYTE
+     * @see OperandType#SIGNED_VALUE_BYTE
+     * @see VariableOperandOpcode#WIDE
+     * @see NoOperandOpcode#IADD
+     */
     IINC(OpcodeValue.IINC, LOCAL_VARIABLE_INDEX_BYTE, SIGNED_VALUE_BYTE),
+    /**
+     * <p>
+     * {@code invokeinterface} - Invoke interface method
+     * </p>
+     *
+     * <dl>
+     * <dt><strong>Opcode</strong></dt>
+     * <dd>{@value OpcodeValue#INVOKEINTERFACE}</dd>
+     * <dt><strong>Format</strong></dt>
+     * <dd>
+     * {@code invokeinterface}
+     * <em>{@linkplain OperandType#CONSTANT_POOL_INDEX_SHORT index}</em>,
+     * <em>{@linkplain OperandType#UNSIGNED_VALUE_BYTE count}</em>
+     * </dd>
+     * <dt><strong>Operand Stack</strong></dt>
+     * <dd>
+     * &hellip;, <em>objectref</em>, [<em>arg1</em>, [<em>arg2</em>, &hellip;]]
+     * &rarr;
+     * &hellip;
+     * </dd>
+     * </dl>
+     *
+     * @see OpcodeValue#INVOKEINTERFACE
+     * @see OperandType#CONSTANT_POOL_INDEX_SHORT
+     * @see OperandType#UNSIGNED_VALUE_BYTE
+     * @see OneOperandOpcode#INVOKEVIRTUAL
+     * @see OneOperandOpcode#INVOKESPECIAL
+     * @see OneOperandOpcode#INVOKESTATIC
+     * @see OneOperandOpcode#INVOKEDYNAMIC
+     */
     INVOKEINTERFACE(OpcodeValue.INVOKEINTERFACE, CONSTANT_POOL_INDEX_SHORT,
                     UNSIGNED_VALUE_BYTE),
+    /**
+     * <p>
+     * {@code multianewarray} - Create new multidimensional array
+     * </p>
+     *
+     * <dl>
+     * <dt><strong>Opcode</strong></dt>
+     * <dd>{@value OpcodeValue#MULTIANEWARRAY}</dd>
+     * <dt><strong>Format</strong></dt>
+     * <dd>
+     * {@code multianewarray}
+     * <em>{@linkplain OperandType#CONSTANT_POOL_INDEX_SHORT index}</em>,
+     * <em>{@linkplain OperandType#UNSIGNED_VALUE_BYTE dimensions}</em>
+     * </dd>
+     * <dt><strong>Operand Stack</strong></dt>
+     * <dd>
+     * &hellip;, <em>count1</em>, [<em>count2</em>, &hellip;] &rarr;
+     * &hellip; <em>arrayref</em>
+     * </dd>
+     * </dl>
+     *
+     * @see OpcodeValue#MULTIANEWARRAY
+     * @see OperandType#CONSTANT_POOL_INDEX_SHORT
+     * @see OperandType#UNSIGNED_VALUE_BYTE
+     * @see OneOperandOpcode#ANEWARRAY
+     * @see OneOperandOpcode#NEW
+     * @see OneOperandOpcode#NEWARRAY
+     */
     MULTIANEWARRAY(OpcodeValue.MULTIANEWARRAY, CONSTANT_POOL_INDEX_SHORT,
                     UNSIGNED_VALUE_BYTE);
 
@@ -85,7 +174,7 @@ public enum TwoOperandOpcode implements Opcode {
 
     @Override
     public int getNumOperands() {
-        return 0;
+        return 2;
     }
 
     //
@@ -101,6 +190,21 @@ public enum TwoOperandOpcode implements Opcode {
     // PUBLIC STATICS
     //
 
+    /**
+     * Obtains the {@link TwoOperandOpcode} for the given opcode byte value.
+     *
+     * @param value Opcode byte value
+     * @return Opcode instance
+     * @throws IllegalArgumentException If {@code value} is not in the range
+     *                                  0..255 <em>or</em> the value is in the
+     *                                  correct range but that value does not
+     *                                  correspond to a known two-operand opcode
+     * @see OpcodeValue
+     * @see Opcode#forUnsignedByte(int)
+     * @see NoOperandOpcode#forUnsignedByte(int)
+     * @see OneOperandOpcode#forUnsignedByte(int)
+     * @see VariableOperandOpcode#forUnsignedByte(int)
+     */
     public static TwoOperandOpcode forUnsignedByte(final int value) {
         switch (value) {
             case OpcodeValue.IINC:

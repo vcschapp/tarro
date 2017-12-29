@@ -40,6 +40,8 @@ DOCUMENTATION
         - invokedynamic/invokeinterface/etc. If consistent with JVM spec, every
           instance of these opcode "words"", including those embedded in
           OTHER_CONSTANT_VALUES should omit the underscore.
+        - runtime constant pool (no hyphen between 'run' and 'time' ie not
+          run-time)
 6. Always use code styling for opcode names. So links should be @link, not
    @linkplain.
 7. Bytecode entity documentation should preferably refer to the runtime constant
@@ -81,6 +83,7 @@ CODE
 11. For enums that implement Versioned, in an automated fashion add
     @since {@linkplain ...} links to the class file version of where the thing
     was introduced. Need to make a tool for this to avoid error etc.
+12. Every catch clause variable name is `final`.
 
 -----------
 STYLE GUIDE

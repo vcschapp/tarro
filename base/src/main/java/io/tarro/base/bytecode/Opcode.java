@@ -251,6 +251,10 @@ public interface Opcode extends Valued, Versioned {
      *                                  correct range but that value does not
      *                                  correspond to a known opcode value
      * @see OpcodeValue
+     * @see NoOperandOpcode#forUnsignedByte(int)
+     * @see OneOperandOpcode#forUnsignedByte(int)
+     * @see TwoOperandOpcode#forUnsignedByte(int)
+     * @see VariableOperandOpcode#forUnsignedByte(int)
      */
     static Opcode forUnsignedByte(final int value) {
         return allOpcodes().forUnsignedByte(value);

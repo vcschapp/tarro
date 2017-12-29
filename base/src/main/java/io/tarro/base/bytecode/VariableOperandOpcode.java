@@ -37,9 +37,18 @@ import static io.tarro.base.bytecode.OperandType.OPTIONAL_SIGNED_VALUE_SHORT;
 import static io.tarro.base.bytecode.OperandType.SIGNED_VALUE_INT;
 
 /**
+ * <p>
  * Enumerates opcodes for Java Virtual Machine instructions which do not fit
- * the no operand/one operand/two operands paradigm.
+ * the no operand/one operand/two operands paradigm because the number and/or
+ * size of operands embedded in the instruction depends on one or more embedded
+ * operands.
+ * </p>
  *
+ * <p>
+ * Note that the instruction may consume operands from the operand stack in
+ * addition to the operands embedded within the instruction.
+ * </p>
+
  * @author Victor Schappert
  * @since 20171218
  * @see NoOperandOpcode
@@ -54,10 +63,124 @@ public enum VariableOperandOpcode implements Opcode {
     //
 
     // Keep this list in alphabetical order by opcode mnemonic.
+    /**
+     * <p>
+     * {@code lookupswitch} - Access jump table by key match and jump
+     * </p>
+     *
+     * <dl>
+     * <dt><strong>Opcode</strong></dt>
+     * <dd>{@value io.tarro.base.bytecode.OpcodeValue#LOOKUPSWITCH}</dd>
+     * <dt><strong>Format</strong></dt>
+     * <dd>
+     * {@code lookupswitch}
+     * <em>&lt;padding&gt;</em>,
+     * <em>{@linkplain OperandType#BRANCH_OFFSET_INT default offset}</em>,
+     * <em>{@linkplain OperandType#SIGNED_VALUE_INT npairs}</em>,
+     * <em>
+     * {@linkplain OperandType#MATCH_OFFSET_PAIR_TABLE match-offset pairs}
+     * </em>
+     * </dd>
+     * <dt><strong>Operand Stack</strong></dt>
+     * <dd>&hellip;, <em>key</em> &rarr; &hellip;</dd>
+     * </dl>
+     *
+     * @see OpcodeValue#LOOKUPSWITCH
+     * @see OperandType#BRANCH_OFFSET_INT
+     * @see OperandType#SIGNED_VALUE_INT
+     * @see OperandType#MATCH_OFFSET_PAIR_TABLE
+     * @see #TABLESWITCH
+     */
     LOOKUPSWITCH(OpcodeValue.LOOKUPSWITCH, BRANCH_OFFSET_INT, SIGNED_VALUE_INT,
             MATCH_OFFSET_PAIR_TABLE),
+    /**
+     * <p>
+     * {@code tableswitch} - Access jump table by index and jump
+     * </p>
+     *
+     * <dl>
+     * <dt><strong>Opcode</strong></dt>
+     * <dd>{@value io.tarro.base.bytecode.OpcodeValue#TABLESWITCH}</dd>
+     * <dt><strong>Format</strong></dt>
+     * <dd>
+     * {@code tableswitch}
+     * <em>&lt;padding&gt;</em>,
+     * <em>{@linkplain OperandType#BRANCH_OFFSET_INT default offset}</em>,
+     * <em>{@linkplain OperandType#SIGNED_VALUE_INT low}</em>,
+     * <em>{@linkplain OperandType#SIGNED_VALUE_INT high}</em>,
+     * <em>
+     * {@linkplain OperandType#JUMP_OFFSET_TABLE jump offsets}
+     * </em>
+     * </dd>
+     * <dt><strong>Operand Stack</strong></dt>
+     * <dd>&hellip;, <em>index</em> &rarr; &hellip;</dd>
+     * </dl>
+     *
+     * @see OpcodeValue#TABLESWITCH
+     * @see OperandType#BRANCH_OFFSET_INT
+     * @see OperandType#SIGNED_VALUE_INT
+     * @see OperandType#JUMP_OFFSET_TABLE
+     * @see #LOOKUPSWITCH
+     */
     TABLESWITCH(OpcodeValue.TABLESWITCH, BRANCH_OFFSET_INT,
             SIGNED_VALUE_INT, SIGNED_VALUE_INT, JUMP_OFFSET_TABLE),
+    /**
+     * <p>
+     * {@code wide} - Execute instruction with operands extended by the addition
+     * of an extra byte
+     * </p>
+     *
+     * <dl>
+     * <dt><strong>Opcode</strong></dt>
+     * <dd>{@value io.tarro.base.bytecode.OpcodeValue#WIDE}</dd>
+     * <dt><strong>Format 1</strong></dt>
+     * <dd>
+     * <p>
+     * {@code wide}
+     * <em>{@linkplain OperandType#OPCODE opcode}</em>,
+     * <em>{@linkplain OperandType#LOCAL_VARIABLE_INDEX_SHORT index}</em>
+     * </p>
+     * <p>
+     * where <em>opcode</em> is one of
+     * {@link OneOperandOpcode#ALOAD aload};
+     * {@link OneOperandOpcode#ASTORE astore};
+     * {@link OneOperandOpcode#DLOAD dload};
+     * {@link OneOperandOpcode#DSTORE dstore};
+     * {@link OneOperandOpcode#FLOAD fload};
+     * {@link OneOperandOpcode#FSTORE fstore};
+     * {@link OneOperandOpcode#ILOAD iload};
+     * {@link OneOperandOpcode#ISTORE istore};
+     * {@link OneOperandOpcode#LLOAD lload}; or
+     * {@link OneOperandOpcode#LSTORE lstore}
+     * </p>
+     * </dd>
+     * <dt><strong>Format 2</strong></dt>
+     * <dd>
+     * {@code wide}
+     * {@link TwoOperandOpcode#IINC iinc},
+     * <em>{@linkplain OperandType#LOCAL_VARIABLE_INDEX_SHORT index}</em>,
+     * <em>{@linkplain OperandType#SIGNED_VALUE_SHORT count}</em>
+     * </dd>
+     * <dt><strong>Operand Stack</strong></dt>
+     * <dd>Same as modified instruction</dd>
+     * </dl>
+     *
+     * @see OpcodeValue#WIDE
+     * @see OperandType#OPCODE
+     * @see OperandType#LOCAL_VARIABLE_INDEX_SHORT
+     * @see OperandType#SIGNED_VALUE_SHORT
+     * @see OneOperandOpcode#ALOAD
+     * @see OneOperandOpcode#ASTORE
+     * @see OneOperandOpcode#DLOAD
+     * @see OneOperandOpcode#DSTORE
+     * @see OneOperandOpcode#FLOAD
+     * @see OneOperandOpcode#FSTORE
+     * @see OneOperandOpcode#ILOAD
+     * @see OneOperandOpcode#ISTORE
+     * @see OneOperandOpcode#LLOAD
+     * @see OneOperandOpcode#LSTORE
+     * @see TwoOperandOpcode#IINC
+     */
     WIDE(OpcodeValue.WIDE, OPCODE, LOCAL_VARIABLE_INDEX_SHORT,
             OPTIONAL_SIGNED_VALUE_SHORT);
 
@@ -108,6 +231,23 @@ public enum VariableOperandOpcode implements Opcode {
     // PUBLIC STATICS
     //
 
+    /**
+     * Obtains the {@link VariableOperandOpcode} for the given opcode byte
+     * value.
+     *
+     * @param value Opcode byte value
+     * @return Opcode instance
+     * @throws IllegalArgumentException If {@code value} is not in the range
+     *                                  0..255 <em>or</em> the value is in the
+     *                                  correct range but that value does not
+     *                                  correspond to a known variable-operand
+     *                                  opcode
+     * @see OpcodeValue
+     * @see Opcode#forUnsignedByte(int)
+     * @see NoOperandOpcode#forUnsignedByte(int)
+     * @see OneOperandOpcode#forUnsignedByte(int)
+     * @see TwoOperandOpcode#forUnsignedByte(int)
+     */
     public static VariableOperandOpcode forUnsignedByte(final int value) {
         switch (value) {
             case OpcodeValue.LOOKUPSWITCH:
