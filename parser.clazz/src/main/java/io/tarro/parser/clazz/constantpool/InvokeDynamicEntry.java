@@ -24,7 +24,7 @@ SOFTWARE.
 
 package io.tarro.parser.clazz.constantpool;
 
-import io.tarro.base.constantpool.ConstantPoolTag.Represents;
+import io.tarro.base.constantpool.ConstantPoolTag.AssociatedWith;
 
 import static io.tarro.base.constantpool.ConstantPoolTag.INVOKE_DYNAMIC;
 
@@ -40,7 +40,7 @@ import static io.tarro.base.constantpool.ConstantPoolTag.INVOKE_DYNAMIC;
  * @author Victor Schappert
  * @since 20171014
  */
-@Represents(INVOKE_DYNAMIC)
+@AssociatedWith(INVOKE_DYNAMIC)
 public final class InvokeDynamicEntry extends ConstantPoolEntry {
 
     //

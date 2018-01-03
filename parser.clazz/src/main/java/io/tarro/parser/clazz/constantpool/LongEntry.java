@@ -24,7 +24,7 @@ SOFTWARE.
 
 package io.tarro.parser.clazz.constantpool;
 
-import io.tarro.base.constantpool.ConstantPoolTag.Represents;
+import io.tarro.base.constantpool.ConstantPoolTag.AssociatedWith;
 
 import static io.tarro.base.constantpool.ConstantPoolTag.LONG;
 
@@ -41,7 +41,7 @@ import static io.tarro.base.constantpool.ConstantPoolTag.LONG;
  * @author Victor Schappert
  * @since 20171014
  */
-@Represents(LONG)
+@AssociatedWith(LONG)
 public final class LongEntry extends ConstantPoolEntry {
 
     //

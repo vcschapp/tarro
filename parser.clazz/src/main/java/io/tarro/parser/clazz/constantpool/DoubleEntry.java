@@ -24,7 +24,7 @@ SOFTWARE.
 
 package io.tarro.parser.clazz.constantpool;
 
-import io.tarro.base.constantpool.ConstantPoolTag.Represents;
+import io.tarro.base.constantpool.ConstantPoolTag.AssociatedWith;
 import static io.tarro.base.constantpool.ConstantPoolTag.DOUBLE;
 
 /**
@@ -40,7 +40,7 @@ import static io.tarro.base.constantpool.ConstantPoolTag.DOUBLE;
  * @author Victor Schappert
  * @since 20171014
  */
-@Represents(DOUBLE)
+@AssociatedWith(DOUBLE)
 public final class DoubleEntry extends ConstantPoolEntry  {
 
     //

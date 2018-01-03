@@ -25,7 +25,7 @@ SOFTWARE.
 package io.tarro.parser.clazz.constantpool;
 
 import io.tarro.base.constantpool.ConstantPoolTag;
-import io.tarro.base.constantpool.ConstantPoolTag.Represents;
+import io.tarro.base.constantpool.ConstantPoolTag.AssociatedWith;
 
 import static io.tarro.base.constantpool.ConstantPoolTag.CLASS;
 import static io.tarro.base.constantpool.ConstantPoolTag.MODULE;
@@ -39,7 +39,7 @@ import static io.tarro.base.constantpool.ConstantPoolTag.STRING;
  * @author Victor Schappert
  * @since 20171009
  */
-@Represents({ CLASS, STRING, MODULE, PACKAGE })
+@AssociatedWith({ CLASS, STRING, MODULE, PACKAGE })
 public final class Utf8ReferenceEntry extends ConstantPoolEntry {
 
     //

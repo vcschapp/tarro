@@ -24,7 +24,7 @@ SOFTWARE.
 
 package io.tarro.parser.clazz.constantpool;
 
-import io.tarro.base.constantpool.ConstantPoolTag.Represents;
+import io.tarro.base.constantpool.ConstantPoolTag.AssociatedWith;
 
 import static io.tarro.base.constantpool.ConstantPoolTag.UTF8;
 import static java.util.Objects.requireNonNull;
@@ -46,7 +46,7 @@ import static java.util.Objects.requireNonNull;
  * @author Victor Schappert (schapper@)
  * @since 20171014
  */
-@Represents(UTF8)
+@AssociatedWith(UTF8)
 public class Utf8Entry extends ConstantPoolEntry {
 
     //

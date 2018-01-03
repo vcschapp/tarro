@@ -175,14 +175,14 @@ import static io.tarro.base.attribute.AttributeType.SYNTHETIC;
 import static io.tarro.base.attribute.AttributeType.UNKNOWN;
 import static io.tarro.base.constantpool.ConstantPoolTag.CLASS;
 import static io.tarro.base.constantpool.ConstantPoolTag.DOUBLE;
-import static io.tarro.base.constantpool.ConstantPoolTag.FIELD_REFERENCE;
+import static io.tarro.base.constantpool.ConstantPoolTag.FIELDREF;
 import static io.tarro.base.constantpool.ConstantPoolTag.FLOAT;
 import static io.tarro.base.constantpool.ConstantPoolTag.INTEGER;
-import static io.tarro.base.constantpool.ConstantPoolTag.INTERFACE_METHOD_REFERENCE;
+import static io.tarro.base.constantpool.ConstantPoolTag.INTERFACE_METHODREF;
 import static io.tarro.base.constantpool.ConstantPoolTag.INVOKE_DYNAMIC;
 import static io.tarro.base.constantpool.ConstantPoolTag.LONG;
 import static io.tarro.base.constantpool.ConstantPoolTag.METHOD_HANDLE;
-import static io.tarro.base.constantpool.ConstantPoolTag.METHOD_REFERENCE;
+import static io.tarro.base.constantpool.ConstantPoolTag.METHODREF;
 import static io.tarro.base.constantpool.ConstantPoolTag.METHOD_TYPE;
 import static io.tarro.base.constantpool.ConstantPoolTag.MODULE;
 import static io.tarro.base.constantpool.ConstantPoolTag.NAME_AND_TYPE;
@@ -543,19 +543,19 @@ public final class ClassParser {
         return constantPoolUtf8ReferenceEntry(CLASS, entryIndex, "name_index");
     }
 
-    @ConstantPoolTagContext(FIELD_REFERENCE)
+    @ConstantPoolTagContext(FIELDREF)
     private int constantPoolFieldReferenceEntry(final int entryIndex) throws IOException {
-        return constantPoolMemberReferenceEntry(FIELD_REFERENCE, entryIndex);
+        return constantPoolMemberReferenceEntry(FIELDREF, entryIndex);
     }
 
-    @ConstantPoolTagContext(METHOD_REFERENCE)
+    @ConstantPoolTagContext(METHODREF)
     private int constantPoolMethodReferenceEntry(final int entryIndex) throws IOException {
-        return constantPoolMemberReferenceEntry(METHOD_REFERENCE, entryIndex);
+        return constantPoolMemberReferenceEntry(METHODREF, entryIndex);
     }
 
-    @ConstantPoolTagContext(INTERFACE_METHOD_REFERENCE)
+    @ConstantPoolTagContext(INTERFACE_METHODREF)
     private int constantPoolInterfaceMethodReferenceEntry(final int entryIndex) throws IOException {
-        return constantPoolMemberReferenceEntry(INTERFACE_METHOD_REFERENCE, entryIndex);
+        return constantPoolMemberReferenceEntry(INTERFACE_METHODREF, entryIndex);
     }
 
     @ConstantPoolTagContext(STRING)

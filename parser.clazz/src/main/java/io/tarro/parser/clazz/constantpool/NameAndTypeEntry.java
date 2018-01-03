@@ -24,7 +24,7 @@ SOFTWARE.
 
 package io.tarro.parser.clazz.constantpool;
 
-import io.tarro.base.constantpool.ConstantPoolTag.Represents;
+import io.tarro.base.constantpool.ConstantPoolTag.AssociatedWith;
 
 import static io.tarro.base.constantpool.ConstantPoolTag.NAME_AND_TYPE;
 
@@ -37,7 +37,7 @@ import static io.tarro.base.constantpool.ConstantPoolTag.NAME_AND_TYPE;
  * @author Victor Schappert
  * @since 20171012
  */
-@Represents(NAME_AND_TYPE)
+@AssociatedWith(NAME_AND_TYPE)
 public final class NameAndTypeEntry extends ConstantPoolEntry {
 
     //

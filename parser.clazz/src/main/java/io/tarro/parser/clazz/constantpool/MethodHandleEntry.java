@@ -25,7 +25,7 @@ SOFTWARE.
 package io.tarro.parser.clazz.constantpool;
 
 import io.tarro.base.constantpool.MethodHandleReferenceKind;
-import io.tarro.base.constantpool.ConstantPoolTag.Represents;
+import io.tarro.base.constantpool.ConstantPoolTag.AssociatedWith;
 
 import static io.tarro.base.constantpool.ConstantPoolTag.METHOD_HANDLE;
 import static java.util.Objects.requireNonNull;
@@ -39,7 +39,7 @@ import static java.util.Objects.requireNonNull;
  * @author Victor Schappert (schapper@)
  * @since 20171014
  */
-@Represents(METHOD_HANDLE)
+@AssociatedWith(METHOD_HANDLE)
 public final class MethodHandleEntry extends ConstantPoolEntry {
 
     //

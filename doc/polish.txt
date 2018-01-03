@@ -40,6 +40,10 @@ DOCUMENTATION
         - invokedynamic/invokeinterface/etc. If consistent with JVM spec, every
           instance of these opcode "words"", including those embedded in
           OTHER_CONSTANT_VALUES should omit the underscore.
+                **Hmmmm. On reflection, I'm not so sure about this.**
+                **There are good reason to follow JVM instruction set
+                **convention in the bytecode package and use underscores
+                **everywhere else...
         - runtime constant pool (no hyphen between 'run' and 'time' ie not
           run-time)
 6. Always use code styling for opcode names. So links should be @link, not

@@ -25,11 +25,11 @@ SOFTWARE.
 package io.tarro.parser.clazz.constantpool;
 
 import io.tarro.base.constantpool.ConstantPoolTag;
-import io.tarro.base.constantpool.ConstantPoolTag.Represents;
+import io.tarro.base.constantpool.ConstantPoolTag.AssociatedWith;
 
-import static io.tarro.base.constantpool.ConstantPoolTag.FIELD_REFERENCE;
-import static io.tarro.base.constantpool.ConstantPoolTag.INTERFACE_METHOD_REFERENCE;
-import static io.tarro.base.constantpool.ConstantPoolTag.METHOD_REFERENCE;
+import static io.tarro.base.constantpool.ConstantPoolTag.FIELDREF;
+import static io.tarro.base.constantpool.ConstantPoolTag.INTERFACE_METHODREF;
+import static io.tarro.base.constantpool.ConstantPoolTag.METHODREF;
 
 /**
  * Constant pool entry which contains a reference to a member of a class. In
@@ -39,7 +39,7 @@ import static io.tarro.base.constantpool.ConstantPoolTag.METHOD_REFERENCE;
  * @author Victor Schappert
  * @since 20171012
  */
-@Represents({ FIELD_REFERENCE, METHOD_REFERENCE, INTERFACE_METHOD_REFERENCE })
+@AssociatedWith({FIELDREF, METHODREF, INTERFACE_METHODREF})
 public final class MemberReferenceEntry extends ConstantPoolEntry {
 
     //
@@ -55,8 +55,8 @@ public final class MemberReferenceEntry extends ConstantPoolEntry {
 
     public MemberReferenceEntry(final ConstantPoolTag constantPoolTag, final int classIndex, final int nameAndTypeIndex) {
         super(constantPoolTag);
-        assert FIELD_REFERENCE == constantPoolTag || METHOD_REFERENCE == constantPoolTag
-                || INTERFACE_METHOD_REFERENCE == constantPoolTag;
+        assert FIELDREF == constantPoolTag || METHODREF == constantPoolTag
+                || INTERFACE_METHODREF == constantPoolTag;
         this.classIndex = classIndex;
         this.nameAndTypeIndex = nameAndTypeIndex;
     }

@@ -24,7 +24,7 @@ SOFTWARE.
 
 package io.tarro.parser.clazz.constantpool;
 
-import io.tarro.base.constantpool.ConstantPoolTag.Represents;
+import io.tarro.base.constantpool.ConstantPoolTag.AssociatedWith;
 
 import static io.tarro.base.constantpool.ConstantPoolTag.INTEGER;
 
@@ -34,7 +34,7 @@ import static io.tarro.base.constantpool.ConstantPoolTag.INTEGER;
  * @author Victor Schappert
  * @since 20171014
  */
-@Represents(INTEGER)
+@AssociatedWith(INTEGER)
 public final class IntegerEntry extends ConstantPoolEntry {
 
     //
