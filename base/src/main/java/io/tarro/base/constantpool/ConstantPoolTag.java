@@ -169,7 +169,7 @@ public enum ConstantPoolTag implements Valued, Versioned {
      * @see #METHOD_HANDLE
      * @see #METHOD_TYPE
      */
-    INVOKE_DYNAMIC(17, "CONSTANT_InvokeDynamic", JAVA7),
+    INVOKE_DYNAMIC(18, "CONSTANT_InvokeDynamic", JAVA7),
     /**
      * Tag {@code CONSTANT_Module} (19) identifying a structure of type
      * {@code CONSTANT_Module_info}.
