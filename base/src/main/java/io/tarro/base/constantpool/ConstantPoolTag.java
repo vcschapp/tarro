@@ -34,7 +34,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 import static io.tarro.base.ClassFileVersion.JAVA1;
-import static io.tarro.base.ClassFileVersion.JAVA5;
 import static io.tarro.base.ClassFileVersion.JAVA7;
 import static io.tarro.base.ClassFileVersion.JAVA9;
 import static java.lang.annotation.RetentionPolicy.SOURCE;
@@ -68,7 +67,7 @@ public enum ConstantPoolTag implements Valued, Versioned {
      * Tag {@code CONSTANT_Class} (7) identifying a structure of type
      * {@code CONSTANT_Class_info}.
      */
-    CLASS(7, "CONSTANT_Class", JAVA5),
+    CLASS(7, "CONSTANT_Class", JAVA1),
     /**
      * Tag {@code CONSTANT_Fieldref} (9) identifying a structure of type
      * {@code CONSTANT_Fieldref_info}.
