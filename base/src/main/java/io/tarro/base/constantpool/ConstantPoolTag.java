@@ -149,6 +149,7 @@ public enum ConstantPoolTag implements Valued, Versioned {
      * Tag {@code CONSTANT_MethodHandle} (15) identifying a structure of type
      * {@code CONSTANT_MethodHandle_info}.
      *
+     * @see MethodHandleReferenceKind
      * @see #METHOD_TYPE
      * @see #INVOKE_DYNAMIC
      */
