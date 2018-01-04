@@ -89,5 +89,4 @@ public enum ModuleReferenceFlag implements Flag {
     public ClassFileVersion getFirstVersionSupporting() {
         return ClassFileVersion.JAVA9;
     }
-
 }
