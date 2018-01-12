@@ -24,6 +24,17 @@ SOFTWARE.
 
 package io.tarro.base.flag;
 
+import java.util.EnumSet;
+
+/**
+ * <p>
+ * Thrown upon detection of an invalid combination of {@link Flag} enumerators.
+ * </p>
+ *
+ * @author Victor Schappert
+ * @since 20171014
+ * @see FlagMixRule#validate(EnumSet)
+ */
 public class BadAccessFlagsMixException extends IllegalArgumentException {
     //
     // CONSTRUCTORS
