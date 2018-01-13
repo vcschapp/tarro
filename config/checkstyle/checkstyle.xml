@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  MIT License
+
+  Copyright (c) 2018 Victor Schappert
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in all
+  copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  SOFTWARE.
+  -->
+
+<!DOCTYPE module PUBLIC "-//Puppy Crawl//DTD Check Configuration 1.3//EN"
+                        "http://www.puppycrawl.com/dtds/configuration_1_3.dtd">
+
+<module name="Checker">
+    <property name="localeLanguage" value="en"/>
+
+    <!-- Out-of-line suppressions file. -->
+    <module name="SuppressionFilter">
+        <property name="file" value="${configDir}/suppressions.xml" />
+    </module>
+
+    <!-- Skip Java 9 module declarations until Checkstyle supports them. -->
+    <module name="BeforeExecutionExclusionFileFilter">
+        <property name="fileNamePattern" value="module\-info\.java$"/>
+    </module>
+
+    <!-- Require package Javadoc, ie package-info.java. -->
+    <module name="JavadocPackage"/>
+
+    <!-- Require files to end with a newline character. -->
+    <module name="NewlineAtEndOfFile">
+        <property name="lineSeparator" value="lf"/>
+    </module>
+
+    <!-- No tabs allowed! -->
+    <module name="FileTabCharacter"/>
+
+    <module name="TreeWalker">
+
+        <!--
+        ========================================================================
+        FILE LEVEL
+        ========================================================================
+        -->
+
+        <!-- Every source file must begin with the license text. -->
+        <!-- TODO: Uncomment this when ready to do license checking.
+        <module name="Header or RegexpHeader may be better">
+            <property name="headerFile" value="$config_loc/foo"/>
+        </module>
+         -->
+
+        <!-- Limit line length! -->
+        <module name="LineLength">
+            <property name="max" value="95"/>
+        </module>
+
+        <!-- No trailing whitespace on a line. -->
+        <module name="Regexp">
+            <property name="format" value="(?U)\p{Blank}$"/>
+            <property name="illegalPattern" value="true"/>
+            <property name="message" value="Trailing whitespace"/>
+        </module>
+
+        <!-- Ensure all package annotations are in package-info.java -->
+        <module name="PackageAnnotation"/>
+
+        <!-- No internal line wrapping in import and package statements. -->
+        <module name="NoLineWrap"/>
+
+        <!-- Imports should be explicitly stated and actually necessary. -->
+        <module name="AvoidStarImport"/>
+        <module name="RedundantImport"/>
+        <module name="UnusedImports"/>
+
+        <!-- No symbols from internal packages like sun.* may be imported. -->
+        <module name="IllegalImport"/>
+
+        <!-- Import statements should follow the same organization rules as
+             the IntelliJ IDEA formatter. -->
+        <module name="CustomImportOrder">
+            <property name="customImportOrderRules"
+                      value="THIRD_PARTY_PACKAGE###SPECIAL_IMPORTS###STANDARD_JAVA_PACKAGE###STATIC"/>
+            <property name="specialImportsRegExp" value="^javax\."/>
+            <property name="standardPackageRegExp" value="^java\."/>
+            <property name="sortImportsInGroupAlphabetically" value="true"/>
+            <property name="separateLineBetweenGroups" value="false"/>
+        </module>
+
+        <!-- Write modifiers simply and consistently. -->
+        <module name="RedundantModifier"/>
+        <module name="ModifierOrder"/>
+
+        <!-- Comments should have the same indent level as surrounding code. -->
+        <module name="CommentsIndentation"/>
+
+        <!-- Put brackets [] after array element type, not variable, parameter,
+             or field name. -->
+        <module name="ArrayTypeStyle"/>
+
+        <!-- Ensure whitespace around angle brackets follows convention. -->
+        <module name="GenericWhitespace"/>
+
+        <!-- Ensure opening brace is always at the end of a line. -->
+        <module name="LeftCurly">
+            <property name="ignoreEnums" value="false"/>
+        </module>
+
+        <!-- Ensure closing brace is always at the start of a line. -->
+        <module name="RightCurly"/>
+
+        <!-- User uppercase 'L' in long literals. ie 99L, not 99l. -->
+        <module name="UpperEll"/>
+
+        <!-- Constant names should consist of UPPER_CASE_WORD_CHARS. -->
+        <module name="ConstantName"/>
+
+        <!-- General Javadoc style checks -->
+        <module name="JavadocStyle">
+            <property name="checkEmptyJavadoc" value="true"/>
+            <property name="checkHtml" value="false"/>
+        </module>
+
+        <!-- No Javadoc tags like '@param foo' without a description. -->
+        <module name="NonEmptyAtclauseDescription"/>
+
+        <!-- Can't have either @Deprecated annotation or @deprecated Javadoc
+             tag without the other one. -->
+        <module name="MissingDeprecated"/>
+
+        <!--
+        ========================================================================
+        CLASS/TYPE STRUCTURE
+        ========================================================================
+        -->
+
+        <!-- Ensure each class has corrrectly-structured package declaration -->
+        <module name="PackageDeclaration"/>
+
+        <!-- Interfaces, classes, enums, and annotations require Javadoc. -->
+        <module name="JavadocType"/>
+
+        <!-- Interfaces must be types (not just constants) -->
+        <module name="InterfaceIsType"/>
+
+        <!-- A class with only private constructors must be declared final. -->
+        <module name="FinalClass"/>
+
+        <!-- Exception classes should be immutable. -->
+        <module name="MutableException"/>
+
+        <!-- Utility class should not be instantiable. -->
+        <module name="HideUtilityClassConstructor"/>
+
+        <!-- Require hash code override when equals is overridden -->
+        <module name="EqualsHashCode"/>
+
+        <!-- If class C has equals(C) it must also define equals(Object). -->
+        <module name="CovariantEquals"/>
+
+        <!-- Don't create finalize() methods -->
+        <module name="NoFinalizer"/>
+
+        <!-- Don't create clone() methods -->
+        <module name="NoClone"/>
+
+        <!--
+        ========================================================================
+        FIELD DECLARATION
+        ========================================================================
+        -->
+
+        <!-- Require Javadoc for public fields, typically constants. -->
+        <module name="JavadocVariable">
+            <property name="scope" value="public"/>
+        </module>
+
+        <!-- No public instance fields. -->
+        <module name="VisibilityModifier">
+            <property name="protectedAllowed" value="true"/>
+        </module>
+
+        <!-- Avoid redundantly initializing values to JVM defaults. -->
+        <module name="ExplicitInitialization"/>
+
+        <!--
+        ========================================================================
+        METHOD DECLARATION
+        ========================================================================
+        -->
+
+        <!-- Require strict Javadoc for public methods. -->
+        <module name="JavadocMethod">
+            <property name="scope" value="public"/>
+            <property name="allowThrowsTagsForSubclasses" value="true"/>
+        </module>
+
+        <!-- No useless throws clauses declaring unchecked exceptions. -->
+        <module name="IllegalThrows"/>
+
+        <!-- Require @Override annotation of Javadoc says {@inheritDoc}. -->
+        <module name="MissingOverride"/>
+
+        <!-- Method parameters must be declared final. -->
+        <module name="FinalParameters"/>
+
+        <!-- No space after method name and before the opening parenthesis of
+             the parameter list. -->
+        <module name="MethodParamPad"/>
+
+        <!-- Keep method parameter counts down to sane limit. -->
+        <module name="ParameterNumber">
+            <property name="ignoreOverriddenMethods" value="true"/>
+        </module>
+
+        <!--
+        ========================================================================
+        METHOD CODE
+        ========================================================================
+        -->
+
+        <!-- No if, else, do, without braces. -->
+        <module name="NeedBraces">
+            <property name="tokens"
+                      value="LITERAL_IF, LITERAL_ELSE, LITERAL_DO"/>
+        </module>
+
+        <!-- Operator must be at end of wrapped line. -->
+        <module name="OperatorWrap">
+            <property name="option" value="eol"/>
+        </module>
+
+        <!-- Disallow unnecessary instantiation of Boolean, String. -->
+        <module name="IllegalInstantiation">
+            <property name="classes" value="java.lang.Boolean, java.lang.String"/>
+        </module>
+
+        <!-- Avoid overly broad catch clauses (Exception, Throwable,
+             RuntimeException).  -->
+        <module name="IllegalCatch"/>
+
+        <!-- No System.out.println() statements -->
+        <module name="Regexp">
+            <property name="format" value="System\.out\.println"/>
+            <property name="illegalPattern" value="true"/>
+        </module>
+
+        <!-- Switch statements should be complete and with independent cases -->
+        <module name="FallThrough"/>
+        <module name="MissingSwitchDefault"/>
+        <module name="DefaultComesLast"/>
+
+        <!-- Don't use == or != for String comparisons. -->
+        <module name="StringLiteralEquality"/>
+
+        <!-- When testing a string literal for equality with a variable, always
+             put the literal on the left-hand side.
+                ie test for `"literal".equals(variable)` -->
+        <module name="EqualsAvoidNull"/>
+
+        <!-- No single method should have too many branches. -->
+        <module name="CyclomaticComplexity">
+            <property name="max" value="4"/>
+            <property name="switchBlockAsSingleDecisionPoint" value="true"/>
+        </module>
+
+        <!-- No anonymous class should have too many lines. -->
+        <module name="AnonInnerLength">
+            <property name="max" value="10"/>
+        </module>
+
+        <!-- Don't use nested blocks unless needed for branching statement. -->
+        <module name="AvoidNestedBlocks">
+            <property name="allowInSwitchCase" value="true"/>
+        </module>
+
+        <!-- Variables whose values never change should be declared final. -->
+        <module name="FinalLocalVariable">
+            <property name="validateEnhancedForLoopVariable" value="true"/>
+        </module>
+
+        <!-- Method parameters and local variables should not hide fields,
+             except in constructors and setters -->
+        <module name="HiddenField">
+            <property name="ignoreConstructorParameter" value="true"/>
+            <property name="ignoreSetter" value="true"/>
+        </module>
+
+        <!-- Restrict allowed values for catch clause parameter names. -->
+        <module name="CatchParameterName">
+            <property name="format" value="^(e|t|inner|outer|toIgnore)$"/>
+        </module>
+
+        <!-- Blocks should contain code. -->
+        <module name="EmptyBlock"/>
+
+        <!-- Blocks attached to a catch clause should contain code unless the
+             exception name and commenting within the block indicate the
+             exception is to be ignored. -->
+        <module name="EmptyCatchBlock">
+            <property name="exceptionVariableName" value="^toIgnore$"/>
+            <property name="commentFormat"
+                      value="^Squelch this exception because \w(\s+\w+)*\."/>
+        </module>
+
+        <!-- Logical expressions should be as simple as possible. -->
+        <module name="BooleanExpressionComplexity"/>
+        <module name="SimplifyBooleanExpression"/>
+
+        <!-- Use simplest possible boolean return statements. -->
+        <module name="SimplifyBooleanReturn"/>
+
+        <!-- Don't add extra spaces around parentheses. -->
+        <module name="ParenPad"/>
+
+        <!-- No whitespace after closing right parenthesis of typecast. -->
+        <module name="TypecastParenPad"/>
+
+        <!-- Don't add parentheses when they are not required. -->
+        <module name="UnnecessaryParentheses"/>
+
+        <!-- Don't declare multiple variables in the same statement -->
+        <module name="MultipleVariableDeclarations"/>
+
+        <!-- String literals more than one character long should not be repeated
+             several times. The "unchecked" string is also accepted to allow
+             @SuppressWarnings("unchecked") -->
+        <module name="MultipleStringLiterals" >
+            <property name="ignoreStringsRegexp" value='^(("")|(".")|("unchecked"))$'/>
+        </module>
+
+    </module>
+</module>

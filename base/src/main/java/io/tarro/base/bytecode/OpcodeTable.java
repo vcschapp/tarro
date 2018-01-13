@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.stream.Stream;
 
 import static java.lang.String.format;
-import static java.lang.reflect.Array.newInstance;
 import static java.util.Arrays.stream;
 
 /**
@@ -15,6 +14,7 @@ import static java.util.Arrays.stream;
  *
  * @author Victor Schappert
  * @since 20171218
+ * @param <O> Type of {@link Opcode} this table supports
  */
 final class OpcodeTable<O extends Opcode> {
 
@@ -64,7 +64,8 @@ final class OpcodeTable<O extends Opcode> {
     }
 
     static OpcodeTable<Opcode> allOpcodes() {
-        // TODO: Annotate this to indicate that in multi-threaded we are OK with repeating the work.
+        // TODO: Annotate this to indicate that in multi-threaded we are OK with
+        // repeating the work.
         if (null == ALL_OPCODES) {
             ALL_OPCODES = new OpcodeTable<>(
                 Opcode.class,

@@ -282,7 +282,9 @@ public enum ConstantPoolTag implements Valued, Versioned {
      *
      * @return Number of slots occupied (1 or 2)
      */
-    public int getNumSlots() { return numSlots; }
+    public int getNumSlots() {
+        return numSlots;
+    }
 
     //
     // PUBLIC ANNOTATIONS
@@ -317,6 +319,12 @@ public enum ConstantPoolTag implements Valued, Versioned {
     @Retention(SOURCE)
     @Target(ElementType.TYPE)
     public @interface AssociatedWith {
+        /**
+         * Gets the associated tags.
+         *
+         * @return Set of constant pool tags the annotated type is associated\
+         *         with
+         */
         ConstantPoolTag[] value();
     }
 }

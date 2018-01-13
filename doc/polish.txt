@@ -6,11 +6,12 @@ BUILD PROCESS
 2. javadoc has maximum linting turned on.
 3. FindBugs.
 4. CheckStyle.
-5. Any other linting.
+5. EditorConfig - IDEA has built-in support for it - http://editorconfig.org/
+6. Any other linting.
     - javac: For test module
     - kotlinc: For test module
-6. NoTabs.
-7. Eliminate as many TODOs as possible from the build.gradle's.
+7. NoTabs.
+8. Eliminate as many TODOs as possible from the build.gradle's.
 
 
 -------
