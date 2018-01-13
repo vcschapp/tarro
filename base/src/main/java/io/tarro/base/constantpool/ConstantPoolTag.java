@@ -322,7 +322,7 @@ public enum ConstantPoolTag implements Valued, Versioned {
         /**
          * Gets the associated tags.
          *
-         * @return Set of constant pool tags the annotated type is associated\
+         * @return Set of constant pool tags the annotated type is associated
          *         with
          */
         ConstantPoolTag[] value();
