@@ -63,7 +63,7 @@ public final class FlagMixRule<F extends Enum<F> & Flag> {
 
     public void validate(final EnumSet<F> flags) {
         if (badnessTest.test(flags)) {
-            throw new BadAccessFlagsMixException(flags
+            throw new BadAccessFlagMixException(flags
                     .stream()
                     .map(Flag::getFlagName)
                     .collect(joining(" | ", "", " is a bad combination: " + reason)));

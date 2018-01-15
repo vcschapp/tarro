@@ -35,12 +35,12 @@ import java.util.EnumSet;
  * @since 20171014
  * @see FlagMixRule#validate(EnumSet)
  */
-public class BadAccessFlagsMixException extends IllegalArgumentException {
+public final class BadAccessFlagMixException extends IllegalArgumentException {
     //
     // CONSTRUCTORS
     //
 
-    BadAccessFlagsMixException(final String message) {
+    BadAccessFlagMixException(final String message) {
         super(message);
     }
 
