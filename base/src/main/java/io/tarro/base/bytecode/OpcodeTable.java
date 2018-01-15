@@ -64,8 +64,10 @@ final class OpcodeTable<O extends Opcode> {
     }
 
     static OpcodeTable<Opcode> allOpcodes() {
-        // TODO: Annotate this to indicate that in multi-threaded we are OK with
-        // repeating the work.
+        // This static initializer is thread-safe because the assignment to
+        // ALL_OPCODES is idempotent and we don't care if we do the work a few
+        // extra times in a concurrent scenario before the cached value is
+        // readable by all threads.
         if (null == ALL_OPCODES) {
             ALL_OPCODES = new OpcodeTable<>(
                 Opcode.class,
