@@ -26,5 +26,6 @@ module io.tarro.test {
     requires kotlin.stdlib;
     requires kotlin.reflect;
     requires org.junit.jupiter.api;
+    requires hamcrest.all;
     exports io.tarro.test;
 }

@@ -8,8 +8,7 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${dependencyVersion.kotlin}"
     compile "org.jetbrains.kotlin:kotlin-reflect:${dependencyVersion.kotlin}"
     compile "org.junit.jupiter:junit-jupiter-api:${dependencyVersion.junit}"
-    compile "org.hamcrest:hamcrest-core:${dependencyVersion.hamcrest}"
-    compile "org.hamcrest:hamcrest-library:${dependencyVersion.hamcrest}"
+    compile "org.hamcrest:hamcrest-all:${dependencyVersion.hamcrest}"
 }
 
 repositories {
