@@ -29,10 +29,7 @@ import io.tarro.base.flag.FakeFlag.BAZ
 import io.tarro.base.flag.FakeFlag.FOO
 import io.tarro.base.flag.Flag.parse
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.MethodSource
 
 /**
  * Unit tests for [Flag].
@@ -54,7 +51,7 @@ class FlagTest {
     }
 
     @Test
-    fun parsTwo() {
+    fun parseTwo() {
         assertEquals(hashSetOf(FOO, BAZ), parse(FakeFlag::class.java, 5))
     }
 
