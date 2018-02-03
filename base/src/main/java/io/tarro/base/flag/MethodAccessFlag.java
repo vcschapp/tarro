@@ -60,7 +60,7 @@ public enum MethodAccessFlag implements Flag {
     STATIC(0x0008),
     FINAL(0x0010),
     SYNCHRONIZED(0x0020),
-    BRIDGE(0x0040),
+    BRIDGE(0x0040) /* FIXME: Is this supposed to be Java 5? */,
     VARARGS(0x0080, JAVA5),
     NATIVE(0x0100),
     ABSTRACT(0x0400),

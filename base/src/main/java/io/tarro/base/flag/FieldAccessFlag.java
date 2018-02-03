@@ -30,7 +30,6 @@ import java.util.List;
 
 import static io.tarro.base.ClassFileVersion.JAVA1;
 import static io.tarro.base.ClassFileVersion.JAVA5;
-import static io.tarro.base.ClassFileVersion.JAVA7;
 import static io.tarro.base.flag.FlagMixRule.allOf;
 import static io.tarro.base.flag.FlagMixRule.listify;
 import static io.tarro.base.flag.FlagMixRule.noneOf;
@@ -58,7 +57,7 @@ public enum FieldAccessFlag implements Flag {
     FINAL(0x0010),
     VOLATILE(0x0040),
     TRANSIENT(0x0080),
-    SYNTHETIC(0x1000, JAVA7), // FIXME: Is this supposed to be Java 5?
+    SYNTHETIC(0x1000, JAVA5),
     ENUM(0x4000, JAVA5);
 
     //
