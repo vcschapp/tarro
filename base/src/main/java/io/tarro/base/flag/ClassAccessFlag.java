@@ -28,6 +28,9 @@ import io.tarro.base.ClassFileVersion;
 
 import java.util.List;
 
+import static io.tarro.base.ClassFileVersion.JAVA1;
+import static io.tarro.base.ClassFileVersion.JAVA5;
+import static io.tarro.base.ClassFileVersion.JAVA9;
 import static io.tarro.base.flag.FlagMixRule.ifFirstThenAlsoSecond;
 import static io.tarro.base.flag.FlagMixRule.ifFirstThenNoneOfTheRest;
 import static io.tarro.base.flag.FlagMixRule.listify;
@@ -49,15 +52,15 @@ public enum ClassAccessFlag implements Flag {
     // ENUMERATORS
     //
 
-    PUBLIC(0x0001, ClassFileVersion.JAVA1),
-    FINAL(0x010, ClassFileVersion.JAVA1),
-    SUPER(0x0020, ClassFileVersion.JAVA1),
-    INTERFACE(0x200, ClassFileVersion.JAVA1),
-    ABSTRACT(0x400, ClassFileVersion.JAVA1),
-    SYNTHETIC(0x1000, ClassFileVersion.JAVA5),
-    ANNOTATION(0x2000, ClassFileVersion.JAVA5),
-    ENUM(0x4000, ClassFileVersion.JAVA5),
-    MODULE(0x8000, ClassFileVersion.JAVA9);
+    PUBLIC(0x0001, JAVA1),
+    FINAL(0x010, JAVA1),
+    SUPER(0x0020, JAVA1),
+    INTERFACE(0x200, JAVA1),
+    ABSTRACT(0x400, JAVA1),
+    SYNTHETIC(0x1000, JAVA5),
+    ANNOTATION(0x2000, JAVA5),
+    ENUM(0x4000, JAVA5),
+    MODULE(0x8000, JAVA9);
 
     //
     // DATA
