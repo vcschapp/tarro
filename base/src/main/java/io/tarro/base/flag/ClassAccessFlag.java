@@ -55,7 +55,7 @@ public enum ClassAccessFlag implements Flag {
     INTERFACE(0x200, ClassFileVersion.JAVA1),
     ABSTRACT(0x400, ClassFileVersion.JAVA1),
     SYNTHETIC(0x1000, ClassFileVersion.JAVA7),
-    ANNOTATION(0x2000, ClassFileVersion.JAVA7),
+    ANNOTATION(0x2000, ClassFileVersion.JAVA5),
     ENUM(0x4000, ClassFileVersion.JAVA7),
     MODULE(0x8000, ClassFileVersion.JAVA9);
 
