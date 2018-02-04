@@ -94,7 +94,7 @@ public final class FlagMixRule<F extends Enum<F> & Flag> {
             final String entityName, final F publicFlag, final F privateFlag, final F protectedFlag) {
         final String reason = joinGrammatically(
                 new Flag[] { publicFlag, privateFlag, protectedFlag },
-                "Only one of ", "and", " is permitted on ", entityName);
+                "Only one of", "and", "is permitted on", entityName);
         return rule(set -> {
             int flagCount = 0;
             if (set.contains(publicFlag)) ++flagCount;
@@ -135,8 +135,8 @@ public final class FlagMixRule<F extends Enum<F> & Flag> {
     @SuppressWarnings("varargs")
     static <F extends Enum<F> & Flag> FlagMixRule<F> noneOf(final String entityName, final F... notPermittedFlags) {
         final int notPermittedMask = mask(notPermittedFlags);
-        final String reason = joinGrammatically(notPermittedFlags,"None of ",
-                "or", " is permitted on ", entityName);
+        final String reason = joinGrammatically(notPermittedFlags,"None of",
+                "or", "is permitted on", entityName);
         return rule(set -> 0 != (mask(set) & notPermittedMask), reason);
     }
 
@@ -212,16 +212,16 @@ public final class FlagMixRule<F extends Enum<F> & Flag> {
             builder.append(", ");
             for (i = 1; i < flags.length - 1; ++i) {
                 builder.append(flags[i].getFlagName());
-                builder.append(',');
+                builder.append(", ");
             }
         } else {
             i = 1;
+            builder.append(' ');
         }
         // ---------------------------------------------------------------------
         // Add the last item prefixed by the conjunction.
         // ---------------------------------------------------------------------
-        builder.append(' ')
-                .append(conjunction)
+        builder.append(conjunction)
                 .append(' ')
                 .append(flags[i].getFlagName());
         // ---------------------------------------------------------------------

@@ -31,5 +31,5 @@
     <suppress checks="JavadocStyle"
               files="base[\\/]bytecode[\\/]((No|One|Two|Variable)Operand)?Opcode(Value)?\.java$"/>
     <suppress checks="MultipleStringLiterals"
-              files="base[\\/]flag[\\/]ClassAccessFlag\.java$"/>
+              files="base[\\/]flag[\\/](Class|Field)AccessFlag\.java$"/>
 </suppressions>
