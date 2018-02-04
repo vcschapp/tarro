@@ -429,7 +429,8 @@ public final class ClassParser {
     }
 
     private void classAccessFlags() throws IOException {
-        final EnumSet<ClassAccessFlag> set = readFlags(ClassAccessFlag.class, ClassAccessFlag.basicRules(), "access_flags");
+        final EnumSet<ClassAccessFlag> set = readFlags(ClassAccessFlag.class,
+                ClassAccessFlag.basicRules().getRules(), "access_flags");
         classAccessFlagsVisitor.visit(set);
         isInterface = set.contains(ClassAccessFlag.INTERFACE);
     }

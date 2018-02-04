@@ -170,8 +170,8 @@ public final class FlagMixRule<F extends Enum<F> & Flag> {
         final int consequentlyNotPermittedMask =  mask(consequentlyNotPermittedFlags);
         final String reason = joinGrammatically(
                 consequentlyNotPermittedFlags,
-                "If " + predicateFlag.getFlagName() + " is present on " + entityName + ", then none of ",
-                "or", " is permitted");
+                "If " + predicateFlag.getFlagName() + " is present on " + entityName + ", then none of",
+                "or", "is permitted");
         return rule(set -> set.contains(predicateFlag) && 0 != (mask(set) & consequentlyNotPermittedMask), reason);
     }
 
