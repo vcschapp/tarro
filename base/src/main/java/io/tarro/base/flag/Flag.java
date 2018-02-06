@@ -33,7 +33,7 @@ import static java.util.EnumSet.noneOf;
 
 /**
  * <p>
- * Represents a single flag value within a Java class file.
+ * A single flag value within a flag field in a Java class.
  * </p>
  *
  * <p>
