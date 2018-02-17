@@ -150,7 +150,7 @@ enum class FakeFlag : Flag {
     // INTERFACE: Flag
     //
 
-    override fun getFlagName() = "ACC_$name"
+    override fun getFlagName() = name
 
     //
     // INTERFACE: Valued

@@ -91,7 +91,7 @@ import io.tarro.base.attribute.TargetType;
 import io.tarro.base.attribute.TypePathKind;
 import io.tarro.base.Valued;
 import io.tarro.base.flag.FlagMixRule;
-import io.tarro.base.flag.BadAccessFlagMixException;
+import io.tarro.base.flag.BadFlagMixException;
 import io.tarro.base.flag.ClassAccessFlag;
 import io.tarro.base.flag.FieldAccessFlag;
 import io.tarro.base.flag.InnerClassAccessFlag;
@@ -1945,7 +1945,7 @@ public final class ClassParser {
             final Collection<FlagMixRule<F>> rules, final String flagFieldName) {
         try {
             rules.forEach(rule -> rule.validate(accessFlags));
-        } catch (BadAccessFlagMixException e) {
+        } catch (BadFlagMixException e) {
             throw classFormatException("Invalid flag mix", flagFieldName, e);
         }
     }

@@ -28,17 +28,17 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 /**
- * Trivial unit tests for [BadAccessFlagMixException].
+ * Trivial unit tests for [BadFlagMixException].
  *
  * @author Victor Schappert
  * @since 20180114
  */
-class BadAccessFlagMixExceptionTest {
+class BadFlagMixExceptionTest {
     @Test
     fun constructorWithMessage() {
-        var e = BadAccessFlagMixException("foo")
+        var e = BadFlagMixException("foo")
         assertEquals("foo", e.message)
-        e = BadAccessFlagMixException("bar")
+        e = BadFlagMixException("bar")
         assertEquals("bar", e.message)
     }
 }

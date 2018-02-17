@@ -84,7 +84,7 @@ class FieldAccessFlagTest : FlagEnumTest<FieldAccessFlag>(FieldAccessFlag::class
     @MethodSource("classFieldsBadFlagsVisibility")
     fun classFieldsBadFlagsVisibility(flags: EnumSet<FieldAccessFlag>) {
         val message = "Only one of ACC_PUBLIC, ACC_PRIVATE, and ACC_PROTECTED is permitted on a field"
-        val t = assertThrows(BadAccessFlagMixException::class.java) {
+        val t = assertThrows(BadFlagMixException::class.java) {
             FieldAccessFlag.classFieldRules().forEach {
                 it.validate(flags)
             }
@@ -100,7 +100,7 @@ class FieldAccessFlagTest : FlagEnumTest<FieldAccessFlag>(FieldAccessFlag::class
                 .flatMap { listOf(it, it + SYNTHETIC) }
         val assertions = combinations.map { innerFlags ->
             Executable {
-                val t = assertThrows(BadAccessFlagMixException::class.java) {
+                val t = assertThrows(BadFlagMixException::class.java) {
                     FieldAccessFlag.classFieldRules().forEach { rule ->
                         rule.validate(innerFlags)
                     }
@@ -121,7 +121,7 @@ class FieldAccessFlagTest : FlagEnumTest<FieldAccessFlag>(FieldAccessFlag::class
     @MethodSource("interfaceFieldsBadFlagsMissingRequired")
     fun interfaceFieldsBadFlagsMissingRequired(flags: EnumSet<FieldAccessFlag>) {
         val message = "All of ACC_PUBLIC, ACC_STATIC, and ACC_FINAL must be set on an interface field"
-        val t = assertThrows(BadAccessFlagMixException::class.java) {
+        val t = assertThrows(BadFlagMixException::class.java) {
             FieldAccessFlag.interfaceFieldRules().forEach {
                 it.validate(flags)
             }
@@ -134,7 +134,7 @@ class FieldAccessFlagTest : FlagEnumTest<FieldAccessFlag>(FieldAccessFlag::class
     fun interfaceFieldsBadFlagsHasNotAllowed(flags: EnumSet<FieldAccessFlag>) {
         val message = "None of ACC_PRIVATE, ACC_PROTECTED, ACC_VOLATILE, ACC_TRANSIENT, or " +
                 "ACC_ENUM is permitted on an interface field"
-        val t = assertThrows(BadAccessFlagMixException::class.java) {
+        val t = assertThrows(BadFlagMixException::class.java) {
             FieldAccessFlag.interfaceFieldRules().forEach {
                 it.validate(flags)
             }

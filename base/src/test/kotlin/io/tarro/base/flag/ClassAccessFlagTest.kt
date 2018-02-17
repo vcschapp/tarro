@@ -100,7 +100,7 @@ class ClassAccessFlagTest :
         val message = "ACC_FINAL and ACC_ABSTRACT may not both be set on a class"
         assertAll(
                 Executable {
-                    val t = assertThrows(BadAccessFlagMixException::class.java) {
+                    val t = assertThrows(BadFlagMixException::class.java) {
                         ClassAccessFlag.basicRules().rules.forEach {
                             it.validate(of(FINAL, ABSTRACT))
                         }
@@ -108,7 +108,7 @@ class ClassAccessFlagTest :
                     assertThat(t.message, endsWith(message))
                 },
                 Executable {
-                    val t = assertThrows(BadAccessFlagMixException::class.java) {
+                    val t = assertThrows(BadFlagMixException::class.java) {
                         ClassAccessFlag.allRules().first().rules.forEach {
                             it.validate(of(FINAL, ABSTRACT))
                         }
@@ -124,13 +124,13 @@ class ClassAccessFlagTest :
         val message = "If ACC_INTERFACE is present on a class, then none of ACC_FINAL or ACC_SUPER is permitted"
         assertAll(
                 Executable {
-                    val t = assertThrows(BadAccessFlagMixException::class.java) {
+                    val t = assertThrows(BadFlagMixException::class.java) {
                         ClassAccessFlag.basicRules().rules.forEach { it.validate(flags) }
                     }
                     assertThat(t.message, endsWith(message))
                 },
                 Executable {
-                    val t = assertThrows(BadAccessFlagMixException::class.java) {
+                    val t = assertThrows(BadFlagMixException::class.java) {
                         ClassAccessFlag.allRules().first().rules.forEach {
                             it.validate(flags)
                         }
@@ -144,7 +144,7 @@ class ClassAccessFlagTest :
     @MethodSource("badFlagsAnnotationMustBeInterface")
     fun incrementalRulesForJava5InvalidAnnotationMustBeInterface(flags: EnumSet<ClassAccessFlag>) {
         val message = "If ACC_ANNOTATION is set on a class, then ACC_INTERFACE must also be set"
-        val t = assertThrows(BadAccessFlagMixException::class.java) {
+        val t = assertThrows(BadFlagMixException::class.java) {
             rulesForVersion(JAVA5).forEach { it.validate(flags) }
         }
         assertThat(t.message, endsWith(message))
@@ -154,7 +154,7 @@ class ClassAccessFlagTest :
     @MethodSource("badFlagsNotBothEnumAndInterface")
     fun incrementalRulesForJava5NotBothEnumAndInterface(flags: EnumSet<ClassAccessFlag>) {
         val message = "ACC_INTERFACE and ACC_ENUM may not both be set on a class"
-        val t = assertThrows(BadAccessFlagMixException::class.java) {
+        val t = assertThrows(BadFlagMixException::class.java) {
             rulesForVersion(JAVA5).forEach { it.validate(flags) }
         }
         assertThat(t.message, endsWith(message))
@@ -164,7 +164,7 @@ class ClassAccessFlagTest :
     @MethodSource("badFlagsInterfaceMustBeAbstract")
     fun incrementalRulesForJava6InvalidInterfaceMustBeAbstract(flags: EnumSet<ClassAccessFlag>) {
         val message = "If ACC_INTERFACE is set on a class, then ACC_ABSTRACT must also be set"
-        val t = assertThrows(BadAccessFlagMixException::class.java) {
+        val t = assertThrows(BadFlagMixException::class.java) {
             rulesForVersion(JAVA6).forEach { it.validate(flags) }
         }
         assertThat(t.message, endsWith(message))
@@ -175,7 +175,7 @@ class ClassAccessFlagTest :
     @MethodSource("badFlagsModuleMustBeAlone")
     fun incrementalRulesForJava9InvalidModuleMustBeAlone(flags: EnumSet<ClassAccessFlag>) {
         val message = "If ACC_MODULE is set no other access_flags may be set at class level"
-        val t = assertThrows(BadAccessFlagMixException::class.java) {
+        val t = assertThrows(BadFlagMixException::class.java) {
             rulesForVersion(JAVA9).forEach { it.validate(flags) }
         }
         assertThat(t.message, endsWith(message))

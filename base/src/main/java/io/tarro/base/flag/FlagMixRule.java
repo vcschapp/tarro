@@ -34,6 +34,9 @@ import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.joining;
 
 /**
+ * Rule which a combination, or "mix", of flags must follow in order to be
+ * considered valid.
+ *
  * @since 20171014
  * @author Victor Schappert
  * @param <F> Type of {@link Flag} enumeration the rule applies to
@@ -52,7 +55,7 @@ public final class FlagMixRule<F extends Enum<F> & Flag> {
     // CONSTRUCTORS
     //
 
-    public FlagMixRule(final Predicate<EnumSet<F>> badnessTest, final String reason) {
+    private FlagMixRule(final Predicate<EnumSet<F>> badnessTest, final String reason) {
         this.badnessTest = badnessTest;
         this.reason = reason;
     }
@@ -61,12 +64,33 @@ public final class FlagMixRule<F extends Enum<F> & Flag> {
     // PUBLIC METHODS
     //
 
+    /**
+     * <p>
+     * Verifies that the given combination of flags is valid.
+     * </p>
+     *
+     * <p>
+     * This method has no return value. If the given flag set represents a valid
+     * mix of flags, it simply returns without any other effect. If the set is
+     * invalid, it throws an exception.
+     * </p>
+     *
+     * @param flags Combination of flags to validate
+     * @throws BadFlagMixException If the set contains an invalid combination of
+     *                             flags
+     */
     public void validate(final EnumSet<F> flags) {
         if (badnessTest.test(flags)) {
-            throw new BadAccessFlagMixException(flags
-                    .stream()
-                    .map(Flag::getFlagName)
-                    .collect(joining(" | ", "", " is a bad combination: " + reason)));
+            final String combination;
+            if (! flags.isEmpty()) {
+                combination = flags
+                        .stream()
+                        .map(Flag::getFlagName)
+                        .collect(joining(" | "));
+            } else {
+                combination = "<empty>";
+            }
+            throw new BadFlagMixException(combination + " is a bad combination: " + reason);
         }
     }
 
@@ -74,24 +98,28 @@ public final class FlagMixRule<F extends Enum<F> & Flag> {
     // STATIC METHODS
     //
 
-    static <F extends Enum<F> & Flag> List<FlagMixRule<F>> listify(final FlagMixRule<F>[] array) {
+    static <F extends Enum<F> & Flag> List<FlagMixRule<F>> listify(
+            final FlagMixRule<F>[] array) {
         return List.of(array);
     }
 
     @SafeVarargs
     @SuppressWarnings({"unchecked", "varargs"})
-    static <F extends Enum<F> & Flag> List<FlagMixRule<F>> listify(final FlagMixRule<F>[]... arrays) {
+    static <F extends Enum<F> & Flag> List<FlagMixRule<F>> listify(
+            final FlagMixRule<F>[]... arrays) {
         return List.of(stream(arrays)
                 .flatMap(Arrays::stream)
                 .toArray(FlagMixRule[]::new));
     }
 
-    static <F extends Enum<F> & Flag> FlagMixRule<F> rule(final Predicate<EnumSet<F>> badnessTest, final String reason) {
+    static <F extends Enum<F> & Flag> FlagMixRule<F> rule(
+            final Predicate<EnumSet<F>> badnessTest, final String reason) {
         return new FlagMixRule<>(badnessTest, reason);
     }
 
     static <F extends Enum<F> & Flag> FlagMixRule<F> visibilityRule(
-            final String entityName, final F publicFlag, final F privateFlag, final F protectedFlag) {
+            final String entityName, final F publicFlag, final F privateFlag,
+            final F protectedFlag) {
         final String reason = joinGrammatically(
                 new Flag[] { publicFlag, privateFlag, protectedFlag },
                 "Only one of", "and", "is permitted on", entityName);
@@ -104,25 +132,29 @@ public final class FlagMixRule<F extends Enum<F> & Flag> {
         }, reason);
     }
 
-    static <F extends Enum<F> & Flag> FlagMixRule<F> bothOf(final String entityName, final F firstFlag,
-            final F secondFlag) {
-        final String reason = "Both " + firstFlag.getFlagName() + " and " + secondFlag.getFlagName() +
-                "must be set on " + entityName;
+    static <F extends Enum<F> & Flag> FlagMixRule<F> bothOf(final String entityName,
+                                                            final F firstFlag,
+                                                            final F secondFlag) {
+        final String reason = "Both " + firstFlag.getFlagName() + " and " +
+                secondFlag.getFlagName() + " must be set on " + entityName;
         return rule(set -> !set.contains(firstFlag) || !set.contains(secondFlag), reason);
     }
 
     @SafeVarargs
     @SuppressWarnings("varargs")
-    static <F extends Enum<F> & Flag> FlagMixRule<F> allOf(final String entityName, final F... requiredFlags) {
+    static <F extends Enum<F> & Flag> FlagMixRule<F> allOf(final String entityName,
+                                                           final F... requiredFlags) {
         final int requiredMask = mask(requiredFlags);
-        final String reason = joinGrammatically(requiredFlags, "All of", "and", "must be set on", entityName);
+        final String reason = joinGrammatically(requiredFlags, "All of", "and",
+                "must be set on", entityName);
         return rule(set -> requiredMask != (mask(set) & requiredMask), reason);
     }
 
-    static <F extends Enum<F> & Flag> FlagMixRule<F> exactlyOneOf(final String entityName, final F firstFlag,
+    static <F extends Enum<F> & Flag> FlagMixRule<F> exactlyOneOf(final String entityName,
+                                                                  final F firstFlag,
                                                                   final F secondFlag) {
-        final String reason = "Exactly one of " + firstFlag.getFlagName() + " and " + secondFlag.getFlagName() +
-                "must be set on " + entityName;
+        final String reason = "Either " + firstFlag.getFlagName() + " or " +
+                secondFlag.getFlagName() + " (but not both) must be set on " + entityName;
         return rule(set -> {
             int flagCount = 0;
             if (set.contains(firstFlag)) ++flagCount;
@@ -133,15 +165,17 @@ public final class FlagMixRule<F extends Enum<F> & Flag> {
 
     @SafeVarargs
     @SuppressWarnings("varargs")
-    static <F extends Enum<F> & Flag> FlagMixRule<F> noneOf(final String entityName, final F... notPermittedFlags) {
+    static <F extends Enum<F> & Flag> FlagMixRule<F> noneOf(final String entityName,
+                                                            final F... notPermittedFlags) {
         final int notPermittedMask = mask(notPermittedFlags);
         final String reason = joinGrammatically(notPermittedFlags,"None of",
                 "or", "is permitted on", entityName);
         return rule(set -> 0 != (mask(set) & notPermittedMask), reason);
     }
 
-    static <F extends Enum<F> & Flag> FlagMixRule<F> notBothOf(final String entityName, final F firstFlag,
-            final F secondFlag) {
+    static <F extends Enum<F> & Flag> FlagMixRule<F> notBothOf(final String entityName,
+                                                               final F firstFlag,
+                                                               final F secondFlag) {
         final String reason = firstFlag.getFlagName() + " and " + secondFlag.getFlagName() +
                 " may not both be set on " + entityName;
         return rule(set -> set.contains(firstFlag) && set.contains(secondFlag), reason);
@@ -149,30 +183,35 @@ public final class FlagMixRule<F extends Enum<F> & Flag> {
 
     @SafeVarargs
     @SuppressWarnings("varargs")
-    static <F extends Enum<F> & Flag> FlagMixRule<F> noOthersThan(final String entityName, final F... permittedFlags) {
+    static <F extends Enum<F> & Flag> FlagMixRule<F> noOthersThan(final String entityName,
+                                                                  final F... permittedFlags) {
         final int notPermittedMask = ~mask(permittedFlags);
-        final String reason = joinGrammatically(permittedFlags, "No flag other than ", "and",
-                " is permitted on", entityName);
+        final String reason = joinGrammatically(permittedFlags, "No flag other than", "or",
+                "is permitted on", entityName);
         return rule(set -> 0 != (mask(set) & notPermittedMask), reason);
     }
 
-    static <F extends Enum<F> & Flag> FlagMixRule<F> ifFirstThenAlsoSecond(final String entityName, final F predicateFlag,
-            final F impliedFlag) {
-        final String reason = "If " + predicateFlag.getFlagName() + " is set on " + entityName + ", then " +
-                impliedFlag.getFlagName() + " must also be set";
+    static <F extends Enum<F> & Flag> FlagMixRule<F> ifFirstThenAlsoSecond(
+            final String entityName, final F predicateFlag, final F impliedFlag) {
+        final String reason = "If " + predicateFlag.getFlagName() + " is set on " +
+                entityName + ", then " + impliedFlag.getFlagName() + " must also be set";
         return rule(set -> set.contains(predicateFlag) && !set.contains(impliedFlag), reason);
     }
 
     @SafeVarargs
     @SuppressWarnings("varargs")
-    static <F extends Enum<F> & Flag> FlagMixRule<F> ifFirstThenNoneOfTheRest(final String entityName, final F predicateFlag,
+    static <F extends Enum<F> & Flag> FlagMixRule<F> ifFirstThenNoneOfTheRest(
+            final String entityName, final F predicateFlag,
             final F... consequentlyNotPermittedFlags) {
         final int consequentlyNotPermittedMask =  mask(consequentlyNotPermittedFlags);
         final String reason = joinGrammatically(
                 consequentlyNotPermittedFlags,
-                "If " + predicateFlag.getFlagName() + " is present on " + entityName + ", then none of",
-                "or", "is permitted");
-        return rule(set -> set.contains(predicateFlag) && 0 != (mask(set) & consequentlyNotPermittedMask), reason);
+                "If " + predicateFlag.getFlagName() + " is present on " + entityName +
+                        ", then none of", "or", "is permitted");
+        return rule(
+                set -> set.contains(predicateFlag) &&
+                        0 != (mask(set) & consequentlyNotPermittedMask),
+                reason);
     }
 
     //
