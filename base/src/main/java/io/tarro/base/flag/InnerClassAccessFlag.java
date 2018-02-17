@@ -26,14 +26,25 @@ package io.tarro.base.flag;
 
 import io.tarro.base.ClassFileVersion;
 
-import static java.lang.Integer.bitCount;
+import static io.tarro.base.ClassFileVersion.JAVA1_1;
+import static io.tarro.base.ClassFileVersion.JAVA5;
+import static io.tarro.base.ClassFileVersion.JAVA7;
 
 /**
+ * <p>
  * Enumerates flags available on the {@code access_flags} field of an
  * {@code InnerClass} attribute.
+ * </p>
+ *
+ * <p>
+ * Inner class access flags are used by the Java compiler to recover original
+ * information about the inner class when the source code from which the class
+ * was compiled is no longer available.
+ * </p>
  *
  * @author Victor Schappert
  * @since 20171125
+ * @see ClassAccessFlag
  */
 public enum InnerClassAccessFlag implements Flag {
 
@@ -41,16 +52,65 @@ public enum InnerClassAccessFlag implements Flag {
     // ENUMERATORS
     //
 
-    PUBLIC(0x0001, ClassFileVersion.JAVA1_1),
-    PRIVATE(0x0002, ClassFileVersion.JAVA1_1),
-    PROTECTED(0x0004, ClassFileVersion.JAVA1_1),
-    STATIC(0x0008, ClassFileVersion.JAVA1_1),
-    FINAL(0x0010, ClassFileVersion.JAVA1_1),
-    INTERFACE(0x0200, ClassFileVersion.JAVA1_1),
-    ABSTRACT(0x0400, ClassFileVersion.JAVA1_1),
-    SYNTHETIC(0x1000, ClassFileVersion.JAVA7),
-    ANNOTATION(0x2000, ClassFileVersion.JAVA7),
-    ENUM(0x4000, ClassFileVersion.JAVA7);
+    /**
+     * {@code 0x0001} ({@code ACC_PUBLIC}): Indicates the inner class is
+     * marked or implicitly {@code public} in the source code.
+     *
+     * @see #PRIVATE
+     * @see #PROTECTED
+     */
+    PUBLIC(0x0001),
+    /**
+     * {@code 0x0002} ({@code ACC_PRIVATE}): Indicates the inner class is
+     * explicitly marked {@code private} in the source code.
+     *
+     * @see #PUBLIC
+     * @see #PROTECTED
+     */
+    PRIVATE(0x0002),
+    /**
+     * {@code 0x0004} ({@code ACC_PROTECTED}): Indicates the inner class is
+     * explicitly marked {@code protected} in the source code.
+     *
+     * @see #PUBLIC
+     * @see #PRIVATE
+     */
+    PROTECTED(0x0004),
+    /**
+     * {@code 0x0008} ({@code ACC_STATIC}): Indicates the inner class is
+     * marked or implicitly {@code static} in the source code.
+     */
+    STATIC(0x0008),
+    /**
+     * {@code 0x0010} ({@code ACC_FINAL}): Indicates the inner class is
+     * marked or implicitly {@code final} in the source code.
+     */
+    FINAL(0x0010),
+    /**
+     * {@code 0x0200} ({@code ACC_INTERFACE}): Indicates the inner class is
+     * declared an {@code interface} in the source.
+     */
+    INTERFACE(0x0200),
+    /**
+     * {@code 0x0400} ({@code ACC_ABSTRACT}): Indicates the inner class is
+     * marked or implicitly {@code abstract} in the source.
+     */
+    ABSTRACT(0x0400),
+    /**
+     * {@code 0x1000} ({@code ACC_SYNTHETIC}): Indicates the inner class is
+     * synthetic, that is, not explicitly declared in the source code.
+     */
+    SYNTHETIC(0x1000, JAVA5),
+    /**
+     * {@code 0x2000} ({@code ACC_ANNOTATION}): Indicates the inner class is
+     * declared an annotation type in the source code.
+     */
+    ANNOTATION(0x2000, JAVA7),
+    /**
+     * {@code 0x4000} ({@code ACC_ENUM}): Indicates the inner class is declared
+     * an {@code enum} type in the source code.
+     */
+    ENUM(0x4000, JAVA7);
 
     //
     // DATA
@@ -64,10 +124,12 @@ public enum InnerClassAccessFlag implements Flag {
     //
 
     InnerClassAccessFlag(final int value, final ClassFileVersion classFileVersion) {
-        assert 0 == (value & 0xffff0000) : "Value must only occupy low-order 16 bits";
-        assert 1 == bitCount(value) : "Value must have exactly one bit set";
         this.value = value;
         this.classFileVersion = classFileVersion;
+    }
+
+    InnerClassAccessFlag(final int value) {
+        this(value, JAVA1_1);
     }
 
     //
@@ -83,6 +145,18 @@ public enum InnerClassAccessFlag implements Flag {
     // INTERFACE: Valued
     //
 
+    /**
+     * {@inheritDoc}
+     *
+     * <p>
+     * This method returns the individual flag's integer value, which is
+     * guaranteed to be a power of two distinct from any other flag in the
+     * enumeration, since the {@code access_flags} member of class file is a
+     * bitmask.
+     * </p>
+     *
+     * @return Flag bit
+     */
     @Override
     public int getValue() {
         return value;
