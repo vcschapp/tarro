@@ -181,7 +181,7 @@ public enum ClassAccessFlag implements Flag {
      *
      * <p>
      * The "basic" rules are the rules that have been in place <em>and enforced
-     * in practice</em>  by the JVMsince {@linkplain ClassFileVersion#JAVA1 Java
+     * in practice</em> by the JVM since {@linkplain ClassFileVersion#JAVA1 Java
      * 1}. Note that the rules returned by this method are the same as the rules
      * in the first entry in the list returned by the {@link #allRules()}
      * method.
