@@ -170,7 +170,6 @@ class ClassAccessFlagTest :
         assertThat(t.message, endsWith(message))
     }
 
-
     @ParameterizedTest
     @MethodSource("badFlagsModuleMustBeAlone")
     fun incrementalRulesForJava9InvalidModuleMustBeAlone(flags: EnumSet<ClassAccessFlag>) {
