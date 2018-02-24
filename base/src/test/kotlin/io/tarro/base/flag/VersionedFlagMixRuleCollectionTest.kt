@@ -26,6 +26,7 @@ package io.tarro.base.flag
 
 import io.tarro.base.ClassFileVersion
 import io.tarro.base.ClassFileVersion.JAVA1_2
+import io.tarro.base.ClassFileVersion.JAVA6
 import io.tarro.base.flag.FakeFlag.BAR
 import io.tarro.base.flag.FakeFlag.FOO
 import io.tarro.base.flag.FlagMixRule.noneOf
@@ -33,6 +34,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
 import java.util.Optional.empty
+import java.util.Optional.of
 
 /**
  * Unit tests for [VersionedFlagMixRuleCollection].
@@ -44,24 +46,28 @@ class VersionedFlagMixRuleCollectionTest {
 
     @Test
     fun firstSupportingVersion() {
-        assertEquals(JAVA1_2, collection.firstVersionSupporting)
+        assertEquals(JAVA1_2, infinite.firstVersionSupporting)
+        assertEquals(JAVA6, finite.firstVersionSupporting)
     }
 
     @Test
     fun lastSupportingVersion() {
-        assertEquals(empty<ClassFileVersion>(), collection.lastVersionSupporting)
+        assertEquals(empty<ClassFileVersion>(), infinite.lastVersionSupporting)
+        assertEquals(of(JAVA6), finite.lastVersionSupporting)
     }
 
     @Test
     fun rules() {
-        assertEquals(1, collection.rules.size)
-        assertEquals(rule, collection.rules.first())
+        assertEquals(1, infinite.rules.size)
+        assertEquals(rule, infinite.rules.first())
+        assertEquals(3, finite.rules.size)
+        finite.rules.forEach { assertEquals(rule, it) }
     }
 
     @Test
     fun immutable() {
         assertThrows(UnsupportedOperationException::class.java) {
-            (collection.rules as MutableList).removeAt(0)
+            (finite.rules as MutableList).removeAt(0)
         }
     }
 
@@ -71,5 +77,10 @@ class VersionedFlagMixRuleCollectionTest {
 
     private val rule = noneOf("a fake flag", FOO, BAR)
 
-    private val collection = VersionedFlagMixRuleCollection(JAVA1_2, arrayOf(rule))
+    private val infinite
+            get() = VersionedFlagMixRuleCollection(JAVA1_2, arrayOf(rule))
+
+    private val finite
+            get() = VersionedFlagMixRuleCollection(JAVA6, JAVA6, arrayOf(rule),
+                    arrayOf(rule, rule))
 }

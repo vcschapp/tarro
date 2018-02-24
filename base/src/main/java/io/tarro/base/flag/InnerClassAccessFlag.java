@@ -99,6 +99,8 @@ public enum InnerClassAccessFlag implements Flag {
     /**
      * {@code 0x1000} ({@code ACC_SYNTHETIC}): Indicates the inner class is
      * synthetic, that is, not explicitly declared in the source code.
+     *
+     * @see io.tarro.base.attribute.AttributeType#SYNTHETIC
      */
     SYNTHETIC(0x1000, JAVA5),
     /**
