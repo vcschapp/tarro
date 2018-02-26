@@ -26,15 +26,17 @@ package io.tarro.base.flag;
 
 import io.tarro.base.ClassFileVersion;
 
-import static java.lang.Integer.bitCount;
+import static io.tarro.base.ClassFileVersion.JAVA9;
 
 /**
  * Enumerates flags available on the {@code requires_flags} field of a
- * an element in the {@code requires} array of a {@code Module} attribute.
- *
+ * an entry in the {@code requires} array of a {@code Module} attribute.
  *
  * @author Victor Schappert
  * @since 20171126
+ * @see io.tarro.base.attribute.AttributeType#MODULE
+ * @see PackageReferenceFlag
+ * @see ModuleFlag
  */
 public enum ModuleReferenceFlag implements Flag {
 
@@ -42,9 +44,34 @@ public enum ModuleReferenceFlag implements Flag {
     // ENUMERATORS
     //
 
+    /**
+     * {@code 0x0020} ({@code ACC_TRANSITIVE}): Indicates that any module which
+     * depends on the current module implicitly declares a dependency on the
+     * module indicated by this entry in the {@code requires} table.
+     */
     TRANSITIVE(0x0020),
+    /**
+     * {@code 0x0040} ({@code ACC_STATIC_PHASE}): Indicates that dependence on
+     * the module referred to by this entry in the {@code requires} table is
+     * mandatory in the static phase, <em>ie</em>, at compile time, but is
+     * optional in the dynamic phase, <em>ie</em>, at run time.
+     */
     STATIC_PHASE(0x0040),
+    /**
+     * {@code 0x1000} ({@code ACC_SYNTHETIC}): Indicates that the dependency
+     * indicated by this entry in the {@code requires} table is not explicitly
+     * or implicitly declared in the {@code module} declaration source code.
+     *
+     * @see #MANDATED
+     */
     SYNTHETIC(0x1000),
+    /**
+     * {@code 0x8000} ({@code ACC_MANDATED}): Indicates that the dependency
+     * indicated by this entry in the {@code requires} table was implicitly
+     * declared in the source of the module declaration.
+     *
+     * @see #SYNTHETIC
+     */
     MANDATED(0x8000);
 
     //
@@ -57,9 +84,7 @@ public enum ModuleReferenceFlag implements Flag {
     // CONSTRUCTORS
     //
 
-    ModuleReferenceFlag(int value) {
-        assert 0 == (value & 0xffff0000) : "Value must only occupy low-order 16 bits";
-        assert 1 == bitCount(value) : "Value must have exactly one bit set";
+    ModuleReferenceFlag(final int value) {
         this.value = value;
     }
 
@@ -76,6 +101,18 @@ public enum ModuleReferenceFlag implements Flag {
     // INTERFACE: Valued
     //
 
+    /**
+     * {@inheritDoc}
+     *
+     * <p>
+     * This method returns the individual flag's integer value, which is
+     * guaranteed to be a power of two distinct from any other flag in the
+     * enumeration, since the {@code access_flags} member of class file is a
+     * bitmask.
+     * </p>
+     *
+     * @return Flag bit
+     */
     @Override
     public int getValue() {
         return value;
@@ -87,6 +124,6 @@ public enum ModuleReferenceFlag implements Flag {
 
     @Override
     public ClassFileVersion getFirstVersionSupporting() {
-        return ClassFileVersion.JAVA9;
+        return JAVA9;
     }
 }
