@@ -47,6 +47,9 @@ DOCUMENTATION
                 **everywhere else...
         - runtime constant pool (no hyphen between 'run' and 'time' ie not
           run-time)
+        - Attribute names should be:
+            o In mixed case (since that's how they are).
+            o In the typewriter/@code/@link font.
 6. Always use code styling for opcode names. So links should be @link, not
    @linkplain.
 7. Bytecode entity documentation should preferably refer to the runtime constant

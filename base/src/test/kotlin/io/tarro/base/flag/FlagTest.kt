@@ -121,6 +121,12 @@ open class FlagEnumTest<F>(private val clazz: KClass<F>)
         assertNotNull(flag.firstVersionSupporting)
     }
 
+    @ParameterizedTest
+    @MethodSource("values")
+    fun lastVersionSupportingNotNull(flag: F) {
+        assertNotNull(flag.firstVersionSupporting)
+    }
+
     @Test
     fun uniqueValues() {
         assertUniqueValuesByEnumerator(clazz, "value (bit)", Flag::getValue)
