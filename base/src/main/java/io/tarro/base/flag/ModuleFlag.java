@@ -26,7 +26,7 @@ package io.tarro.base.flag;
 
 import io.tarro.base.ClassFileVersion;
 
-import static java.lang.Integer.bitCount;
+import static io.tarro.base.ClassFileVersion.JAVA9;
 
 /**
  * Enumerates flags available on the {@code module_flags} field of a
@@ -34,6 +34,9 @@ import static java.lang.Integer.bitCount;
  *
  * @author Victor Schappert
  * @since 20171125
+ * @see io.tarro.base.attribute.AttributeType#MODULE
+ * @see ModuleReferenceFlag
+ * @see PackageReferenceFlag
  */
 public enum ModuleFlag implements Flag {
 
@@ -41,8 +44,24 @@ public enum ModuleFlag implements Flag {
     // ENUMERATORS
     //
 
+    /**
+     * {@code 0x0020} ({@code ACC_OPEN}): Indicates the module is declared
+     * {@code open}, meaning it grants reflective access to its packages.
+     */
     OPEN(0x0020),
+    /**
+     * {@code 0x1000} ({@code ACC_SYNTHETIC}): Indicates the module was not
+     * explicitly or implicitly declared.
+     *
+     * @see #MANDATED
+     */
     SYNTHETIC(0x1000),
+    /**
+     * {@code 0x8000} ({@code ACC_MANDATED}): Indicates the module was not
+     * explicitly declared.
+     *
+     * @see #SYNTHETIC
+     */
     MANDATED(0x8000);
 
     //
@@ -55,9 +74,7 @@ public enum ModuleFlag implements Flag {
     // CONSTRUCTORS
     //
 
-    ModuleFlag(int value) {
-        assert 0 == (value & 0xffff0000) : "Value must only occupy low-order 16 bits";
-        assert 1 == bitCount(value) : "Value must have exactly one bit set";
+    ModuleFlag(final int value) {
         this.value = value;
     }
 
@@ -74,6 +91,18 @@ public enum ModuleFlag implements Flag {
     // INTERFACE: Valued
     //
 
+    /**
+     * {@inheritDoc}
+     *
+     * <p>
+     * This method returns the individual flag's integer value, which is
+     * guaranteed to be a power of two distinct from any other flag in the
+     * enumeration, since the {@code access_flags} member of class file is a
+     * bitmask.
+     * </p>
+     *
+     * @return Flag bit
+     */
     @Override
     public int getValue() {
         return value;
@@ -85,6 +114,6 @@ public enum ModuleFlag implements Flag {
 
     @Override
     public ClassFileVersion getFirstVersionSupporting() {
-        return ClassFileVersion.JAVA9;
+        return JAVA9;
     }
 }
