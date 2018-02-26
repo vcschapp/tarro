@@ -26,15 +26,18 @@ package io.tarro.base.flag;
 
 import io.tarro.base.ClassFileVersion;
 
-import static java.lang.Integer.bitCount;
+import static io.tarro.base.ClassFileVersion.JAVA9;
 
 /**
- * Enumerates flags available on both the {@code exports_flags} field of a
- * an element in the {@code exports} array, and the {@code opens_flags} field of
- * an element in the {@code opens} array, of a {@code Module} attribute.
+ * Enumerates flags available in two places within the {@code Module} attribute:
+ * the {@code exports_flags} field of an element in the {@code exports} array;
+ * and the {@code opens_flags} field of an element in the {@code opens} array.
  *
  * @author Victor Schappert
  * @since 20171126
+ * @see io.tarro.base.attribute.AttributeType#MODULE
+ * @see ModuleReferenceFlag
+ * @see ModuleFlag
  */
 public enum PackageReferenceFlag implements Flag {
 
@@ -42,7 +45,26 @@ public enum PackageReferenceFlag implements Flag {
     // ENUMERATORS
     //
 
+    /**
+     * {@code 0x1000} ({@code ACC_SYNTHETIC}): Indicates the package export (if
+     * this flag appears in {@code exports_flags} field on an element in the
+     * {@code exports} array) or package opening (if this flag appears in the
+     * {@code opens_flags} field on an element of the {@code opens} array) was
+     * not explicitly or implicitly declared in the source of the module
+     * declaration.
+     *
+     * @see #MANDATED
+     */
     SYNTHETIC(0x1000),
+    /**
+     * {@code 0x8000} ({@code ACC_MANDATED}): Indicates the package export (if
+     * this flag appears in {@code exports_flags} field on an element in the
+     * {@code exports} array) or package opening (if this flag appears in the
+     * {@code opens_flags} field on an element of the {@code opens} array) was
+     * implicitly declared in the source of the module declaration.
+     *
+     * @see #SYNTHETIC
+     */
     MANDATED(0x8000);
 
     //
@@ -55,9 +77,7 @@ public enum PackageReferenceFlag implements Flag {
     // CONSTRUCTORS
     //
 
-    PackageReferenceFlag(int value) {
-        assert 0 == (value & 0xffff0000) : "Value must only occupy low-order 16 bits";
-        assert 1 == bitCount(value) : "Value must have exactly one bit set";
+    PackageReferenceFlag(final int value) {
         this.value = value;
     }
 
@@ -74,6 +94,18 @@ public enum PackageReferenceFlag implements Flag {
     // INTERFACE: Valued
     //
 
+    /**
+     * {@inheritDoc}
+     *
+     * <p>
+     * This method returns the individual flag's integer value, which is
+     * guaranteed to be a power of two distinct from any other flag in the
+     * enumeration, since the {@code access_flags} member of class file is a
+     * bitmask.
+     * </p>
+     *
+     * @return Flag bit
+     */
     @Override
     public int getValue() {
         return value;
@@ -85,6 +117,6 @@ public enum PackageReferenceFlag implements Flag {
 
     @Override
     public ClassFileVersion getFirstVersionSupporting() {
-        return ClassFileVersion.JAVA9;
+        return JAVA9;
     }
 }
