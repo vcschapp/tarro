@@ -140,8 +140,6 @@ import static io.tarro.base.attribute.VerificationTypeInfoTag.TOP;
 import static io.tarro.base.attribute.VerificationTypeInfoTag.UNINITIALIZED_THIS;
 import static io.tarro.base.flag.FieldAccessFlag.classFieldRules;
 import static io.tarro.base.flag.FieldAccessFlag.interfaceFieldRules;
-import static io.tarro.base.flag.MethodAccessFlag.classMethodBaseRules;
-import static io.tarro.base.flag.MethodAccessFlag.interfaceMethodBaseRules;
 import static io.tarro.parser.clazz.internal.context.path.ContextPathTracer.traceContextPath;
 import static java.lang.String.format;
 import static java.util.Arrays.copyOf;
@@ -760,11 +758,10 @@ public final class ClassParser {
     }
 
     private EnumSet<MethodAccessFlag> methodAccessFlags() throws IOException {
-        if (!isInterface) {
-            return readFlags(MethodAccessFlag.class, classMethodBaseRules(), "access_flags");
-        } else {
-            return readFlags(MethodAccessFlag.class, interfaceMethodBaseRules(), "access_flags");
-        }
+        // emptyList() of method access flag validation rules is because we
+        // don't know if it is a class or interface initialization method or
+        // not, and such methods are exempt from any flag mixing rules.
+        return readFlags(MethodAccessFlag.class, emptyList(), "access_flags");
     }
 
     private Attribute[] attributes(final int attributeContext) throws IOException {
