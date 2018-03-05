@@ -40,6 +40,12 @@
         <property name="fileNamePattern" value="module\-info\.java$"/>
     </module>
 
+    <!-- Every source file must begin with the license text. -->
+    <module name="Header">
+        <property name="headerFile" value="${configDir}/license.txt"/>
+        <!--<property name="ignoreLines" value="4"/>-->
+    </module>
+
     <!-- Require package Javadoc, ie package-info.java. -->
     <module name="JavadocPackage"/>
 
@@ -58,13 +64,6 @@
         FILE LEVEL
         ========================================================================
         -->
-
-        <!-- Every source file must begin with the license text. -->
-        <!-- TODO: Uncomment this when ready to do license checking.
-        <module name="Header or RegexpHeader may be better">
-            <property name="headerFile" value="$config_loc/foo"/>
-        </module>
-         -->
 
         <!-- Limit line length! -->
         <module name="LineLength">
