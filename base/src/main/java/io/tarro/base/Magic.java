@@ -30,10 +30,22 @@ package io.tarro.base;
  * @author Victor Schappert
  * @since 20171008
  */
-public class Magic {
+public final class Magic {
+
+    //
+    // PUBLIC CONSTANTS
+    //
+
     /**
      * Java class file magic number (<strong>0xCAFEBABE</strong>) specified in
      * the Java Virtual Machine Specification.
      */
     public static final int CLASS_FILE_MAGIC_NUMBER = 0xcafebabe;
+
+    //
+    // CONSTRUCTORS
+    //
+
+    private Magic() {
+    }
 }
