@@ -26,8 +26,6 @@ package io.tarro.base;
 
 import java.util.List;
 
-import static java.util.Arrays.asList;
-
 /**
  * <p>
  * Enumerates Java versions. Only those Java versions relevant to parsing the
@@ -103,6 +101,6 @@ public enum ClassFileVersion {
     }
 
     public final List<String> getAliases() {
-        return asList(aliases);
+        return List.of(aliases);
     }
 }
