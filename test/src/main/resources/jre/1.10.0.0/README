@@ -1,0 +1,10 @@
+I was able to extract the JRE on Windows 10 running JDK 10 by running the
+following the sane method used for 1.9.0.1, namely:
+
+> jimage extract "%JAVA_HOME%\lib\modules"
+
+Took a while but it worked. I then zipped up the "java.base" classes into a JAR.
+
+I'm not *at all* clear on the Java 10+ version numbering scheme, but these
+classes come from the 2018-03-20 or 18.3 release. We'll manage to iron it out
+the version numbering at some point!
