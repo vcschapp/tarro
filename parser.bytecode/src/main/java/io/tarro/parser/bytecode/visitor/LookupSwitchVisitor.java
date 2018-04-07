@@ -24,9 +24,6 @@
 
 package io.tarro.parser.bytecode.visitor;
 
-import io.tarro.base.bytecode.Opcode;
-import io.tarro.base.visitor.Visitor;
-
 import java.nio.ByteBuffer;
 
 /**
@@ -34,6 +31,6 @@ import java.nio.ByteBuffer;
  * @since 20171128
  */
 @FunctionalInterface
-public interface LookupSwitchVisitor extends Visitor {
+public interface LookupSwitchVisitor {
     void visit(int position, final int defaultOffset, final int numPairs, final ByteBuffer matchOffsetPairs);
 }

@@ -25,13 +25,12 @@
 package io.tarro.parser.bytecode.visitor;
 
 import io.tarro.base.bytecode.TwoOperandOpcode;
-import io.tarro.base.visitor.Visitor;
 
 /**
  * @author Victor Schappert
  * @since 20171128
  */
 @FunctionalInterface
-public interface TwoOperandInstructionVisitor extends Visitor {
+public interface TwoOperandInstructionVisitor {
     void visit(int position, TwoOperandOpcode opcode, int operand1, int operand2);
 }

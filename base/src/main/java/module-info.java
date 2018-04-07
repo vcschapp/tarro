@@ -28,5 +28,4 @@ module io.tarro.base {
     exports io.tarro.base.bytecode;
     exports io.tarro.base.constantpool;
     exports io.tarro.base.flag;
-    exports io.tarro.base.visitor;
 }

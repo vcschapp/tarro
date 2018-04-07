@@ -30,7 +30,6 @@ import io.tarro.base.bytecode.OneOperandOpcode;
 import io.tarro.base.bytecode.Opcode;
 import io.tarro.base.bytecode.OpcodeValue;
 import io.tarro.base.bytecode.OperandType;
-import io.tarro.base.visitor.Visitor;
 import io.tarro.parser.bytecode.visitor.LookupSwitchVisitor;
 import io.tarro.parser.bytecode.visitor.NoOperandInstructionVisitor;
 import io.tarro.parser.bytecode.visitor.OneOperandInstructionVisitor;
@@ -166,9 +165,6 @@ public final class ByteCodeParser {
     private final TableSwitchVisitor tableSwitchVisitor;
     private final TwoOperandInstructionVisitor twoOperandInstructionVisitor;
 
-    private final Visitor[] allVisitors;
-
-
     // -------------------------------------------------------------------------
     // Fields modified during parse().
     // -------------------------------------------------------------------------
@@ -188,8 +184,6 @@ public final class ByteCodeParser {
         this.oneOperandInstructionVisitor = oneOperandInstructionVisitor;
         this.tableSwitchVisitor = tableSwitchVisitor;
         this.twoOperandInstructionVisitor = twoOperandInstructionVisitor;
-        this.allVisitors = toArray(lookupSwitchVisitor, noOperandInstructionVisitor,
-                oneOperandInstructionVisitor, tableSwitchVisitor, twoOperandInstructionVisitor);
     }
 
     //
@@ -202,8 +196,6 @@ public final class ByteCodeParser {
 
     public void parse(final ByteBuffer bytecode) {
         init(bytecode);
-        before();
-        after();
         instructions();
     }
 
@@ -230,18 +222,6 @@ public final class ByteCodeParser {
             throw new IllegalArgumentException("bytecode must have big-endian byte ordering");
         }
         this.bytecode = bytecode;
-    }
-
-    private void before() {
-        for (final Visitor visitor : allVisitors) {
-            visitor.before();
-        }
-    }
-
-    private void after() {
-        for (final Visitor visitor : allVisitors) {
-            visitor.after();
-        }
     }
 
     private void instructions() {
@@ -718,10 +698,6 @@ public final class ByteCodeParser {
             throw instructionFormatException(position, opcode, "only %d bytes are left for the table (from position %d) but %d are required",
                     remaining, bytecode.position(), tableSize);
         }
-    }
-
-    private static Visitor[] toArray(final Visitor... visitors) {
-        return visitors;
     }
 
     private static ByteCodeFormatException bytecodeFormatException(final int position, final String format, final Object... args) {

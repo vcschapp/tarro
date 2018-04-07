@@ -24,7 +24,6 @@
 
 package io.tarro.parser.clazz.visitor;
 
-import io.tarro.base.visitor.Visitor;
 import io.tarro.parser.clazz.attribute.Attribute;
 
 /**
@@ -43,6 +42,6 @@ import io.tarro.parser.clazz.attribute.Attribute;
  * @since 20171201
  */
 @FunctionalInterface
-public interface AttributeVisitor extends Visitor {
+public interface AttributeVisitor {
     void visit(Attribute attribute);
 }

@@ -24,8 +24,6 @@
 
 package io.tarro.parser.bytecode.visitor;
 
-import io.tarro.base.visitor.Visitor;
-
 import java.nio.ByteBuffer;
 
 /**
@@ -33,7 +31,7 @@ import java.nio.ByteBuffer;
  * @since 20171128
  */
 @FunctionalInterface
-public interface TableSwitchVisitor extends Visitor {
+public interface TableSwitchVisitor {
     void visit(int position, int defaultOffset, int lowIndex, int highIndex,
                ByteBuffer jumpOffsets);
 }

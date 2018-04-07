@@ -25,7 +25,6 @@
 package io.tarro.parser.clazz.visitor;
 
 import io.tarro.base.flag.ClassAccessFlag;
-import io.tarro.base.visitor.Visitor;
 
 import java.util.EnumSet;
 
@@ -36,7 +35,7 @@ import java.util.EnumSet;
  * @since 20171014
  */
 @FunctionalInterface
-public interface ClassAccessFlagsVisitor extends Visitor {
+public interface ClassAccessFlagsVisitor {
     /**
      * Visits the class file's {@code access_flags}.
      *

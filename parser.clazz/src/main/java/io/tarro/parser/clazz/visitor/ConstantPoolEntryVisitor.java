@@ -24,10 +24,9 @@
 
 package io.tarro.parser.clazz.visitor;
 
-import io.tarro.base.visitor.Visitor;
 import io.tarro.parser.clazz.constantpool.ConstantPoolEntry;
 
 @FunctionalInterface
-public interface ConstantPoolEntryVisitor extends Visitor {
+public interface ConstantPoolEntryVisitor {
     void visit(ConstantPoolEntry constantPoolEntry);
 }

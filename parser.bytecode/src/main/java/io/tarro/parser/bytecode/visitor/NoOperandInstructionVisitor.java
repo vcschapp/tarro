@@ -25,7 +25,6 @@
 package io.tarro.parser.bytecode.visitor;
 
 import io.tarro.base.bytecode.NoOperandOpcode;
-import io.tarro.base.visitor.Visitor;
 
 /**
  *
@@ -33,6 +32,6 @@ import io.tarro.base.visitor.Visitor;
  * @since 20171128
  */
 @FunctionalInterface
-public interface NoOperandInstructionVisitor extends Visitor {
+public interface NoOperandInstructionVisitor {
     void visit(int position, NoOperandOpcode opcode);
 }

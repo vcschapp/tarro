@@ -24,8 +24,6 @@
 
 package io.tarro.parser.clazz.visitor;
 
-import io.tarro.base.visitor.Visitor;
-
 /**
  * <p>
  * Visits a {@code u2} value in a Java class file.
@@ -52,7 +50,7 @@ import io.tarro.base.visitor.Visitor;
  * @since 20171009
  */
 @FunctionalInterface
-public interface U2Visitor extends Visitor {
+public interface U2Visitor {
     /**
      * Visits a {@code u2} value in the class file.
      *

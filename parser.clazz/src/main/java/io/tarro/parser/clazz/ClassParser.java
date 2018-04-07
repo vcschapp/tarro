@@ -107,7 +107,6 @@ import io.tarro.parser.clazz.constantpool.IntegerEntry;
 import io.tarro.parser.clazz.visitor.ConstantPoolEntryVisitor;
 import io.tarro.parser.clazz.visitor.U2Visitor;
 import io.tarro.parser.clazz.visitor.VersionVisitor;
-import io.tarro.base.visitor.Visitor;
 
 import java.io.DataInputStream;
 import java.io.EOFException;
@@ -257,7 +256,6 @@ public final class ClassParser {
     private final U2Visitor attributesCountVisitor;
     private final AttributeVisitor attributeVisitor;
 
-    private final Visitor[] allVisitors;
     // -------------------------------------------------------------------------
     // Fields modified during parse().
     // -------------------------------------------------------------------------
@@ -303,14 +301,6 @@ public final class ClassParser {
         this.methodVisitor = methodVisitor;
         this.attributesCountVisitor = attributesCountVisitor;
         this.attributeVisitor = attributeVisitor;
-        this.allVisitors = toArray(versionVisitor,
-                constantPoolCountVisitor, constantPoolEntryVisitor,
-                classAccessFlagsVisitor,
-                thisClassVisitor, superClassVisitor,
-                interfacesCountVisitor, interfaceVisitor,
-                fieldsCountVisitor, fieldVisitor,
-                methodsCountVisitor, methodVisitor,
-                attributesCountVisitor, attributeVisitor);
         this.arrayContext = new int[REASONABLE_DEPTH];
     }
 
@@ -343,7 +333,6 @@ public final class ClassParser {
 
     private void parse(final DataInputStream inputStream) throws IOException {
         init(inputStream);
-        before();
         magic();
         version();
         constantPool();
@@ -354,7 +343,6 @@ public final class ClassParser {
         fields();
         methods();
         classFileAttributes();
-        after();
     }
 
     private void init(final DataInputStream inputStream) {
@@ -362,18 +350,6 @@ public final class ClassParser {
         inputStreamPos = 0;
         arrayPosition = -1;
         constantPoolMetadata = null;
-    }
-
-    private void before() {
-        for (final Visitor visitor : allVisitors) {
-            visitor.before();
-        }
-    }
-
-    private void after() {
-        for (final Visitor visitor : allVisitors) {
-            visitor.after();
-        }
     }
 
     private void pushArrayContext() {
@@ -2026,10 +2002,6 @@ public final class ClassParser {
 
     private static String formatArrayFieldAtIndex(final String arrayFieldName, final int arrayIndex) {
         return format("%s[%d]", arrayFieldName, arrayIndex);
-    }
-
-    private static Visitor[] toArray(final Visitor... visitors) {
-        return visitors;
     }
 
     private static Collector<CharSequence, ?, String> joiningToCommaDelimitedSet() {

@@ -24,8 +24,6 @@
 
 package io.tarro.parser.clazz.visitor;
 
-import io.tarro.base.visitor.Visitor;
-
 /**
  * Visits the major and minor version number fields of a Java class file.
  *
@@ -33,7 +31,7 @@ import io.tarro.base.visitor.Visitor;
  * @since 20171008
  */
 @FunctionalInterface
-public interface VersionVisitor extends Visitor {
+public interface VersionVisitor {
     /**
      * Visits the class file's version number fields.
      *

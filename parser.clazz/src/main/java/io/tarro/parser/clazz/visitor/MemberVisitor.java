@@ -25,7 +25,6 @@
 package io.tarro.parser.clazz.visitor;
 
 import io.tarro.base.flag.Flag;
-import io.tarro.base.visitor.Visitor;
 import io.tarro.parser.clazz.member.Member;
 
 /**
@@ -36,7 +35,7 @@ import io.tarro.parser.clazz.member.Member;
  * @since 20171022
  */
 @FunctionalInterface
-public interface MemberVisitor<F extends Enum<F> & Flag> extends Visitor {
+public interface MemberVisitor<F extends Enum<F> & Flag> {
     /**
      * Visits the class member.
      *
