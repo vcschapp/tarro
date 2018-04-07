@@ -22,57 +22,34 @@
  * SOFTWARE.
  */
 
-package io.tarro.base;
+package io.tarro.base
+
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Assertions.assertSame
+import org.junit.jupiter.api.Test
 
 /**
- * Thrown when an argument to a method contains a formatting error at a
- * specific zero-based byte position.
+ * Unit tests for [PinpointFormatException].
  *
  * @author Victor Schappert
- * @since 20171130
+ * @since 20180407
  */
-public class PinpointFormatException extends IllegalArgumentException {
-
-    //
-    // DATA
-    //
-
-    private final int position;
-
-    //
-    // CONSTRUCTORS
-    //
-
-    /**
-     * Creates an exception referring to the given position.
-     *
-     * @param message Detail message
-     * @param cause Cause
-     * @param position Zero-based byte position of the error
-     */
-    public PinpointFormatException(final String message, final Throwable cause,
-                                   final int position) {
-        super(message, cause);
-        this.position = position;
+class PinpointFormatExceptionTest {
+    @Test
+    fun noCause() {
+        val e = PinpointFormatException("bar", null, 31)
+        assertEquals("bar", e.message)
+        assertNull(e.cause)
+        assertEquals(31, e.position)
     }
 
-    //
-    // PUBLIC METHODS
-    //
-
-    /**
-     * Obtains the position at which the formatting error that triggered this
-     * exception occurs.
-     *
-     * @return Zero-based byte position where the format error occurs
-     */
-    public final int getPosition() {
-        return position;
+    @Test
+    fun withCause() {
+        val cause = Exception("cause!")
+        val e = PinpointFormatException("baz", cause, 0)
+        assertEquals("baz", e.message)
+        assertSame(cause, e.cause)
+        assertEquals(0, e.position)
     }
-
-    //
-    // INTERFACE: Serializable
-    //
-
-    private static final long serialVersionUID = 1L;
 }
