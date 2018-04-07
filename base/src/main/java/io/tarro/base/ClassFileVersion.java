@@ -60,7 +60,8 @@ public enum ClassFileVersion {
     JAVA6("1.6", 50, 0, "Java 6"),
     JAVA7("1.7", 51, 0, "Java 7"),
     JAVA8("1.8", 52, 0, "Java 8"),
-    JAVA9("1.9", 53, 0, "Java 9");
+    JAVA9("1.9", 53, 0, "Java 9"),
+    JAVA10("1.0", 54, 0, "Java 10");
 
 
     //
