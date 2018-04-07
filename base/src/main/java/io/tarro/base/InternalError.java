@@ -46,22 +46,48 @@ public final class InternalError extends Error {
     // PUBLIC STATICS
     //
 
+    /**
+     * Creates and returns an internal error whose message is assembled from the
+     * given format string and arguments using {@link String#format(String,
+     * Object...)}.
+     *
+     * @param format Format string for {@link String#format(String, Object...)}
+     * @param args Format arguments for {@link String#format(String, Object...)}
+     * @return New internal error with message formatted from the arguments
+     */
     public static InternalError internalError(final String format, final Object... args) {
         final String message = format(format, args);
         return new InternalError(message);
     }
 
-    public static <E extends Enum<E>> InternalError unhandledConstant(final Object value) {
-        // TODO: Remove unused generic type parameter E
+    /**
+     * Creates and returns an internal error suitable for handling the case of
+     * an unhandled constant value, for example in a {@code switch} statement.
+     *
+     * @param value Constant value that was not handled
+     * @return New internal error whose message refers to the unhandled value
+     * @see #unhandledEnumerator(Enum)
+     */
+    public static InternalError unhandledConstant(final Object value) {
         return internalError("Unhandled value %s", value);
     }
 
+    /**
+     * Creates and returns an internal error suitable for handling the case of
+     * an unhandled member of an enumeration, for example in a {@code switch}
+     * statement.
+     *
+     * @param enumerator Enumerator that was not handled
+     * @param <E> Generic type of the enumeration {@code enumerator} is a member
+     *            of
+     * @return New internal error whose message refers to the unhandled
+     *         enumerator
+     * @throws NullPointerException If {@code enumerator} is {@code null}
+     * @see #unhandledConstant(Object)
+     */
     public static <E extends Enum<E>> InternalError unhandledEnumerator(final E enumerator) {
-        return internalError("Unhandled enumerator %s of type %s", enumerator, enumerator.getClass());
-    }
-
-    public static InternalError unhandledClassFileVersion(final ClassFileVersion classFileVersion) {
-        return internalError("Unhandled class file version: %s", classFileVersion);
+        return internalError("Unhandled enumerator %s of type %s", enumerator,
+                enumerator.getClass());
     }
 
     //
