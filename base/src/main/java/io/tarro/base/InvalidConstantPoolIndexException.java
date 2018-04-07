@@ -71,19 +71,30 @@ public final class InvalidConstantPoolIndexException extends IllegalArgumentExce
     // CONSTRUCTORS
     //
 
-    public InvalidConstantPoolIndexException(final String message, final int constantPoolIndex, final Throwable cause) {
-        super(message, cause);
+    /**
+     * Creates an exception based on the given invalid {@code constant pool}
+     * index.
+     *
+     * @param message Exception message
+     * @param constantPoolIndex Index into {@code constant_pool} which is
+     *                          invalid for the reason explained in
+     *                          {@code message}
+     */
+    public InvalidConstantPoolIndexException(final String message,
+                                             final int constantPoolIndex) {
+        super(message);
         this.constantPoolIndex = constantPoolIndex;
-    }
-
-    public InvalidConstantPoolIndexException(final String message, final int constantPoolIndex) {
-        this(message, constantPoolIndex, null);
     }
 
     //
     // PUBLIC METHODS
     //
 
+    /**
+     * Obtains the {@code constant_pool} index to which this exception pertains.
+     *
+     * @return Constant pool index
+     */
     public int getConstantPoolIndex() {
         return constantPoolIndex;
     }
@@ -92,15 +103,41 @@ public final class InvalidConstantPoolIndexException extends IllegalArgumentExce
     // STATIC METHODS
     //
 
+    /**
+     * Obtains an exception suitable for throwing in the case of an attempt to
+     * subscript the {@code constant_pool} with an index less than 1 (the
+     * {@code constant_pool} is indexed from 1 to {@code constant_pool_count}
+     * - 1).
+     *
+     * @param constantPoolIndex Non-positive constant pool index
+     * @return New exception regarding a constant pool index that is not positive
+     * @see #notLessThanCount(int, int)
+     */
     public static InvalidConstantPoolIndexException lessThanOne(final int constantPoolIndex) {
         assert constantPoolIndex < 1;
-        return new InvalidConstantPoolIndexException(format("Index into constant_pool must be positive but is %d",
-                constantPoolIndex), constantPoolIndex);
+        return new InvalidConstantPoolIndexException(format("Index into constant_pool must " +
+                        "be positive but is %d", constantPoolIndex), constantPoolIndex);
     }
 
-    public static InvalidConstantPoolIndexException notLessThanCount(final int constantPoolIndex, final int constantPoolCount) {
-        return new InvalidConstantPoolIndexException(format("Index into constant_pool must be less than constant_pool_count" +
-                " but %d is not less than %d", constantPoolIndex, constantPoolCount), constantPoolIndex);
+    /**
+     * Obtains an exception suitable for throwing in the case of an attempt to
+     * subscript the {@code constant_pool} with an index that exceeds the
+     * count less one (the {@code constant_pool} is indexed from 1 to
+     * (@code constant_pool_count} - 1).
+     *
+     * @param constantPoolIndex Constant pool index which is greater than or
+     *                          equal to {@code constantPoolCount}
+     * @param constantPoolCount Constant pool count
+     * @return New exception regarding a constant pool index that is not less
+     *         than the count
+     * @see #lessThanOne(int)
+     */
+    public static InvalidConstantPoolIndexException notLessThanCount(
+            final int constantPoolIndex, final int constantPoolCount) {
+        assert constantPoolCount <= constantPoolIndex;
+        return new InvalidConstantPoolIndexException(format("Index into constant_pool must " +
+                "be less than constant_pool_count but %d is not less than %d",
+                constantPoolIndex, constantPoolCount), constantPoolIndex);
     }
 
     //
