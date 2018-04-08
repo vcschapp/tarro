@@ -22,10 +22,51 @@
  * SOFTWARE.
  */
 
-module tarro.base {
-    exports io.tarro.base;
-    exports io.tarro.base.attribute;
-    exports io.tarro.base.bytecode;
-    exports io.tarro.base.constantpool;
-    exports io.tarro.base.flag;
+package io.tarro.clazz.parse.constantpool;
+
+import io.tarro.base.constantpool.ConstantPoolTag.AssociatedWith;
+
+import static io.tarro.base.constantpool.ConstantPoolTag.FLOAT;
+
+/**
+ * Encapsulates a CONSTANT_Float structure in the constant pool.
+ *
+ * @author Victor Schappert
+ * @since 20171014
+ */
+@AssociatedWith(FLOAT)
+public final class FloatEntry extends ConstantPoolEntry {
+
+    //
+    // DATA
+    //
+
+    private final float value;
+
+    //
+    // CONSTRUCTORS
+    //
+
+    /**
+     * Creates the float constant entry.
+     *
+     * @param value Float constant value
+     */
+    public FloatEntry(final float value) {
+        super(FLOAT);
+        this.value = value;
+    }
+
+    //
+    // PUBLIC METHODS
+    //
+
+    /**
+     * Returns the float constant value.
+     *
+     * @return Float constant value
+     */
+    public float getValue() {
+        return value;
+    }
 }

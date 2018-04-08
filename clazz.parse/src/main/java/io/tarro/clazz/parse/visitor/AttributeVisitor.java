@@ -22,10 +22,26 @@
  * SOFTWARE.
  */
 
-module tarro.base {
-    exports io.tarro.base;
-    exports io.tarro.base.attribute;
-    exports io.tarro.base.bytecode;
-    exports io.tarro.base.constantpool;
-    exports io.tarro.base.flag;
+package io.tarro.clazz.parse.visitor;
+
+import io.tarro.clazz.parse.attribute.Attribute;
+
+/**
+ * <p>
+ * Visits an attribute ({@code attribute_info} structure) appearing at the top
+ * level of a class file.
+ * </p>
+ *
+ * <p>
+ * Method and field attributes are included in the
+ * {@link io.tarro.parser.clazz.member.Member Member} object visited by
+ * {@link MemberVisitor}.
+ * </p>
+ *
+ * @author Victor Schappert
+ * @since 20171201
+ */
+@FunctionalInterface
+public interface AttributeVisitor {
+    void visit(Attribute attribute);
 }

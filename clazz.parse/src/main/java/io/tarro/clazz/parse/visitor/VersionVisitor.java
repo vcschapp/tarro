@@ -22,10 +22,21 @@
  * SOFTWARE.
  */
 
-module tarro.base {
-    exports io.tarro.base;
-    exports io.tarro.base.attribute;
-    exports io.tarro.base.bytecode;
-    exports io.tarro.base.constantpool;
-    exports io.tarro.base.flag;
+package io.tarro.clazz.parse.visitor;
+
+/**
+ * Visits the major and minor version number fields of a Java class file.
+ *
+ * @author Victor Schappert
+ * @since 20171008
+ */
+@FunctionalInterface
+public interface VersionVisitor {
+    /**
+     * Visits the class file's version number fields.
+     *
+     * @param major Major version number
+     * @param minor Minor version number
+     */
+    void visit(int major, int minor);
 }

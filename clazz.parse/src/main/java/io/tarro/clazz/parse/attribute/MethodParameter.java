@@ -22,10 +22,46 @@
  * SOFTWARE.
  */
 
-module tarro.base {
-    exports io.tarro.base;
-    exports io.tarro.base.attribute;
-    exports io.tarro.base.bytecode;
-    exports io.tarro.base.constantpool;
-    exports io.tarro.base.flag;
+package io.tarro.clazz.parse.attribute;
+
+import io.tarro.base.flag.MethodParameterAccessFlag;
+
+import java.util.EnumSet;
+import java.util.Set;
+
+import static java.util.Collections.unmodifiableSet;
+
+/**
+ * @author Victor Schappert
+ * @since 20171119
+ */
+public final class MethodParameter {
+
+    //
+    // DATA
+    //
+
+    private final int nameIndex;
+    private final Set<MethodParameterAccessFlag> accessFlags;
+
+    //
+    // CONSTRUCTORS
+    //
+
+    public MethodParameter(final int nameIndex, final EnumSet<MethodParameterAccessFlag> accessFlags) {
+        this.nameIndex = nameIndex;
+        this.accessFlags = unmodifiableSet(accessFlags);
+    }
+
+    //
+    // PUBLIC METHODS
+    //
+
+    public int getNameIndex() {
+        return nameIndex;
+    }
+
+    public Set<MethodParameterAccessFlag> getAccessFlags() {
+        return accessFlags;
+    }
 }

@@ -22,10 +22,15 @@
  * SOFTWARE.
  */
 
-module tarro.base {
-    exports io.tarro.base;
-    exports io.tarro.base.attribute;
-    exports io.tarro.base.bytecode;
-    exports io.tarro.base.constantpool;
-    exports io.tarro.base.flag;
+package io.tarro.bytecode.parse.visitor;
+
+import io.tarro.base.bytecode.OneOperandOpcode;
+
+/**
+ * @author Victor Schappert
+ * @since 20171128
+ */
+@FunctionalInterface
+public interface OneOperandInstructionVisitor {
+    void visit(int position, OneOperandOpcode opcode, int operand);
 }

@@ -22,10 +22,41 @@
  * SOFTWARE.
  */
 
-module tarro.base {
-    exports io.tarro.base;
-    exports io.tarro.base.attribute;
-    exports io.tarro.base.bytecode;
-    exports io.tarro.base.constantpool;
-    exports io.tarro.base.flag;
+package io.tarro.clazz.parse.attribute.stackmap;
+
+import io.tarro.base.attribute.VerificationTypeInfoTag;
+
+import static java.util.Objects.requireNonNull;
+
+/**
+ * <p>
+ *
+ * </p>
+ *
+ * @author Victor Schappert
+ * @since 20171130
+ */
+public class VerificationTypeInfo {
+
+    //
+    // DATA
+    //
+
+    private final VerificationTypeInfoTag verificationTypeInfoTag;
+
+    //
+    // CONSTRUCTORS
+    //
+
+    public VerificationTypeInfo(final VerificationTypeInfoTag verificationTypeInfoTag) {
+        this.verificationTypeInfoTag = requireNonNull(verificationTypeInfoTag, "verificationTypeInfoTag cannot be null");
+    }
+
+    //
+    // PUBLIC METHODS
+    //
+
+    public final VerificationTypeInfoTag getVerificationTypeInfoTag() {
+        return verificationTypeInfoTag;
+    }
 }

@@ -22,10 +22,46 @@
  * SOFTWARE.
  */
 
-module tarro.base {
-    exports io.tarro.base;
-    exports io.tarro.base.attribute;
-    exports io.tarro.base.bytecode;
-    exports io.tarro.base.constantpool;
-    exports io.tarro.base.flag;
+package io.tarro.clazz.parse.attribute.annotation;
+
+import io.tarro.base.attribute.ElementValueTag;
+
+import java.util.List;
+
+/**
+ * @author Victor Schappert
+ * @since 20171106
+ */
+public final class ArrayElementValue implements ElementValue {
+
+    //
+    // DATA
+    //
+
+    private final List<ElementValue> array;
+
+    //
+    // CONSTRUCTORS
+    //
+
+    public ArrayElementValue(final ElementValue[] array) {
+        this.array = List.of(array);
+    }
+
+    //
+    // INTERFACE: ElementValue
+    //
+
+    @Override
+    public ElementValueTag getElementValueTag() {
+        return ElementValueTag.ARRAY;
+    }
+
+    //
+    // PUBLIC METHODS
+    //
+
+    public List<ElementValue> getArray() {
+        return array;
+    }
 }

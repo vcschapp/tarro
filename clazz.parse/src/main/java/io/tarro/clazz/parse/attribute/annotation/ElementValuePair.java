@@ -22,10 +22,45 @@
  * SOFTWARE.
  */
 
-module tarro.base {
-    exports io.tarro.base;
-    exports io.tarro.base.attribute;
-    exports io.tarro.base.bytecode;
-    exports io.tarro.base.constantpool;
-    exports io.tarro.base.flag;
+package io.tarro.clazz.parse.attribute.annotation;
+
+import static java.util.Objects.requireNonNull;
+
+/**
+ * Ordered pair modeling consisting of an {@linkplain #getElementNameIndex()
+ * index into the constant pool representing the element name}; and
+ * {@linkplain #getValue() an object representing the element value}.
+ *
+ * @author Victor Schappert
+ * @since 20171106
+ */
+public final class ElementValuePair {
+
+    //
+    // DATA
+    //
+
+    private final int elementNameIndex;
+    private final ElementValue value;
+
+    //
+    // CONSTRUCTORS
+    //
+
+    public ElementValuePair(final int elementNameIndex, final ElementValue value) {
+        this.elementNameIndex = elementNameIndex;
+        this.value = requireNonNull(value, "value cannot be null");
+    }
+
+    //
+    // PUBLIC METHODS
+    //
+
+    public int getElementNameIndex() {
+        return elementNameIndex;
+    }
+
+    public ElementValue getValue() {
+        return value;
+    }
 }

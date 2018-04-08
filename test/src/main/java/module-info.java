@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-module io.tarro.test {
+module tarro.test {
     requires kotlin.stdlib;
     requires kotlin.stdlib.jdk7;
     requires kotlin.reflect;

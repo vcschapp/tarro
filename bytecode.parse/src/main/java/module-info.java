@@ -22,10 +22,8 @@
  * SOFTWARE.
  */
 
-module tarro.base {
-    exports io.tarro.base;
-    exports io.tarro.base.attribute;
-    exports io.tarro.base.bytecode;
-    exports io.tarro.base.constantpool;
-    exports io.tarro.base.flag;
+module tarro.bytecode.parse {
+    requires transitive tarro.base;
+    exports io.tarro.bytecode.parse;
+    exports io.tarro.bytecode.parse.visitor;
 }

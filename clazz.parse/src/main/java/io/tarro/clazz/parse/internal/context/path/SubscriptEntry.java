@@ -22,10 +22,47 @@
  * SOFTWARE.
  */
 
-module tarro.base {
-    exports io.tarro.base;
-    exports io.tarro.base.attribute;
-    exports io.tarro.base.bytecode;
-    exports io.tarro.base.constantpool;
-    exports io.tarro.base.flag;
+package io.tarro.clazz.parse.internal.context.path;
+
+/**
+ * <p>
+ *
+ * </p>
+ *
+ * @author Victor Schappert
+ * @since 20171202
+ */
+final class SubscriptEntry extends ContextPathEntry {
+
+    //
+    // DATA
+    //
+
+    private final int subscript;
+
+    //
+    // CONSTRUCTORS
+    //
+
+    public SubscriptEntry(final int subscript) {
+        this.subscript = subscript;
+    }
+
+    //
+    // ANCESTOR CLASS: ContextPathEntry
+    //
+
+    @Override
+    int getEntryType() {
+        return SUBSCRIPT_ENTRY_TYPE;
+    }
+
+    //
+    // ANCESTOR CLASS: Object
+    //
+
+    @Override
+    public String toString() {
+        return '[' + Integer.toString(subscript) + ']';
+    }
 }

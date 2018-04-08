@@ -22,10 +22,58 @@
  * SOFTWARE.
  */
 
-module tarro.base {
-    exports io.tarro.base;
-    exports io.tarro.base.attribute;
-    exports io.tarro.base.bytecode;
-    exports io.tarro.base.constantpool;
-    exports io.tarro.base.flag;
+package io.tarro.clazz.parse.constantpool;
+
+import io.tarro.base.constantpool.ConstantPoolTag.AssociatedWith;
+
+import static io.tarro.base.constantpool.ConstantPoolTag.LONG;
+
+/**
+ * <p>
+ * Encapsulates a CONSTANT_Long structure in the constant pool.
+ * </p>
+ *
+ * <p>
+ * Note that the CONSTANT_Long structure occupies two adjacent indices in the
+ * constant pool.
+ * </p>
+ *
+ * @author Victor Schappert
+ * @since 20171014
+ */
+@AssociatedWith(LONG)
+public final class LongEntry extends ConstantPoolEntry {
+
+    //
+    // DATA
+    //
+
+    final long value;
+
+    //
+    // CONSTRUCTORS
+    //
+
+    /**
+     * Creates the long constant entry.
+     *
+     * @param value Long constant value
+     */
+    public LongEntry(final long value) {
+        super(LONG);
+        this.value = value;
+    }
+
+    //
+    // PUBLIC METHODS
+    //
+
+    /**
+     * Returns the long constant value.
+     *
+     * @return Long constant value
+     */
+    public long getValue() {
+        return value;
+    }
 }

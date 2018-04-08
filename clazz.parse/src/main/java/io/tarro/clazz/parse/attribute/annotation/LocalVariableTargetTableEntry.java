@@ -22,10 +22,45 @@
  * SOFTWARE.
  */
 
-module tarro.base {
-    exports io.tarro.base;
-    exports io.tarro.base.attribute;
-    exports io.tarro.base.bytecode;
-    exports io.tarro.base.constantpool;
-    exports io.tarro.base.flag;
+package io.tarro.clazz.parse.attribute.annotation;
+
+/**
+ * @author Victor Schappert (schapper@)
+ * @since 20171116
+ */
+public final class LocalVariableTargetTableEntry {
+
+    //
+    // DATA
+    //
+
+    private final int startPC;
+    private final int length;
+    private final int index;
+
+    //
+    // CONSTRUCTORS
+    //
+
+    public LocalVariableTargetTableEntry(final int startPC, final int length, final int index) {
+        this.startPC = startPC;
+        this.length = length;
+        this.index = index;
+    }
+
+    //
+    // PUBLIC METHODS
+    //
+
+    public int getStartPC() {
+        return startPC;
+    }
+
+    public int getLength() {
+        return length;
+    }
+
+    public int getIndex() {
+        return index;
+    }
 }

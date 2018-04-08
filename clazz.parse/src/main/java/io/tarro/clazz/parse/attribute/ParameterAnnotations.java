@@ -22,10 +22,35 @@
  * SOFTWARE.
  */
 
-module tarro.base {
-    exports io.tarro.base;
-    exports io.tarro.base.attribute;
-    exports io.tarro.base.bytecode;
-    exports io.tarro.base.constantpool;
-    exports io.tarro.base.flag;
+package io.tarro.clazz.parse.attribute;
+
+import java.util.List;
+
+/**
+ * @author Victor Schappert
+ * @since 20171125
+ */
+public final class ParameterAnnotations {
+
+    //
+    // DATA
+    //
+
+    private final List<Annotation> annotations;
+
+    //
+    // CONSTRUCTORS
+    //
+
+    public ParameterAnnotations(final Annotation[] annotations) {
+        this.annotations = List.of(annotations);
+    }
+
+    //
+    // PUBLIC METHODS
+    //
+
+    private final List<Annotation> getAnnotations() {
+        return annotations;
+    }
 }

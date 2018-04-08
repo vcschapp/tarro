@@ -1,8 +1,0 @@
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    compile project(':base'), project(':parser.bytecode')
-    testCompile project(':test')
-}

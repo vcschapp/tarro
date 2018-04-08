@@ -22,10 +22,48 @@
  * SOFTWARE.
  */
 
-module tarro.base {
-    exports io.tarro.base;
-    exports io.tarro.base.attribute;
-    exports io.tarro.base.bytecode;
-    exports io.tarro.base.constantpool;
-    exports io.tarro.base.flag;
+package io.tarro.clazz.parse.attribute.annotation;
+
+import io.tarro.clazz.parse.attribute.Annotation;
+import io.tarro.base.attribute.ElementValueTag;
+
+import static java.util.Objects.requireNonNull;
+import static io.tarro.base.attribute.ElementValueTag.ANNOTATION;
+
+/**
+ * @author Victor Schappert
+ * @since 20171106
+ */
+public final class AnnotationElementValue implements ElementValue {
+
+    //
+    // DATA
+    //
+
+    private final Annotation annotation;
+
+    //
+    // CONSTRUCTORS
+    //
+
+    public AnnotationElementValue(final Annotation annotation) {
+        this.annotation = requireNonNull(annotation, "annotation cannot be null");
+    }
+
+    //
+    // INTERFACE: ElementValue
+    //
+
+    @Override
+    public ElementValueTag getElementValueTag() {
+        return ANNOTATION;
+    }
+
+    //
+    // PUBLIC METHODS
+    //
+
+    public Annotation getAnnotation() {
+        return annotation;
+    }
 }

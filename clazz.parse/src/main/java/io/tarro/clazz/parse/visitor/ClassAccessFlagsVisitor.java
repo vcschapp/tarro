@@ -22,10 +22,24 @@
  * SOFTWARE.
  */
 
-module tarro.base {
-    exports io.tarro.base;
-    exports io.tarro.base.attribute;
-    exports io.tarro.base.bytecode;
-    exports io.tarro.base.constantpool;
-    exports io.tarro.base.flag;
+package io.tarro.clazz.parse.visitor;
+
+import io.tarro.base.flag.ClassAccessFlag;
+
+import java.util.EnumSet;
+
+/**
+ * Visits the top-level {@code access_flags} of a class file.
+ *
+ * @author Victor Schappert
+ * @since 20171014
+ */
+@FunctionalInterface
+public interface ClassAccessFlagsVisitor {
+    /**
+     * Visits the class file's {@code access_flags}.
+     *
+     * @param accessFlags Set containing the access flags
+     */
+    void visit(final EnumSet<ClassAccessFlag> accessFlags);
 }

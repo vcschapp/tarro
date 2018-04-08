@@ -22,10 +22,35 @@
  * SOFTWARE.
  */
 
-module tarro.base {
-    exports io.tarro.base;
-    exports io.tarro.base.attribute;
-    exports io.tarro.base.bytecode;
-    exports io.tarro.base.constantpool;
-    exports io.tarro.base.flag;
+package io.tarro.clazz.parse.internal.context.annotation;
+
+import io.tarro.base.attribute.FrameType;
+import io.tarro.clazz.parse.ClassParser;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
+/**
+ * Indicates that the current method is parsing a stack map frame of a known
+ * type.
+ *
+ * This is an internal annotation used by the {@link ClassParser} to help it
+ * figure out its the "human readable" location within the class file for error
+ * reporting purposes.
+ *
+ * @author Victor Schappert
+ * @since 20171126
+ * @see AttributeTypeContext
+ * @see ArrayContext
+ * @see ConstantPoolTagContext
+ * @see ContextSymbol
+ * @see StructureContext
+ */
+@Retention(RUNTIME)
+@Target(METHOD)
+public @interface FrameTypeContext {
+    FrameType value();
 }

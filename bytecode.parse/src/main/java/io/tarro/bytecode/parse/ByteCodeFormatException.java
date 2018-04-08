@@ -22,10 +22,30 @@
  * SOFTWARE.
  */
 
-module tarro.base {
-    exports io.tarro.base;
-    exports io.tarro.base.attribute;
-    exports io.tarro.base.bytecode;
-    exports io.tarro.base.constantpool;
-    exports io.tarro.base.flag;
+package io.tarro.bytecode.parse;
+
+import io.tarro.base.PinpointFormatException;
+
+/**
+ * Thrown by the parser when it detects an error in the format of the bytecode
+ * block being parsed.
+ *
+ * @author Victor Schappert
+ * @since 20171130
+ */
+public class ByteCodeFormatException extends PinpointFormatException {
+
+    //
+    // CONSTRUCTORS
+    //
+
+    public ByteCodeFormatException(final String message, final Throwable cause, final int position) {
+        super(message, cause, position);
+    }
+
+    //
+    // INTERFACE: Serializable
+    //
+
+    private static final long serialVersionUID = 1L;
 }

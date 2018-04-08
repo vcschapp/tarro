@@ -22,10 +22,44 @@
  * SOFTWARE.
  */
 
-module tarro.base {
-    exports io.tarro.base;
-    exports io.tarro.base.attribute;
-    exports io.tarro.base.bytecode;
-    exports io.tarro.base.constantpool;
-    exports io.tarro.base.flag;
+package io.tarro.clazz.parse.attribute.annotation;
+
+import io.tarro.base.attribute.ElementValueTag;
+
+/**
+ * @author Victor Schappert
+ * @since 20171106
+ */
+public final class ClassElementValue implements ElementValue {
+
+    //
+    // DATA
+    //
+
+    private final int classInfoIndex;
+
+    //
+    // CONSTRUCTORS
+    //
+
+    public ClassElementValue(final int classInfoIndex) {
+        this.classInfoIndex = classInfoIndex;
+    }
+
+    //
+    // INTERFACE: ElementValue
+    //
+
+    @Override
+    public ElementValueTag getElementValueTag() {
+        return ElementValueTag.CLASS;
+    }
+
+    //
+    // PUBLIC METHODS
+    //
+
+    public int getClassInfoIndex() {
+        return classInfoIndex;
+    }
 }

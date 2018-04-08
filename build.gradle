@@ -28,7 +28,7 @@ buildscript {
 
 allprojects {
     version = '0.0.1-SNAPSHOT'
-    group = 'io.tarro'
+    group = 'tarro'
 
     ext {
         moduleName = "${group}.${project.name}"

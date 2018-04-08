@@ -22,10 +22,39 @@
  * SOFTWARE.
  */
 
-module tarro.base {
-    exports io.tarro.base;
-    exports io.tarro.base.attribute;
-    exports io.tarro.base.bytecode;
-    exports io.tarro.base.constantpool;
-    exports io.tarro.base.flag;
+package io.tarro.clazz.parse.attribute;
+
+/**
+ * @author Victor Schappert
+ * @since 20171125
+ */
+public final class LineNumberTableEntry {
+
+    //
+    // DATA
+    //
+
+    private final int startPC;
+    private final int lineNumber;
+
+    //
+    // CONSTRUCTORS
+    //
+
+    public LineNumberTableEntry(final int startPC, final int lineNumber) {
+        this.startPC = startPC;
+        this.lineNumber = lineNumber;
+    }
+
+    //
+    // PUBLIC METHODS
+    //
+
+    public int getStartPC() {
+        return startPC;
+    }
+
+    public int getLineNumber() {
+        return lineNumber;
+    }
 }

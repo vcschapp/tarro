@@ -22,10 +22,50 @@
  * SOFTWARE.
  */
 
-module tarro.base {
-    exports io.tarro.base;
-    exports io.tarro.base.attribute;
-    exports io.tarro.base.bytecode;
-    exports io.tarro.base.constantpool;
-    exports io.tarro.base.flag;
+package io.tarro.clazz.parse.attribute.annotation;
+
+import io.tarro.base.attribute.ElementValueTag;
+
+/**
+ * @author Victor Schappert
+ * @since 20171106
+ */
+public final class EnumConstantElementValue implements ElementValue {
+
+    //
+    // DATA
+    //
+
+    private final int typeNameIndex;
+    private final int constantNameIndex;
+
+    //
+    // CONSTRUCTORS
+    //
+
+    public EnumConstantElementValue(final int typeNameIndex, final int constantNameIndex) {
+        this.typeNameIndex = typeNameIndex;
+        this.constantNameIndex = constantNameIndex;
+    }
+
+    //
+    // INTERFACE: ElementValue
+    //
+
+    @Override
+    public ElementValueTag getElementValueTag() {
+        return ElementValueTag.ENUM;
+    }
+
+    //
+    // PUBLIC METHODS
+    //
+
+    public int getTypeNameIndex() {
+        return typeNameIndex;
+    }
+
+    public int getConstantNameIndex() {
+        return constantNameIndex;
+    }
 }

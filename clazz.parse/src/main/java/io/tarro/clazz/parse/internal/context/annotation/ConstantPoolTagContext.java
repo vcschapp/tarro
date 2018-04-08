@@ -22,10 +22,27 @@
  * SOFTWARE.
  */
 
-module tarro.base {
-    exports io.tarro.base;
-    exports io.tarro.base.attribute;
-    exports io.tarro.base.bytecode;
-    exports io.tarro.base.constantpool;
-    exports io.tarro.base.flag;
+package io.tarro.clazz.parse.internal.context.annotation;
+
+import io.tarro.base.constantpool.ConstantPoolTag;
+import io.tarro.clazz.parse.ClassParser;
+
+/**
+ * Indicates that the current method is parsing a constant pool entry having the
+ * given tag.
+ *
+ * This is an internal annotation used by the {@link ClassParser} to help it
+ * figure out its the "human readable" location within the class file for error
+ * reporting purposes.
+ *
+ * @author Victor Schappert
+ * @since 20171126
+ * @see AttributeTypeContext
+ * @see ConstantPoolTagContext
+ * @see ContextSymbol
+ * @see FrameTypeContext
+ * @see StructureContext
+ */
+public @interface ConstantPoolTagContext {
+    ConstantPoolTag value();
 }

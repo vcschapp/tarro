@@ -22,10 +22,22 @@
  * SOFTWARE.
  */
 
-module tarro.base {
-    exports io.tarro.base;
-    exports io.tarro.base.attribute;
-    exports io.tarro.base.bytecode;
-    exports io.tarro.base.constantpool;
-    exports io.tarro.base.flag;
+package io.tarro.clazz.parse.internal.context.path;
+
+/**
+ * <p>
+ *
+ * </p>
+ *
+ * @author Victor Schappert
+ * @since 20171202
+ */
+abstract class ContextPathEntry {
+
+    static final int NOTHING = 0;
+    static final int FIELD_ENTRY_TYPE = 1;
+    static final int SUBSCRIPT_ENTRY_TYPE = 2;
+    static final int TYPE_ENTRY_TYPE = 3;
+
+    abstract int getEntryType();
 }

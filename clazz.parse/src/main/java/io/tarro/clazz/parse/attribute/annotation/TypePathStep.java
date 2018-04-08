@@ -22,10 +22,43 @@
  * SOFTWARE.
  */
 
-module tarro.base {
-    exports io.tarro.base;
-    exports io.tarro.base.attribute;
-    exports io.tarro.base.bytecode;
-    exports io.tarro.base.constantpool;
-    exports io.tarro.base.flag;
+package io.tarro.clazz.parse.attribute.annotation;
+
+import io.tarro.base.attribute.TypePathKind;
+
+import static java.util.Objects.requireNonNull;
+
+/**
+ * @author Victor Schappert
+ * @since 20171113
+ */
+public final class TypePathStep {
+
+    //
+    // DATA
+    //
+
+    final TypePathKind typePathKind;
+    final int typeArgumentIndex;
+
+    //
+    // CONSTRUCTORS
+    //
+
+    public TypePathStep(final TypePathKind typePathKind, final int typeArgumentIndex) {
+        this.typePathKind = requireNonNull(typePathKind, "typePathKind cannot be null");
+        this.typeArgumentIndex = typeArgumentIndex;
+    }
+
+    //
+    // ACCESSORS
+    //
+
+    public TypePathKind getTypePathKind() {
+        return typePathKind;
+    }
+
+    public int getTypeArgumentIndex() {
+        return typeArgumentIndex;
+    }
 }

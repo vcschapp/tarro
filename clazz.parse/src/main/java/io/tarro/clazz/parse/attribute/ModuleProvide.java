@@ -22,10 +22,45 @@
  * SOFTWARE.
  */
 
-module tarro.base {
-    exports io.tarro.base;
-    exports io.tarro.base.attribute;
-    exports io.tarro.base.bytecode;
-    exports io.tarro.base.constantpool;
-    exports io.tarro.base.flag;
+package io.tarro.clazz.parse.attribute;
+
+import static java.util.Objects.requireNonNull;
+
+/**
+ * <p>
+ *
+ * </p>
+ *
+ * @author Victor Schappert
+ * @since 20171126
+ */
+public final class ModuleProvide {
+
+    //
+    // DATA
+    //
+
+    private final int providesIndex;
+    private final int[] providesWithIndices;
+
+    //
+    // CONSTRUCTORS
+    //
+
+    public ModuleProvide(final int providesIndex, final int[] providesWithIndices) {
+        this.providesIndex = providesIndex;
+        this.providesWithIndices = requireNonNull(providesWithIndices, "providesWithIndices cannot be null");
+    }
+
+    //
+    // PUBLIC METHODS
+    //
+
+    public int getProvidesIndex() {
+        return providesIndex;
+    }
+
+    public int[] getProvidesWithIndices() {
+        return providesWithIndices;
+    }
 }

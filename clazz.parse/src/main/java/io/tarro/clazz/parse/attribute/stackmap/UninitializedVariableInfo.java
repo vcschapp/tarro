@@ -22,10 +22,40 @@
  * SOFTWARE.
  */
 
-module tarro.base {
-    exports io.tarro.base;
-    exports io.tarro.base.attribute;
-    exports io.tarro.base.bytecode;
-    exports io.tarro.base.constantpool;
-    exports io.tarro.base.flag;
+package io.tarro.clazz.parse.attribute.stackmap;
+
+import static io.tarro.base.attribute.VerificationTypeInfoTag.UNINITIALIZED;
+
+/**
+ * <p>
+ *
+ * </p>
+ *
+ * @author Victor Schappert
+ * @since 20171130
+ */
+public final class UninitializedVariableInfo extends VerificationTypeInfo {
+
+    //
+    // DATA
+    //
+
+    private final int newInstructionOffset;
+
+    //
+    // CONSTRUCTORS
+    //
+
+    public UninitializedVariableInfo(final int newInstructionOffset) {
+        super(UNINITIALIZED);
+        this.newInstructionOffset = newInstructionOffset;
+    }
+
+    //
+    // PUBLIC METHODS
+    //
+
+    public int getNewInstructionOffset() {
+        return newInstructionOffset;
+    }
 }

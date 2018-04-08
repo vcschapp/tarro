@@ -22,10 +22,16 @@
  * SOFTWARE.
  */
 
-module tarro.base {
-    exports io.tarro.base;
-    exports io.tarro.base.attribute;
-    exports io.tarro.base.bytecode;
-    exports io.tarro.base.constantpool;
-    exports io.tarro.base.flag;
+package io.tarro.bytecode.parse.visitor;
+
+import java.nio.ByteBuffer;
+
+/**
+ * @author Victor Schappert
+ * @since 20171128
+ */
+@FunctionalInterface
+public interface TableSwitchVisitor {
+    void visit(int position, int defaultOffset, int lowIndex, int highIndex,
+               ByteBuffer jumpOffsets);
 }

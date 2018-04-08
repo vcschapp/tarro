@@ -22,10 +22,47 @@
  * SOFTWARE.
  */
 
-module tarro.base {
-    exports io.tarro.base;
-    exports io.tarro.base.attribute;
-    exports io.tarro.base.bytecode;
-    exports io.tarro.base.constantpool;
-    exports io.tarro.base.flag;
+package io.tarro.clazz.parse.internal.context.path;
+
+/**
+ * <p>
+ *
+ * </p>
+ *
+ * @author Victor Schappert
+ * @since 20171202
+ */
+final class FieldEntry extends ContextPathEntry {
+
+    //
+    // DATA
+    //
+
+    private final String fieldName;
+
+    //
+    // CONSTRUCTORS
+    //
+
+    FieldEntry(final String fieldName) {
+        this.fieldName = fieldName;
+    }
+
+    //
+    // ANCESTOR CLASS: ContextPathEntry
+    //
+
+    @Override
+    int getEntryType() {
+        return FIELD_ENTRY_TYPE;
+    }
+
+    //
+    // ANCESTOR CLASS: Object
+    //
+
+    @Override
+    public String toString() {
+        return fieldName;
+    }
 }

@@ -22,10 +22,57 @@
  * SOFTWARE.
  */
 
-module tarro.base {
-    exports io.tarro.base;
-    exports io.tarro.base.attribute;
-    exports io.tarro.base.bytecode;
-    exports io.tarro.base.constantpool;
-    exports io.tarro.base.flag;
+package io.tarro.clazz.parse.constantpool;
+
+import io.tarro.base.constantpool.ConstantPoolTag.AssociatedWith;
+import static io.tarro.base.constantpool.ConstantPoolTag.DOUBLE;
+
+/**
+ * <p>
+ * Encapsulates a CONSTANT_Double structure in the constant pool.
+ * </p>
+ *
+ * <p>
+ * Note that the CONSTANT_Double structure occupies two adjacent indices in the
+ * constant pool.
+ * </p>
+ *
+ * @author Victor Schappert
+ * @since 20171014
+ */
+@AssociatedWith(DOUBLE)
+public final class DoubleEntry extends ConstantPoolEntry  {
+
+    //
+    // DATA
+    //
+
+    final double value;
+
+    //
+    // CONSTRUCTORS
+    //
+
+    /**
+     * Creates the double constant entry.
+     *
+     * @param value Double constant value
+     */
+    public DoubleEntry(final double value) {
+        super(DOUBLE);
+        this.value = value;
+    }
+
+    //
+    // PUBLIC METHODS
+    //
+
+    /**
+     * Returns the double constant value.
+     *
+     * @return Double constant value
+     */
+    public double getValue() {
+        return value;
+    }
 }

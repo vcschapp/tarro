@@ -22,10 +22,48 @@
  * SOFTWARE.
  */
 
-module tarro.base {
-    exports io.tarro.base;
-    exports io.tarro.base.attribute;
-    exports io.tarro.base.bytecode;
-    exports io.tarro.base.constantpool;
-    exports io.tarro.base.flag;
+package io.tarro.clazz.parse.attribute;
+
+import io.tarro.clazz.parse.attribute.annotation.ElementValuePair;
+
+import java.util.List;
+
+import static java.util.Objects.requireNonNull;
+
+/**
+ * Runtime annotation contained within one of the predefined runtime annotation
+ * attributes.
+ *
+ * @author Victor Schappert
+ * @since 20171106
+ */
+public class Annotation {
+
+    //
+    // DATA
+    //
+
+    private final int typeIndex;
+    private final List<ElementValuePair> elementValuePairs;
+
+    //
+    // CONSTRUCTORS
+    //
+
+    public Annotation(final int typeIndex, final ElementValuePair[] elementValuePairs) {
+        this.typeIndex = typeIndex;
+        this.elementValuePairs = List.of(elementValuePairs);
+    }
+
+    //
+    // PUBLIC METHODS
+    //
+
+    public final int getTypeIndex() {
+        return typeIndex;
+    }
+
+    public final List<ElementValuePair> getElementValuePairs() {
+        return elementValuePairs;
+    }
 }

@@ -22,10 +22,33 @@
  * SOFTWARE.
  */
 
-module tarro.base {
-    exports io.tarro.base;
-    exports io.tarro.base.attribute;
-    exports io.tarro.base.bytecode;
-    exports io.tarro.base.constantpool;
-    exports io.tarro.base.flag;
+package io.tarro.clazz.parse.constantpool;
+
+import io.tarro.base.constantpool.ConstantPoolTag;
+
+import static java.util.Objects.requireNonNull;
+
+public class ConstantPoolEntry {
+
+    //
+    // DATA
+    //
+
+    private final ConstantPoolTag constantPoolTag;
+
+    //
+    // CONSTRUCTORS
+    //
+
+    public ConstantPoolEntry(final ConstantPoolTag constantPoolTag) {
+        this.constantPoolTag = requireNonNull(constantPoolTag, "constantPoolTag cannot be null");
+    }
+
+    //
+    // PUBLIC METHODS
+    //
+
+    public final ConstantPoolTag getConstantPoolTag() {
+        return constantPoolTag;
+    }
 }

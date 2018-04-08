@@ -22,10 +22,51 @@
  * SOFTWARE.
  */
 
-module tarro.base {
-    exports io.tarro.base;
-    exports io.tarro.base.attribute;
-    exports io.tarro.base.bytecode;
-    exports io.tarro.base.constantpool;
-    exports io.tarro.base.flag;
+package io.tarro.clazz.parse.constantpool;
+
+import io.tarro.base.constantpool.ConstantPoolTag.AssociatedWith;
+
+import static io.tarro.base.constantpool.ConstantPoolTag.INTEGER;
+
+/**
+ * Encapsulates a CONSTANT_Integer structure in the constant pool.
+ *
+ * @author Victor Schappert
+ * @since 20171014
+ */
+@AssociatedWith(INTEGER)
+public final class IntegerEntry extends ConstantPoolEntry {
+
+    //
+    // DATA
+    //
+
+    private final int value;
+
+    //
+    // CONSTRUCTORS
+    //
+
+    /**
+     * Creates the integer constant entry.
+     *
+     * @param value Integer constant value
+     */
+    public IntegerEntry(final int value) {
+        super(INTEGER);
+        this.value = value;
+    }
+
+    //
+    // PUBLIC METHODS
+    //
+
+    /**
+     * Returns the integer constant value.
+     *
+     * @return Integer constant value
+     */
+    public int getValue() {
+        return value;
+    }
 }

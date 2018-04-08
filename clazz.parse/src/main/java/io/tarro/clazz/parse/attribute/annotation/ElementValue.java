@@ -22,10 +22,22 @@
  * SOFTWARE.
  */
 
-module tarro.base {
-    exports io.tarro.base;
-    exports io.tarro.base.attribute;
-    exports io.tarro.base.bytecode;
-    exports io.tarro.base.constantpool;
-    exports io.tarro.base.flag;
+package io.tarro.clazz.parse.attribute.annotation;
+
+import io.tarro.base.attribute.ElementValueTag;
+
+/**
+ * An {@code element_value} structure within an annotation-related predefined
+ * attribute.
+ *
+ * @author Victor Schappert
+ * @since 20171106
+ */
+public interface ElementValue {
+    /**
+     * Obtains the element value tag.
+     *
+     * @return Tag
+     */
+    ElementValueTag getElementValueTag();
 }

@@ -22,10 +22,53 @@
  * SOFTWARE.
  */
 
-module tarro.base {
-    exports io.tarro.base;
-    exports io.tarro.base.attribute;
-    exports io.tarro.base.bytecode;
-    exports io.tarro.base.constantpool;
-    exports io.tarro.base.flag;
+package io.tarro.clazz.parse.attribute;
+
+import io.tarro.base.flag.ModuleReferenceFlag;
+
+import java.util.EnumSet;
+import java.util.Set;
+
+import static java.util.Collections.unmodifiableSet;
+
+/**
+ * @author Victor Schappert
+ * @since 20171126
+ */
+public final class ModuleReference {
+
+    //
+    // DATA
+    //
+
+    private final int moduleIndex;
+    private final Set<ModuleReferenceFlag> moduleReferenceFlags;
+    private final int moduleVersionIndex; // May be zero
+
+    //
+    // CONSTRUCTORS
+    //
+
+    public ModuleReference(final int moduleIndex, final EnumSet<ModuleReferenceFlag> moduleReferenceFlags,
+        final int moduleVersionIndex) {
+        this.moduleIndex = moduleIndex;
+        this.moduleReferenceFlags = unmodifiableSet(moduleReferenceFlags);
+        this.moduleVersionIndex = moduleVersionIndex;
+    }
+
+    //
+    // PUBLIC METHODS
+    //
+
+    public int getModuleIndex() {
+        return moduleIndex;
+    }
+
+    public Set<ModuleReferenceFlag> getModuleReferenceFlags() {
+        return moduleReferenceFlags;
+    }
+
+    public int getModuleVersionIndex() {
+        return moduleVersionIndex;
+    }
 }

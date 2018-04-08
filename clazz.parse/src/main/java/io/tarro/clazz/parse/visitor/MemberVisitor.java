@@ -22,10 +22,24 @@
  * SOFTWARE.
  */
 
-module tarro.base {
-    exports io.tarro.base;
-    exports io.tarro.base.attribute;
-    exports io.tarro.base.bytecode;
-    exports io.tarro.base.constantpool;
-    exports io.tarro.base.flag;
+package io.tarro.clazz.parse.visitor;
+
+import io.tarro.base.flag.Flag;
+import io.tarro.clazz.parse.member.Member;
+
+/**
+ * Visits a class member ({@code field_info} or {@code method_info} structure)
+ * within a class file.
+ *
+ * @author Victor Schappert
+ * @since 20171022
+ */
+@FunctionalInterface
+public interface MemberVisitor<F extends Enum<F> & Flag> {
+    /**
+     * Visits the class member.
+     *
+     * @param member Class member
+     */
+    void visit(Member<F> member);
 }

@@ -22,10 +22,14 @@
  * SOFTWARE.
  */
 
-module tarro.base {
-    exports io.tarro.base;
-    exports io.tarro.base.attribute;
-    exports io.tarro.base.bytecode;
-    exports io.tarro.base.constantpool;
-    exports io.tarro.base.flag;
+module tarro.clazz.parse {
+    requires transitive tarro.base;
+    requires tarro.bytecode.parse;
+    exports io.tarro.clazz.parse;
+    exports io.tarro.clazz.parse.attribute;
+    exports io.tarro.clazz.parse.attribute.annotation;
+    exports io.tarro.clazz.parse.attribute.stackmap;
+    exports io.tarro.clazz.parse.constantpool;
+    exports io.tarro.clazz.parse.member;
+    exports io.tarro.clazz.parse.visitor;
 }
