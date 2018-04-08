@@ -22,39 +22,33 @@
  * SOFTWARE.
  */
 
-package io.tarro.bytecode.parse;
+package io.tarro.bytecode.parse
 
-import io.tarro.base.PinpointFormatException;
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Test
 
 /**
- * Thrown by the parser when it detects an error in the format of the bytecode
- * block being parsed.
+ * Unit tests for [ByteCodeFormatException].
  *
  * @author Victor Schappert
- * @since 20171130
+ * @since 20180407
  */
-public class ByteCodeFormatException extends PinpointFormatException {
-
-    //
-    // CONSTRUCTORS
-    //
-
-    /**
-     * Creates an exception pertaining to a format error at a particular
-     * position within the bytecode block being parsed.
-     *
-     * @param message Detail message
-     * @param cause Cause
-     * @param position Byte position of the error within the bytecode block
-     */
-    public ByteCodeFormatException(final String message, final Throwable cause,
-                                   final int position) {
-        super(message, cause, position);
+class ByteCodeFormatExceptionTest {
+    @Test
+    fun noCause() {
+        val e = ByteCodeFormatException("ham", null, 31)
+        Assertions.assertEquals("ham", e.message)
+        Assertions.assertNull(e.cause)
+        Assertions.assertEquals(31, e.position)
     }
 
-    //
-    // INTERFACE: Serializable
-    //
-
-    private static final long serialVersionUID = 1L;
+    @Test
+    fun withCause() {
+        val cause = Exception("cause!")
+        val e = ByteCodeFormatException("eggs", cause, 0)
+        Assertions.assertEquals("eggs", e.message)
+        Assertions.assertSame(cause, e.cause)
+        Assertions.assertEquals(0, e.position)
+    }
 }
+
