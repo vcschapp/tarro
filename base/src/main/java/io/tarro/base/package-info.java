@@ -23,7 +23,7 @@
  */
 
 /**
- * Basic data types used throughout the Tarro libraries.
+ * Fundamental data types used throughout the Tarro libraries.
  *
  * @author Victor Schappert
  * @since 20171007

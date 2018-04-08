@@ -23,8 +23,8 @@
  */
 
 /**
- * Defines basic data types and constant values relating to the Java Virtual
- * Machine instruction set.
+ * Basic data types and constant values relating to the Java Virtual Machine
+ * instruction set.
  *
  * @author Victor Schappert
  * @since 20171126

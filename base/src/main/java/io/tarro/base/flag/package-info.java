@@ -23,8 +23,8 @@
  */
 
 /**
- * Defines constant values for flags used in bitmask combinations throughout
- * the Java class file, along with facilities for {@linkplain
+ * Constant values for flags used in bitmask combinations throughout the Java
+ * class file, along with facilities for {@linkplain
  * io.tarro.base.flag.Flag#parse(java.lang.Class, int) parsing} and
  * {@linkplain io.tarro.base.flag.FlagMixRule validating} the flag
  * combinations.
