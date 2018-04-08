@@ -145,6 +145,16 @@ subprojects {
     }
     unitTest.dependsOn testClasses
     unitTest.finalizedBy junitPlatformTest
+
+    javadoc {
+        // Needed to make Gradle javadoc task work with Java 9 modules until
+        // Gradle introduces better handling for the module system.
+        // https://stackoverflow.com/a/48652316/1911388
+        inputs.property("moduleName", moduleName)
+        doFirst {
+            options.addStringOption('-module-path', classpath.asPath)
+        }
+    }
 }
 
 
