@@ -24,6 +24,9 @@
 
 package io.tarro.test
 
+import java.nio.ByteBuffer
+import java.nio.ByteBuffer.wrap
+
 /**
  * Converts a string of whitespace-delimited hexadecimal integers into the
  * byte array implied by converting each of those integers into a number in the
@@ -41,5 +44,17 @@ fun String.parseAsByteArray() : ByteArray {
             }
             .map { it.toByte() }
             .toByteArray()
+}
+
+/**
+ * Converts a string of whitespace-delimited hexadecimal integers into the
+ * mutable {@link ByteBuffer} implied by converting each of those integers into
+ * a number in the range of a byte.
+ *
+ * @author Victor Schappert
+ * @since 20180407
+ */
+fun String.parseAsByteBuffer() : ByteBuffer {
+    return wrap(parseAsByteArray())
 }
 

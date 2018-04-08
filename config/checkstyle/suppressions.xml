@@ -28,6 +28,7 @@
         "http://www.puppycrawl.com/dtds/suppressions_1_1.dtd">
 
 <suppressions>
+    <!-- Module: base -->
     <suppress checks="JavadocStyle"
               files="base[\\/]bytecode[\\/]((No|One|Two|Variable)Operand)?Opcode(Value)?\.java$"/>
     <suppress checks="MultipleStringLiterals"
@@ -36,4 +37,8 @@
               files="base[\\/]InvalidConstantPoolIndexException\.java$"/>
     <suppress checks="NeedBraces"
               files="base[\\/]flag[\\/]FlagMixRule\.java$"/>
+
+    <!-- Module: bytecode.parse -->
+    <suppress checks="MultipleStringLiterals"
+              files="bytecode[\\/]parse[\\/]ByteCodeParserBuilder\.java$"/>
 </suppressions>

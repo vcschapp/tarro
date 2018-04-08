@@ -24,8 +24,8 @@
 
 package io.tarro.bytecode.parse;
 
-import io.tarro.bytecode.parse.visitor.NoOperandInstructionVisitor;
 import io.tarro.bytecode.parse.visitor.LookupSwitchVisitor;
+import io.tarro.bytecode.parse.visitor.NoOperandInstructionVisitor;
 import io.tarro.bytecode.parse.visitor.OneOperandInstructionVisitor;
 import io.tarro.bytecode.parse.visitor.TableSwitchVisitor;
 import io.tarro.bytecode.parse.visitor.TwoOperandInstructionVisitor;
@@ -34,7 +34,7 @@ import static java.util.Objects.requireNonNull;
 
 /**
  * <p>
- *
+ * Builder for a {@link ByteCodeParser}.
  * </p>
  *
  * @author Victor Schappert
@@ -60,7 +60,7 @@ public final class ByteCodeParserBuilder {
         lookupSwitchVisitor = (position, defaultValue, numPairs, matchOffsetPairs) -> { };
         noOperandInstructionVisitor = (position, opcode) -> { };
         oneOperandInstructionVisitor = (position, opcode, operand) -> { };
-        tableSwitchVisitor = (position, defaultOffset, lowIndex, highIndex, jumpOffsets) -> { };
+        tableSwitchVisitor = (position, defaultOffset, lowIndex, highIndex, jumpOffsets) -> {};
         twoOperandInstructionVisitor = (position, opcode, operand1, operand2) -> { };
     }
 
@@ -68,33 +68,90 @@ public final class ByteCodeParserBuilder {
     // PUBLIC METHODS
     //
 
+    /**
+     * Makes and returns a new {@link ByteCodeParser} using this builder's
+     * current visitor assignments.
+     *
+     * @return New parser
+     */
     public ByteCodeParser build() {
         return new ByteCodeParser(lookupSwitchVisitor, noOperandInstructionVisitor,
-                oneOperandInstructionVisitor, tableSwitchVisitor, twoOperandInstructionVisitor);
+                oneOperandInstructionVisitor, tableSwitchVisitor,
+                twoOperandInstructionVisitor);
     }
 
-    public ByteCodeParserBuilder withLookupSwitchVisitor(final LookupSwitchVisitor lookupSwitchVisitor) {
-        this.lookupSwitchVisitor = requireNonNull(lookupSwitchVisitor, "lookupSwitchVisitor cannot be null");
+    /**
+     * Assigns the visitor which built parsers will use to visit
+     * {@link io.tarro.base.bytecode.VariableOperandOpcode#LOOKUPSWITCH
+     * lookupswitch} instructions.
+     *
+     * @param visitor Non-{@code null} visitor
+     * @return This builder
+     * @throws NullPointerException If {@code visitor} is {@code null}
+     */
+    public ByteCodeParserBuilder withLookupSwitchVisitor(
+            final LookupSwitchVisitor visitor) {
+        lookupSwitchVisitor = requireNonNull(visitor, "visitor cannot be null");
         return this;
     }
 
-    public ByteCodeParserBuilder withNoOperandInstructionVisitor(final NoOperandInstructionVisitor noOperandInstructionVisitor) {
-        this.noOperandInstructionVisitor = requireNonNull(noOperandInstructionVisitor, "noOperandInstructionVisitor cannot be null");
+    /**
+     * Assigns the visitor which built parsers will use to visit
+     * {@linkplain io.tarro.base.bytecode.NoOperandOpcode no-operand}
+     * instructions.
+     *
+     * @param visitor Non-{@code null} visitor
+     * @return This builder
+     * @throws NullPointerException If {@code visitor} is {@code null}
+     */
+    public ByteCodeParserBuilder withNoOperandInstructionVisitor(
+            final NoOperandInstructionVisitor visitor) {
+        noOperandInstructionVisitor = requireNonNull(visitor, "visitor cannot be null");
         return this;
     }
 
-    public ByteCodeParserBuilder withOneOperandInstructionVisitor(final OneOperandInstructionVisitor oneOperandInstructionVisitor) {
-        this.oneOperandInstructionVisitor = requireNonNull(oneOperandInstructionVisitor, "oneOperandInstructionVisitor cannot be null");
+    /**
+     * Assigns the visitor which built parsers will use to visit
+     * {@linkplain io.tarro.base.bytecode.OneOperandOpcode one-operand}
+     * instructions.
+     *
+     * @param visitor Non-{@code null} visitor
+     * @return This builder
+     * @throws NullPointerException If {@code visitor} is {@code null}
+     */
+    public ByteCodeParserBuilder withOneOperandInstructionVisitor(
+            final OneOperandInstructionVisitor visitor) {
+        oneOperandInstructionVisitor = requireNonNull(visitor, "visitor cannot be null");
         return this;
     }
 
-    public ByteCodeParserBuilder withTwoOperandInstructionVisitor(final TwoOperandInstructionVisitor twoOperandInstructionVisitor) {
-        this.twoOperandInstructionVisitor = requireNonNull(twoOperandInstructionVisitor, "twoOperandInstructionVisitor cannot be null");
+    /**
+     * Assigns the visitor which built parsers will use to visit
+     * {@linkplain io.tarro.base.bytecode.TwoOperandOpcode two-operand}
+     * instructions.
+     *
+     * @param visitor Non-{@code null} visitor
+     * @return This builder
+     * @throws NullPointerException If {@code visitor} is {@code null}
+     */
+    public ByteCodeParserBuilder withTwoOperandInstructionVisitor(
+            final TwoOperandInstructionVisitor visitor) {
+        twoOperandInstructionVisitor = requireNonNull(visitor, "visitor cannot be null");
         return this;
     }
 
-    public ByteCodeParserBuilder withTableSwitchVisitor(final TableSwitchVisitor tableSwitchVisitor) {
-        this.tableSwitchVisitor = requireNonNull(tableSwitchVisitor, "tableSwitchVisitor cannot be null");
+    /**
+     * Assigns the visitor which built parsers will use to visit
+     * {@link io.tarro.base.bytecode.VariableOperandOpcode#TABLESWITCH
+     * tableswitch} instructions.
+     *
+     * @param visitor Non-{@code null} visitor
+     * @return This builder
+     * @throws NullPointerException If {@code visitor} is {@code null}
+     */
+    public ByteCodeParserBuilder withTableSwitchVisitor(
+            final TableSwitchVisitor visitor) {
+        tableSwitchVisitor = requireNonNull(visitor, "visible cannot be null");
         return this;
     }
 }
