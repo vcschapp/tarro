@@ -673,17 +673,20 @@ public final class ByteCodeParser {
         //  +-----------------+------------------+--------------------+
         //  | opcode position | operand position | 4 - (position & 3) |
         //  +-----------------+------------------+--------------------+
-        //  |              n0 |           (n+4)0 |                  4 |
-        //  |              n1 |           (n+3)0 |                  3 |
-        //  |              n2 |           (n+2)0 |                  2 |
-        //  |              n3 |           (n+1)0 |                  1 |
+        //  |              n0 |           (n+4)0 |                 4  |
+        //  |              n1 |           (n+3)0 |                 3  |
+        //  |              n2 |           (n+2)0 |                 2  |
+        //  |              n3 |           (n+1)0 |                 1* |
         //  +-----------------+------------------+--------------------+
-        final int padding = 4 - (position & 3);
+        // * The last case is a no-op because advancing 1 from `position` just
+        //   means moving to the byte following the `opcode` byte, which we
+        //   would do in any event.
+        final int offset = 4 - (position & 3);
         try {
-            bytecode.position(position + padding);
+            bytecode.position(position + offset);
         } catch (final IllegalArgumentException e) {
             throw instructionFormatException(position, opcode, "not enough bytes remain for padding (%d required but %d remain)",
-                    padding, bytecode.remaining());
+                    offset - 1, bytecode.remaining());
         }
     }
 
